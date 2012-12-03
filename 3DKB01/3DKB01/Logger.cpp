@@ -1,3 +1,5 @@
+//Hier komt de logger class.
+//een comment
 #include "Logger.h"
 #include <fstream>
 #include <iostream>
