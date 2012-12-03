@@ -13,13 +13,19 @@
   <ItemGroup>
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scenemanager.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Kernel.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scenemanager.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="Windowmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C2B84CEA-F8B0-4FC5-92B9-EF1F80BBAEC0}</ProjectGuid>
