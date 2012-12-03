@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="RendererDirectX.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -21,8 +22,10 @@
   <ItemGroup>
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RendererDirectX.h" />
+    <ClInclude Include="RendererInterface.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneInterface.h" />
     <ClInclude Include="Scenemanager.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Windowmanager.h" />

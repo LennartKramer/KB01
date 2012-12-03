@@ -1,5 +1,6 @@
+#include "SceneInterface.h"
 
-class Scene
+class Scene : public SceneInterface
 {
 public:
 	Scene(void);
