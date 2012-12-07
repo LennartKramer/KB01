@@ -1,5 +1,7 @@
+#ifndef __SCENEMANAGER_H__
+#define __SCENEMANAGER_H__
+
 #include "Scene.h"
-#include "RendererDirectX.h"
 
 class Scenemanager
 {
@@ -8,7 +10,8 @@ private:
 
 public:
 	Scenemanager(void);
-	Scenemanager(RendererDirectX* argDirectX);
 	~Scenemanager(void);
+	void addWindow();
 };
 
+#endif

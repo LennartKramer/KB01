@@ -1,9 +1,17 @@
-#include "SceneInterface.h"
+#ifndef __SCENE_H__
+#define __SCENE_H__
 
-class Scene : public SceneInterface
+#include "eWindow.h"
+#include <hash_map>
+
+class Scene// : public SceneInterface
 {
+private:
+	eWindow* window;
 public:
 	Scene(void);
 	~Scene(void);
+	void testMethode();
 };
 
+#endif

@@ -2,14 +2,14 @@
 #include "Kernel.h"
 
 
-RendererDirectX* directX;
-Scenemanager* scenemanager;
-Windowmanager windowmanager;
 
 Kernel::Kernel(void)
 {
-	directX = RendererDirectX();
-	scenemanager = Scenemanager(&directX);
+	directX = new RendererDirectX();
+	windowmanager = Windowmanager();
+	scenemanager = Scenemanager();
+	resourcemanager = Resourcemanager();
+	inputmanager = Inputmanager();
 }
 
 

@@ -1,12 +1,9 @@
 #include <iostream>
-#include "Window.h"
+#include "eWindow.h"
 
-
-Window::Window(void)
+eWindow::eWindow()
 {
 }
-
-
-Window::~Window(void)
+eWindow::~eWindow(void)
 {
 }

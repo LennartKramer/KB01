@@ -11,23 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Inputmanager.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="RendererDirectX.cpp" />
+    <ClCompile Include="Resourcemanager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Inputmanager.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="RendererDirectX.h" />
     <ClInclude Include="RendererInterface.h" />
+    <ClInclude Include="Resourcemanager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneInterface.h" />
     <ClInclude Include="Scenemanager.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="eWindow.h" />
     <ClInclude Include="Windowmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

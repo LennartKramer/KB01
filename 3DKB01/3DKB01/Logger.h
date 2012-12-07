@@ -1,3 +1,6 @@
+#ifndef __Logger_h__
+#define __Logger_h__
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -14,11 +17,13 @@ public:
 	std::string currenttime();
 };
 
-int main()
-{
-	Logger logger;
-	logger.message("er wordt nu iets gelogd...");
-	int stop;
-	std::cin >> stop;
-	return 0;
-}
+//int main()
+//{
+	//Logger logger;
+	//logger.message("er wordt nu iets gelogd...");
+	//int stop;
+	//std::cin >> stop;
+	//return 0;
+//}
+
+#endif
