@@ -1,26 +1,41 @@
-#include <iostream>
 #include "Windowmanager.h"
 
 Windowmanager::Windowmanager(void)
 {
-	window1 = new eWindow();
+	eWindow* window = new eWindow();
 }
+
 Windowmanager::~Windowmanager(void)
 {
 }
+
 // Creates a window object
 void Windowmanager::createWindow()
 {
-	eWindow* window2 = new eWindow();
-	addWindow(window2);
+	eWindow* window = new eWindow();
+	addWindow(window);
 }
+
 // Adds window object to list
 void Windowmanager::addWindow(eWindow* argWindow)
 {
 	//this->windows.
+	windows.push_back(argWindow);
 }
+
 // returns a window object from list
-eWindow& Windowmanager::getWindow(std::string argWindowName)
+eWindow* Windowmanager::getWindow(std::string argWindowName)
 {
-	//if(this->windows->)
+	for(int i =0; i<this->windows.size(); ++i) 
+	{
+		std::list<eWindow*>::iterator Iterator;
+		for(Iterator = windows.begin(); Iterator != windows.end(); ++Iterator)
+		{
+			if((*Iterator)->getName() == argWindowName)
+			{
+				return (*Iterator);
+			}
+		}
+		
+	}
 }

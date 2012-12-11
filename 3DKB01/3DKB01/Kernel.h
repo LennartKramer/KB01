@@ -6,6 +6,7 @@
 #include "RendererDirectX.h"
 #include "Resourcemanager.h"
 #include "Inputmanager.h"
+#include <iostream>
 
 class Kernel
 {
@@ -19,6 +20,8 @@ private:
 public:
 	Kernel(void);
 	~Kernel(void);
+	void addWindowToScene();
+	void addRendererToScene();
 };
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef __RENDERERINTERFACE_H__
 #define __RENDERERINTERFACE_H__
 
+#include <iostream>
+
 class RendererInterface
 {
 public:

@@ -1,7 +1,6 @@
 //Hier komt de logger class.
 #include "Logger.h"
 #include <fstream>
-#include <iostream>
 #include <string>
 #include <stdio.h>
 #include <time.h>

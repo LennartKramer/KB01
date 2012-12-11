@@ -2,12 +2,13 @@
 #define __SCENEMANAGER_H__
 
 #include "Scene.h"
+#include <list>
+#include <iostream>
 
 class Scenemanager
 {
 private:
-	Scene scene;
-
+	std::list<Scene*> scenes;
 public:
 	Scenemanager(void);
 	~Scenemanager(void);

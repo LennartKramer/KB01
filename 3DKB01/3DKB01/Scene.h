@@ -2,16 +2,21 @@
 #define __SCENE_H__
 
 #include "eWindow.h"
-#include <hash_map>
+#include "RendererInterface.h"
+#include <list>
+#include <iostream>
 
-class Scene// : public SceneInterface
+class Scene
 {
 private:
-	eWindow* window;
+std::list<eWindow*> sceneWindows;
+RendererInterface* sceneRenderer;
+
 public:
 	Scene(void);
 	~Scene(void);
-	void testMethode();
+	void addWindow(eWindow* argWindow);
+	void addRenderer(RendererInterface* argRendererInterface);
 };
 
 #endif

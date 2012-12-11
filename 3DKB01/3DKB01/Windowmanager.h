@@ -2,21 +2,21 @@
 #define __WINDOWMANAGER_H__
 
 #include "eWindow.h"
+#include <iostream>
 #include <string>
-#include <hash_map>
+#include <list>
+#include <iterator>
 
 class Windowmanager
 {
 private:
-	eWindow* window1;
-	eWindow* window2;
-	std::hash_map<std:string, eWindow*> windows;
+	std::list<eWindow*> windows;
 public:
 	Windowmanager(void);
 	~Windowmanager(void);
 	void createWindow();
 	void addWindow(eWindow* window);
-	eWindow& getWindow(std::string argWindowName);
+	eWindow* getWindow(std::string argWindowName);
 };
 
 #endif
