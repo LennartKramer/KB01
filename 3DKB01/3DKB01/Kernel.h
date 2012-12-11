@@ -6,11 +6,13 @@
 #include "RendererDirectX.h"
 #include "Resourcemanager.h"
 #include "Inputmanager.h"
+#include <map>
 #include <iostream>
 
 class Kernel
 {
 private:
+	std::map<eWindow*, Scene*> windowSceneBind;
 	RendererDirectX* directX;
 	Windowmanager windowmanager;
 	Scenemanager scenemanager;
@@ -22,6 +24,7 @@ public:
 	~Kernel(void);
 	void addWindowToScene();
 	void addRendererToScene();
+	void bindWindowScene(eWindow* argWindow, Scene* argScene);
 };
 
 #endif

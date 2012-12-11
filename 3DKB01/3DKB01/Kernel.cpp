@@ -15,3 +15,9 @@ Kernel::Kernel(void)
 Kernel::~Kernel(void)
 {
 }
+
+void Kernel::bindWindowScene(eWindow* argWindow, Scene* argScene)
+{
+	windowSceneBind[argWindow] = argScene;
+	//windowSceneBind.insert(std::pair<eWindow*, Scene*>(argWindow, argScene));
+}

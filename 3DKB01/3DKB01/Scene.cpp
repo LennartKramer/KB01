@@ -8,12 +8,8 @@ Scene::~Scene(void)
 {
 }
 
-void Scene::addWindow(eWindow* argWindow)
-{
-
-}
 
 void Scene::addRenderer(RendererInterface* argRendererInterface)
 {
-
+	
 }

@@ -9,13 +9,11 @@
 class Scene
 {
 private:
-std::list<eWindow*> sceneWindows;
 RendererInterface* sceneRenderer;
 
 public:
 	Scene(void);
 	~Scene(void);
-	void addWindow(eWindow* argWindow);
 	void addRenderer(RendererInterface* argRendererInterface);
 };
 
