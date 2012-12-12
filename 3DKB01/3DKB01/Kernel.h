@@ -22,8 +22,6 @@ private:
 public:
 	Kernel(void);
 	~Kernel(void);
-	void addWindowToScene();
-	void addRendererToScene();
 	void bindWindowScene(eWindow* argWindow, Scene* argScene);
 };
 

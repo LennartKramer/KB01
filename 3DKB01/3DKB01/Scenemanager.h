@@ -12,7 +12,8 @@ private:
 public:
 	Scenemanager(void);
 	~Scenemanager(void);
-	void addWindow();
+	void createScene();
+	void addScene(Scene* argScene);
 };
 
 #endif

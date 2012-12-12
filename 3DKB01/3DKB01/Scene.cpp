@@ -8,8 +8,3 @@ Scene::~Scene(void)
 {
 }
 
-
-void Scene::addRenderer(RendererInterface* argRendererInterface)
-{
-	
-}

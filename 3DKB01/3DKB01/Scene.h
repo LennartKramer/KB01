@@ -9,12 +9,10 @@
 class Scene
 {
 private:
-RendererInterface* sceneRenderer;
 
 public:
 	Scene(void);
 	~Scene(void);
-	void addRenderer(RendererInterface* argRendererInterface);
 };
 
 #endif

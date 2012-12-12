@@ -19,7 +19,6 @@ void Windowmanager::createWindow()
 // Adds window object to list
 void Windowmanager::addWindow(eWindow* argWindow)
 {
-	//this->windows.
 	windows.push_back(argWindow);
 }
 
