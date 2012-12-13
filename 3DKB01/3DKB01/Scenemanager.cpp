@@ -20,3 +20,17 @@ void Scenemanager::addScene(Scene* argScene)
 {
 	scenes.push_back(argScene);
 }
+
+// Get scene from list
+Scene* Scenemanager::getScene(std::string argSceneName)
+{
+	std::list<Scene*>::iterator Iterator;
+	for(Iterator = scenes.begin(); Iterator != scenes.end(); ++Iterator)
+	{
+		if((*Iterator)->getName() == argSceneName)
+		{
+			return (*Iterator);
+		}
+	}
+}
+

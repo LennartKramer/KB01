@@ -8,3 +8,7 @@ Scene::~Scene(void)
 {
 }
 
+std::string Scene::getName()
+{
+	return name;
+}

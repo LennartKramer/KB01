@@ -9,10 +9,11 @@
 class Scene
 {
 private:
-
+	std::string name;
 public:
 	Scene(void);
 	~Scene(void);
+	std::string getName();
 };
 
 #endif

@@ -14,6 +14,7 @@ public:
 	~Scenemanager(void);
 	void createScene();
 	void addScene(Scene* argScene);
+	Scene* getScene(std::string argSceneName);
 };
 
 #endif

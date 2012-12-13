@@ -25,8 +25,6 @@ void Windowmanager::addWindow(eWindow* argWindow)
 // returns a window object from list
 eWindow* Windowmanager::getWindow(std::string argWindowName)
 {
-	for(int i =0; i<this->windows.size(); ++i) 
-	{
 		std::list<eWindow*>::iterator Iterator;
 		for(Iterator = windows.begin(); Iterator != windows.end(); ++Iterator)
 		{
@@ -35,6 +33,4 @@ eWindow* Windowmanager::getWindow(std::string argWindowName)
 				return (*Iterator);
 			}
 		}
-		
-	}
 }
