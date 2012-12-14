@@ -102,6 +102,12 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\ResourceM\Subclasses</Filter>
     </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windowmanager.h">
@@ -145,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files\ResourceM\Subclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferedMouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
