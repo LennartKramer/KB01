@@ -3,7 +3,6 @@
 
 Inputmanager::Inputmanager(void)
 {
-
 }
 
 Inputmanager::~Inputmanager(void)

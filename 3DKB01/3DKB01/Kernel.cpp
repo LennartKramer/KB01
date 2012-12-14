@@ -15,6 +15,7 @@ Kernel::Kernel(void)
 
 Kernel::~Kernel(void)
 {
+	// Leave this empty for now.
 }
 
 void Kernel::initialize()
@@ -22,9 +23,11 @@ void Kernel::initialize()
 	// create all managers
 	windowmanager = Windowmanager();
 	scenemanager = Scenemanager();
+	resourcemanager = Resourcemanager();
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	windowmanager.getWindow("window1")->show();
+	resourcemanager.retrieveTexturesAndModels();
 	// initialize direct3d
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());

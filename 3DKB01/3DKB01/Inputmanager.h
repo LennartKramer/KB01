@@ -8,9 +8,6 @@ class Inputmanager
 public:
 	Inputmanager(void);
 	~Inputmanager(void);
-private:
-//	Mouse mouse;
-//	Keyboard keyboard;
 };
 
 #endif

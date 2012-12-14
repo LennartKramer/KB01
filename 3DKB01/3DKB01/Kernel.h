@@ -6,6 +6,7 @@
 #include "RendererDirectX.h"
 #include "Resourcemanager.h"
 #include "Inputmanager.h"
+#include "ResourceInterface.h"
 #include <map>
 #include <iostream>
 #include <Windows.h>

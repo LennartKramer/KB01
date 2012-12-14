@@ -13,31 +13,32 @@
   <ItemGroup>
     <ClCompile Include="Inputmanager.cpp" />
     <ClCompile Include="Kernel.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="RendererDirectX.cpp" />
+    <ClCompile Include="ResourceInterface.cpp" />
     <ClCompile Include="Resourcemanager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
     <ClCompile Include="LotsoWindow.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BufferedMouse.h" />
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Inputmanager.h" />
     <ClInclude Include="Kernel.h" />
-    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="RendererDirectX.h" />
     <ClInclude Include="RendererInterface.h" />
+    <ClInclude Include="ResourceInterface.h" />
     <ClInclude Include="Resourcemanager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scenemanager.h" />
     <ClInclude Include="LotsoWindow.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Windowmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -67,10 +68,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <IncludePath>C:\Users\Peter-Pim\Documents\Opleiding Informatica\Informatica Cursus 2012 en 2013\Blok 6 %283D - Engine%29\Project\Applicatie\3DKB01\resource;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath>C:\Users\Peter-Pim\Documents\Opleiding Informatica\Informatica Cursus 2012 en 2013\Blok 6 %283D - Engine%29\Project\Applicatie\3DKB01\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,7 +80,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(DXSDK_DIR)\Lib\x86\d2d1.lib;$(DXSDK_DIR)\Lib\x86\d3d9.lib;$(DXSDK_DIR)\Lib\x86\d3d10.lib;$(DXSDK_DIR)\Lib\x86\d3d10_1.lib;$(DXSDK_DIR)\Lib\x86\d3d11.lib;$(DXSDK_DIR)\Lib\x86\d3dcompiler.lib;$(DXSDK_DIR)\Lib\x86\D3DCSX.lib;$(DXSDK_DIR)\Lib\x86\D3DCSXd.lib;$(DXSDK_DIR)\Lib\x86\d3dx9.lib;$(DXSDK_DIR)\Lib\x86\d3dx9d.lib;$(DXSDK_DIR)\Lib\x86\d3dx10.lib;$(DXSDK_DIR)\Lib\x86\d3dx10d.lib;$(DXSDK_DIR)\Lib\x86\d3dx11.lib;$(DXSDK_DIR)\Lib\x86\d3dx11d.lib;$(DXSDK_DIR)\Lib\x86\d3dxof.lib;$(DXSDK_DIR)\Lib\x86\dinput8.lib;$(DXSDK_DIR)\Lib\x86\dsetup.lib;$(DXSDK_DIR)\Lib\x86\dsound.lib;$(DXSDK_DIR)\Lib\x86\dwrite.lib;$(DXSDK_DIR)\Lib\x86\DxErr.lib;$(DXSDK_DIR)\Lib\x86\dxgi.lib;$(DXSDK_DIR)\Lib\x86\dxguid.lib;$(DXSDK_DIR)\Lib\x86\X3DAudio.lib;$(DXSDK_DIR)\Lib\x86\xapobase.lib;$(DXSDK_DIR)\Lib\x86\xapobased.lib;$(DXSDK_DIR)\Lib\x86\XAPOFX.lib;$(DXSDK_DIR)\Lib\x86\XInput.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;d3d9.lib;d3d10.lib;d3d10_1.lib;d3d11.lib;winmm.lib;d3dcompiler.lib;D3DCSX.lib;D3DCSXd.lib;d3dx9.lib;d3dx9d.lib;d3dx10.lib;d3dx10d.lib;d3dx11.lib;d3dx11d.lib;d3dxof.lib;dinput8.lib;dsetup.lib;dsound.lib;dwrite.lib;DxErr.lib;dxgi.lib;dxguid.lib;X3DAudio.lib;xapobase.lib;xapobased.lib;XAPOFX.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
