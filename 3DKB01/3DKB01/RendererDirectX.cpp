@@ -1,5 +1,6 @@
 #include "RendererDirectX.h"
 #include "RendererInterface.h"
+#include "CustomVertex.h"
 
 RendererDirectX::RendererDirectX()
 {
@@ -11,7 +12,7 @@ RendererDirectX::RendererDirectX()
 */
 RendererDirectX::~RendererDirectX()
 {
-	directX = NULL;
+	//directX = NULL;
 };
 
 /*
@@ -54,26 +55,58 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 */
 HRESULT RendererDirectX::initGeometry(void)
 {
-	CustomVertex g_Vertices[] =
+	Vertex_UD vertices[] =
 	{
 		{  1.0f, 0.0f, 0.0f, 0xffffff00, },
 		{ -1.0, 0.0f, 0.0f, 0xffffff00,  },
 		{  0.0, 0.0f, 1.0f, 0xffffff00,  },
 	};
 
-	if(FAILED(g_pd3dDevice->CreateVertexBuffer(36 * sizeof(CustomVertex),
-		0, D3DFVF_CustomVertex, D3DPOOL_DEFAULT, &g_pVB, 0)))
-    {
-        return E_FAIL;
-    }
 
-	VOID* pVertices;
-	if(FAILED(g_pVB->Lock(0, sizeof(g_Vertices), (void**)&pVertices, 0)))
-		return E_FAIL;
-	memcpy(pVertices, g_Vertices, sizeof(g_Vertices));
+	g_pd3dDevice->CreateVertexBuffer(
+		// UINT length - The size of our new vertex buffer, in bytes.
+		sizeof(vertices),
+		// DWORD Usage - Some usage flags to set up.
+		D3DUSAGE_WRITEONLY,
+		// DWORD FVF - The Vertex Format to use for this buffer.
+		vertices[0].FORMAT,
+		// D3DPOOL Pool - What memory resource to use for this buffer.
+		D3DPOOL_DEFAULT,
+		// IDirect3DVertexBuffer9** ppVertexBuffer - The vertex buffer to create.
+		&g_pVB,
+		// HANDLE* pSharedHandle - Reserved. Must be NULL.
+		NULL);
+
+	void* bufferMemory;
+
+	// Place the lock on the buffer to get the pointer.
+	g_pVB->Lock(
+		// UINT OffsetToLock - At what index, in bytes, to place the lock.
+		0,
+		// UINT SizeToLock - How many bytes of memory to lock.
+		sizeof(vertices),
+		// void** ppbData - The resulting pointer to write.
+		&bufferMemory,
+		// DWORD flags - Some special flags to use in obtaining the lock.
+		NULL);
+
+	memcpy(bufferMemory, vertices, sizeof(vertices));
+
 	g_pVB->Unlock();
 
-	return S_OK;
+	g_pd3dDevice->SetFVF(vertices[0].FORMAT);
+
+	g_pd3dDevice->SetStreamSource(
+		// UINT StreamNumber - Which stream to set this to.
+		0,
+		// IDirect3DVertexBuffer9* pStreamData - The vertex buffer to use.
+		g_pVB,
+		// UINT OffsetInBytes - The offset to start reading from, in bytes.
+		0,
+		// UINT Stride - The size of a single vertex.
+		vertices[0].STRIDE_SIZE);
+
+	return D3D_OK;
 };
 
 void RendererDirectX::cleanUp()
@@ -98,11 +131,11 @@ void RendererDirectX::setupMatrices()
 	D3DXMATRIXA16 matWorld;
 
 	UINT iTime = timeGetTime() / 5;
-	FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 1000.0f;
+	FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 4000.0f;
 	D3DXMatrixRotationY(&matWorld, fAngle);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	D3DXVECTOR3 vEyePt(0.0f, 5.0f, -10.0f);
+	D3DXVECTOR3 vEyePt(0.0f, 2.0f, -2.0f);
 	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMATRIXA16 matView;
@@ -127,9 +160,7 @@ void RendererDirectX::render()
 	{
 		setupMatrices();
 
-		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CustomVertex));
-		g_pd3dDevice->SetFVF(D3DFVF_CustomVertex);
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 12);
+		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
 
 		g_pd3dDevice->EndScene();
 	}

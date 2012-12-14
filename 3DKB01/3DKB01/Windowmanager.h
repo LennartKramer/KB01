@@ -1,7 +1,7 @@
 #ifndef __WINDOWMANAGER_H__
 #define __WINDOWMANAGER_H__
 
-#include "eWindow.h"
+#include "LotsoWindow.h"
 #include <iostream>
 #include <string>
 #include <list>
@@ -10,13 +10,14 @@
 class Windowmanager
 {
 private:
-	std::list<eWindow*> windows;
+	std::list<LotsoWindow*> windows;
 public:
 	Windowmanager(void);
 	~Windowmanager(void);
-	void createWindow();
-	void addWindow(eWindow* window);
-	eWindow* getWindow(std::string argWindowName);
-};
+	void createWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, LPTSTR name);
+	void addWindow(LotsoWindow* window);
+	LotsoWindow* getWindow(std::string argWindowName);
+	void cleanup();
+	};
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef __SCENE_H__
 #define __SCENE_H__
 
-#include "eWindow.h"
+#include "LotsoWindow.h"
 #include "RendererInterface.h"
 #include <list>
 #include <iostream>

@@ -8,21 +8,29 @@
 #include "Inputmanager.h"
 #include <map>
 #include <iostream>
+#include <Windows.h>
 
 class Kernel
 {
 private:
-	std::map<eWindow*, Scene*> windowSceneBind;
+	std::map<LotsoWindow*, Scene*> windowSceneBind;
 	RendererDirectX* directX;
 	Windowmanager windowmanager;
 	Scenemanager scenemanager;
 	Resourcemanager resourcemanager;
 	Inputmanager inputmanager;
+	//LRESULT CALLBACK messageHandler(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
+    
 
 public:
 	Kernel(void);
 	~Kernel(void);
-	void bindWindowScene(eWindow* argWindow, Scene* argScene);
+	void initialize();
+	void programLoop();
+	void addWindowToScene();
+	void addRendererToScene();
+	void bindWindowScene(LotsoWindow* argWindow, Scene* argScene);
+	void cleanup();
 };
 
 #endif
