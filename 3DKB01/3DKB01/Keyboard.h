@@ -8,15 +8,18 @@
 class Keyboard
 {
 public:
+	Keyboard();
 	Keyboard(HWND argWindow);
-	~Keyboard(void);
-	LPDIRECTINPUTDEVICE8 InitializeKeyboard(HWND argWindow);
-	void Aquire();
+	~Keyboard();
+	bool InitializeKeyboard();
+	bool GoAcquire();
 	void SaveReleaseDevice();
 	void ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb);
-//	bool ProcessKBInput(byte argKeyIsPressed);
+	LPDIRECTINPUTDEVICE8 getKeybDevice();
+	//	bool ProcessKBInput(byte argKeyIsPressed);
 private:
 	HRESULT				 hr;
+	HWND				 hwnd;
 	LPDIRECTINPUT8		 p_dx_KeybObject;
 	LPDIRECTINPUTDEVICE8 p_dx_KeybDevice;
 };

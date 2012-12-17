@@ -1,5 +1,5 @@
 #include "Mouse.h"
-
+#include <iostream>
 
 Mouse::Mouse(HWND argWindow)
 {
@@ -20,7 +20,7 @@ Mouse::~Mouse(void)
 {
 }
 
-bool Mouse::InitializeMouse(HWND argWindow)
+bool Mouse::InitializeMouse()
  {
 	DIPROPDWORD  dipdw; 
 	 //creates the DirectInput Object. 
@@ -46,7 +46,7 @@ bool Mouse::InitializeMouse(HWND argWindow)
 		return false;
 	}
 
-	result = p_dx_MouseDevice->SetCooperativeLevel( hwnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	result = p_dx_MouseDevice->SetCooperativeLevel(hwnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	if( FAILED( result ) )
 	{
 		SaveReleaseDevice(); 
@@ -59,17 +59,12 @@ bool Mouse::InitializeMouse(HWND argWindow)
 		SaveReleaseDevice();
 		return false;
 	}
+
+	GoAcquire();
+
 	return true;
  }
 
- void Mouse::Aquire()
- {
-	 //try and aquire 5 times in case initial aquire fails.
-	 for(int i = 0; i < 5 ; ++i)
-	 {
-		p_dx_MouseDevice->Acquire();
-	 }
- }
 
 void Mouse::SaveReleaseDevice()
 {
@@ -91,6 +86,15 @@ void Mouse::setMouseBuffer()
 
 	HRESULT hr = p_dx_MouseDevice->GetDeviceData( sizeof(DIDEVICEOBJECTDATA), &od, &elements, 0 );
 	//&elements = number of elements in deviceData. 
+	
+	if (FAILED(hr))
+	{
+	// It's possible that we lost access to the keyboard
+	// Here we acquire access to the keyboard again
+	GoAcquire();
+	return;
+	}
+
 
 	// Switch case to get the data from the mouse
 	switch (od.dwOfs) 
@@ -221,4 +225,27 @@ void Mouse::ResetMouseStruct()
 	bufferedMouse.button5 = false;
 	bufferedMouse.button6 = false;
 	bufferedMouse.button7 = false;	
+}
+
+ bool Mouse::GoAcquire()
+ {
+	 //try and aquire 5 times in case initial aquire fails.
+	 for(int i = 0; i < 5 ; ++i)
+	 {
+		if( SUCCEEDED( p_dx_MouseDevice->Acquire() ) )
+		{
+			return true;
+		}
+	 }
+	 return false;
+ }
+
+LPDIRECTINPUTDEVICE8 Mouse::getMouseDevice()
+{
+	return p_dx_MouseDevice;
+}
+
+void Mouse::ReadMouse(LPDIRECTINPUTDEVICE8 argMouseDevice)
+{
+	
 }

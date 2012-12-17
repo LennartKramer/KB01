@@ -63,9 +63,6 @@
     <ClCompile Include="Windowmanager.cpp">
       <Filter>Source Files\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Kernel.cpp">
-      <Filter>Source Files\Kernel</Filter>
-    </ClCompile>
     <ClCompile Include="RendererDirectX.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
@@ -88,10 +85,13 @@
       <Filter>Source Files\Window</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
+      <Filter>Source Files\Kernel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,14 +128,14 @@
     <ClInclude Include="CustomVertex.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="BufferedMouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Keyboard.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferedMouse.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

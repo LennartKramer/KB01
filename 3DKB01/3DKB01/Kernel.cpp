@@ -1,5 +1,6 @@
 #include "Kernel.h"
 #include <Windows.h>
+#include <iostream>
 
 LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -24,14 +25,19 @@ void Kernel::initialize()
 	windowmanager = Windowmanager();
 	scenemanager = Scenemanager();
 	resourcemanager = Resourcemanager();
+	inputmanager = Inputmanager();
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	windowmanager.getWindow("window1")->show();
-	resourcemanager.loadMaterials();
+	//resourcemanager.loadMaterials();
 	// initialize direct3d
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
 	directX->initGeometry();
+	// Create mouse and keyboard for first window
+	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
+	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
+
 }
 
 void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
@@ -45,12 +51,18 @@ void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
 // This is what the program will do in idle time.
 // -------------------------------------------------
 void Kernel::programLoop() {
+
+	
 	// So, let's process those messages.
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg)); // Just incase there's something there.
 
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
+		//Lees de input van keyboard
+		inputmanager.getKeyboard()->ReadKeyboard(inputmanager.getKeyboard()->getKeybDevice());
+		inputmanager.getMouse()->ReadMouse(inputmanager.getMouse()->getMouseDevice());
+
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.
@@ -63,6 +75,7 @@ void Kernel::programLoop() {
 		}
 	}
 
+	
 }
 
 //-----------------------------------------------------------------------------
