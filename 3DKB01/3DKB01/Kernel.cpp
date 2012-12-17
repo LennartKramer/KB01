@@ -27,7 +27,7 @@ void Kernel::initialize()
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	windowmanager.getWindow("window1")->show();
-	resourcemanager.retrieveTexturesAndModels();
+	resourcemanager.loadMaterials();
 	// initialize direct3d
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());

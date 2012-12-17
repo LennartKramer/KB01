@@ -55,12 +55,6 @@
     <Filter Include="Header Files\Scene">
       <UniqueIdentifier>{a8ab482f-b034-4dbf-bc5e-a535e8211d3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ResourceM\Subclasses">
-      <UniqueIdentifier>{a428276a-ee66-4b61-ad40-7fb1a5b41e9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ResourceM\Subclasses">
-      <UniqueIdentifier>{72a5231a-5d26-44a4-8416-6659d3e25579}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -92,15 +86,6 @@
     </ClCompile>
     <ClCompile Include="LotsoWindow.cpp">
       <Filter>Source Files\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceInterface.cpp">
-      <Filter>Source Files\ResourceM</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files\ResourceM\Subclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\ResourceM\Subclasses</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files</Filter>
@@ -142,15 +127,6 @@
     </ClInclude>
     <ClInclude Include="CustomVertex.h">
       <Filter>Header Files\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceInterface.h">
-      <Filter>Header Files\ResourceM</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\ResourceM\Subclasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files\ResourceM\Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="BufferedMouse.h">
       <Filter>Header Files</Filter>
