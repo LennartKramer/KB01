@@ -5,6 +5,7 @@
 #include <d3d9.h>
 #include <strsafe.h>
 #include <mmsystem.h>
+#include <fstream>
 
 class Resourcemanager
 {
@@ -16,20 +17,17 @@ private:
 	LPDIRECT3DTEXTURE9* g_pMeshTextures;
 	DWORD               g_dwNumMaterials;
 
-	BYTE imageDimensions;
+	int imageDimensions;
 public:
 	Resourcemanager(void);
 	~Resourcemanager(void);
 
-	void setImageDimensions(BYTE);
-	BYTE getImageDimensions(void);
 	LPD3DXMESH getMesh(void);
 	D3DMATERIAL9* getMeshMaterials(void);
 	LPDIRECT3DTEXTURE9* getMeshTextures(void);
 	DWORD getDwNumMaterials(void);
 
 	HRESULT loadMaterials(LPDIRECT3DDEVICE9 device);
-	// bool loadBMP(char* argFileName);
 };
 
 #endif __RESOURCEMANAGER_H__

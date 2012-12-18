@@ -10,6 +10,7 @@ Kernel::Kernel(void)
 	scenemanager = Scenemanager();
 	resourcemanager = Resourcemanager();
 	inputmanager = Inputmanager();
+	sceneHeightmap = SceneHeightmap();
 }
 
 
@@ -27,15 +28,42 @@ void Kernel::initialize()
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	windowmanager.getWindow("window1")->show();
-	// initialize direct3d
+	/*
+	/ LPCSTR bitmap - A long string used to open a bitmapfile.
+	/ initializeDimensions - Find the value for the offset, width
+	/ height of the bitmap file and store them into the SceneHeightmap
+	/ class.
+	*/
+	LPCSTR bitmap = "heightmap.bmp";
+	sceneHeightmap.initializeDimensions(bitmap);
+	/*
+	/ Create a Renderer from DirectX
+	/ First initialize the device which will be used to add
+	/ objects to. Then initialize the vertices, vertexes, indexes,
+	/ matrices and geometry used to draw to a scene.
+	*/
+
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
-	directX->initGeometry();
-	resourcemanager.loadMaterials(directX->getDevice());
-	// Create mouse and keyboard for first window
-	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
-	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
+	std::cout << "stap1" << std::endl;
+	directX->setupMatrices();
+	std::cout << "stap2" << std::endl;
 
+	/*
+	directX->initializeIndices(windowmanager.getWindow("window1")->getHandle(), directX->getDevice(),
+		sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
+	std::cout << "stap3" << std::endl;
+	directX->initializeVertices(windowmanager.getWindow("window1")->getHandle(), directX->getDevice(),
+		sceneHeightmap.getBitmapOffset() ,sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
+	std::cout << "stap4" << std::endl;
+	*/
+	// directX->initGeometry(); - Drawing a landscape instead of a triangle now.
+	/*
+	/ loadMaterials
+	/ Initialize a Material Buffer and a Texture Buffer,
+	/ used to draw to the scene.
+	*/
+	resourcemanager.loadMaterials(directX->getDevice());
 }
 
 void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
@@ -55,34 +83,6 @@ void Kernel::programLoop() {
 
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
-	
-		//Read the keyboard and mouse input
-		inputmanager.getKeyboard()->ReadKeyboard();
-		inputmanager.getMouse()->ReadMouse();
-
-		//If Escape is pressed the program will exit.
-		if(inputmanager.getKeyboard()->IsEscapePressed())
-		{
-			msg.message = WM_QUIT;
-		}
-		
-		// Print the x, y coordinates of the mouse
-		std::cout << inputmanager.getMouse()->getXcoord();
-		std::cout << inputmanager.getMouse()->getYcoord();
-
-		// print LMB when Left Mouse Button is pressed 
-		if (inputmanager.getMouse()->IsDown(0))
-		{
-			std::cout << " LMB ";
-		}
-
-		// print RMB when Right Mouse Button is pressed
-		if (inputmanager.getMouse()->IsDown(1))
-		{
-			std::cout << " RMB ";
-		}		
-
-
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.
@@ -93,7 +93,7 @@ void Kernel::programLoop() {
 		{
 			directX->render(resourcemanager.getMeshMaterials(), 
 				resourcemanager.getMeshTextures(), resourcemanager.getDwNumMaterials(),
-				resourcemanager.getMesh());
+				resourcemanager.getMesh(), sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
 		}
 	}
 

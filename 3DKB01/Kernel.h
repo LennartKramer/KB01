@@ -6,6 +6,7 @@
 #include "RendererDirectX.h"
 #include "Resourcemanager.h"
 #include "Inputmanager.h"
+#include "SceneHeightmap.h"
 #include <map>
 #include <iostream>
 #include <Windows.h>
@@ -19,6 +20,7 @@ private:
 	Scenemanager scenemanager;
 	Resourcemanager resourcemanager;
 	Inputmanager inputmanager;
+	SceneHeightmap sceneHeightmap;
 	//LRESULT CALLBACK messageHandler(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
     
 
