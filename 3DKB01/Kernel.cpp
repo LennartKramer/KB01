@@ -32,6 +32,10 @@ void Kernel::initialize()
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
 	directX->initGeometry();
 	resourcemanager.loadMaterials(directX->getDevice());
+	// Create mouse and keyboard for first window
+	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
+	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
+
 }
 
 void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
@@ -51,6 +55,11 @@ void Kernel::programLoop() {
 
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
+	
+		//Lees de input van keyboard en muis
+		inputmanager.getKeyboard()->ReadKeyboard(inputmanager.getKeyboard()->getKeybDevice());
+		inputmanager.getMouse()->ReadMouse(inputmanager.getMouse()->getMouseDevice());
+
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.

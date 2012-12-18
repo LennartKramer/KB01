@@ -1,42 +1,79 @@
+#include <iostream>
 #include "Keyboard.h"
+
+Keyboard::~Keyboard()
+{
+}
 
 Keyboard::Keyboard(HWND argWindow)
 {
-	InitializeKeyboard(argWindow);
+	p_dx_KeybObject		= NULL; 
+	p_dx_KeybDevice		= NULL; 
+	hwnd				= argWindow;	
+
+	if (InitializeKeyboard())
+	{
+		std::cout << "Initialize Keyboard Method Succes";
+	}
+	else
+	{
+		std::cout << "Initialize Keyboard Method Failed";
+	}
 }
 
-
-Keyboard::~Keyboard(void)
+LPDIRECTINPUTDEVICE8 Keyboard::getKeybDevice()
 {
+	return p_dx_KeybDevice;
 }
 
-
- LPDIRECTINPUTDEVICE8 Keyboard::InitializeKeyboard(HWND argWindow)
- {
-	
+bool Keyboard::InitializeKeyboard()
+{
 	 //creates the DirectInput Object. 
-	DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&p_dx_KeybObject, NULL);
+	hr = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&p_dx_KeybObject, NULL);
+	if FAILED( hr ) 
+	{
+		return false; 
+	}
 	//You need to pass a handle to the current application, the DirectX version, an interface ID, the pointer to the stucture we want to be initialised, and a pointer that can be used for more advanced stuff. 
 	
 	//Now your IDE has been set up to use DirectInput, let’s create the keyboard device. This must be done by the CreateDevice method of your keyboard Object:
-	 p_dx_KeybObject->CreateDevice(GUID_SysKeyboard, &p_dx_KeybDevice, NULL);
+	hr = p_dx_KeybObject->CreateDevice(GUID_SysKeyboard, &p_dx_KeybDevice, NULL);
+	if FAILED( hr ) 
+	{ 
+		SaveReleaseDevice(); 
+		return false; 
+	}
 
-	 p_dx_KeybDevice->SetDataFormat(&c_dfDIKeyboard);
-	 p_dx_KeybDevice->SetCooperativeLevel(argWindow, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
+	p_dx_KeybDevice->SetDataFormat(&c_dfDIKeyboard);
+	if FAILED( hr ) 
+	{ 
+		SaveReleaseDevice(); 
+		return false; 
+	} 
 	
-	 //call aquire method
-	 Aquire();
+	p_dx_KeybDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
+	if FAILED( hr )
+	{ 
+		SaveReleaseDevice(); 
+		return false; 
+	} 
 
-	return p_dx_KeybDevice;
+	GoAcquire();
+
+	return true;
  }
 
- void Keyboard::Aquire()
+ bool Keyboard::GoAcquire()
  {
 	 //try and aquire 5 times in case initial aquire fails.
 	 for(int i = 0; i < 5 ; ++i)
 	 {
-		p_dx_KeybDevice->Acquire();
+		if( SUCCEEDED( p_dx_KeybDevice->Acquire() ) )
+		{
+			return true;
+		}
 	 }
+	 return false;
  }
 
 void Keyboard::SaveReleaseDevice()
@@ -54,13 +91,22 @@ void Keyboard::SaveReleaseDevice()
 
  void Keyboard::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
  {
-	// So first define a buffer to hold these bytes and then store the keyboard state in it:
+	 // So first define a buffer to hold these bytes and then store the keyboard state in it:
 	char chr_KeybState[256];
 
 	//The parameters are of course the size of our prepared buffer and the pointer to this buffer. 
 	//The standard data format of a keyboard corresponds to an array of 256 bytes, and the size of a char is the same as the size of a byte, 8 bits. 
 	//This is why an array of chars is used.
-	p_Keyb->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
+	
+	hr = p_Keyb->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
+	if (FAILED(hr))
+	{
+		// It's possible that we lost access to the keyboard
+		// Here we acquire access to the keyboard again
+		GoAcquire();
+		return;
+	}
+
 
 	//Now a bit of a detailed part, that I have included only to be complete. 
 	//For every key, 1 byte is reserved in our buffer. 
@@ -70,7 +116,13 @@ void Keyboard::SaveReleaseDevice()
 
 	if (chr_KeybState[DIK_ESCAPE]/128)
 	{
-		// Open menu
+		std::cout << "Escape Button Pressed.";
 	}
+
+	 if (chr_KeybState[DIK_DELETE]/128)
+	{
+		std::cout << "Delete Button Pressed.";
+	}
+
  }
 

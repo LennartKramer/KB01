@@ -11,12 +11,13 @@ class Mouse
 public:
 	Mouse(HWND argWindow);
 	~Mouse(void);
-	bool InitializeMouse(HWND argWindow);
-	void Aquire();
+	bool InitializeMouse();
+	bool GoAcquire();
 	void SaveReleaseDevice();
-	void ReadMouse(LPDIRECTINPUTDEVICE8 p_Mouse);
+	void ReadMouse(LPDIRECTINPUTDEVICE8);
 	void setMouseBuffer(); 
 	void ResetMouseStruct();
+	LPDIRECTINPUTDEVICE8 getMouseDevice();
 //	bool ProcessKBInput(byte argKeyIsPressed);
 private:	
 	BufferedMouse		 bufferedMouse;
