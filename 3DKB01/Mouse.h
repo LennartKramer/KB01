@@ -24,6 +24,8 @@ public:
 	void Activate();
 	void Deactivate();
 	int ReadMouse();
+	int getXcoord();
+	int getYcoord();
 	//BufferedMouse GetMouseInput();
 private:	
 //	BufferedMouse		 bufferedMouse;

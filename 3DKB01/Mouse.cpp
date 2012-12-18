@@ -19,6 +19,17 @@ void Mouse::GetCoords(int* x, int* y)
 	*x = mousestate.lX;
 	*y = mousestate.lY;
 }
+
+int Mouse::getXcoord()
+{
+	return mousestate.lX;
+}
+
+int Mouse::getYcoord()
+{
+	return mousestate.lY;
+}
+
 int Mouse::GetWheel()
 {
 	return(mousestate.lZ);
@@ -86,7 +97,7 @@ bool Mouse::InitializeMouse()
 		return false;
 	}
 	 
-	result = p_dx_MouseDevice->SetDataFormat(&c_dfDIMouse);
+	result = p_dx_MouseDevice->SetDataFormat(&c_dfDIMouse2);
 	if( FAILED( result ) )
 	{
 		SaveReleaseDevice();
@@ -319,7 +330,7 @@ void Mouse::ResetMouseStruct()
 
 	if (mousestate.rgbButtons[0] & 0x80)
 	{
-		std::cout << "LMB";
+//		std::cout << "LMB";
 	}
 return 1;
  }

@@ -65,22 +65,28 @@ void Kernel::programLoop() {
 		
 		inputmanager.getMouse()->ReadMouse();
 
-		int* x = 0;
-		int* y = 0;
+	//	int* x = 0;
+	//	int* y = 0;
 
 	//	inputmanager.getMouse()->GetCoords(x , y);
 
-	//	std::cout << x;
-	//	std::cout << y;
+		std::cout << inputmanager.getMouse()->getXcoord();
+		std::cout << inputmanager.getMouse()->getYcoord();
 
 		if (inputmanager.getMouse()->IsDown(0))
 		{
-		//	std::cout << "Linkermuis ingedrukt";
+			std::cout << " LMB ";
 		}
-		
+
+		if (inputmanager.getMouse()->IsDown(1))
+		{
+			std::cout << " RMB ";
+		}		
+
+
 		if (inputmanager.getMouse()->IsUp(0))
 		{
-			std::cout << "Linkermuis niet ingedrukt";
+		//	std::cout << "Linkermuis niet ingedrukt";
 		}
 
 
