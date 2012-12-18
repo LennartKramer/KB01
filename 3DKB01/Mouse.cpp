@@ -1,9 +1,44 @@
 #include "Mouse.h"
 #include <iostream>
 
+
+bool Mouse::IsDown(int button)
+{
+	if(mousestate.rgbButtons[button] & 0x80)
+	{
+		return true;
+	}
+	return false;
+}
+bool Mouse::IsUp(int button)
+{
+	return((mousestate.rgbButtons[button] & 0x80)!=0?false:true);
+}
+void Mouse::GetCoords(int* x, int* y)
+{
+	*x = mousestate.lX;
+	*y = mousestate.lY;
+}
+int Mouse::GetWheel()
+{
+	return(mousestate.lZ);
+}
+void Mouse::Activate()
+{
+	active = true;
+}
+void Mouse::Deactivate()
+{
+	active = false;
+}
+
+Mouse::Mouse()
+{
+}
+
 Mouse::Mouse(HWND argWindow)
 {
-	const int MOUSEBUFFER = 8;
+	const int MOUSEBUFFER = 11;
 	DIPROPDWORD  dipdw; 
 	dipdw.diph.dwSize			= sizeof(DIPROPDWORD);
 	dipdw.diph.dwHeaderSize		= sizeof(DIPROPHEADER);
@@ -11,9 +46,21 @@ Mouse::Mouse(HWND argWindow)
 	dipdw.diph.dwHow			= DIPH_DEVICE;
 	dipdw.dwData				= MOUSEBUFFER;
 	hwnd						= argWindow;
-	
-	ResetMouseStruct();
-	//InitializeMouse(argWindow);
+	p_dx_MouseObject			= NULL;
+	p_dx_MouseDevice			= NULL;
+
+	//ResetMouseStruct();
+	if (InitializeMouse())
+	{
+		std::cout << "Mouse Initialized Succes";
+	}
+	else
+	{
+		std::cout << "Mouse Failed To Initialize";
+	}
+
+	Activate();
+
 }
 
 Mouse::~Mouse(void)
@@ -53,15 +100,15 @@ bool Mouse::InitializeMouse()
 		return false;
 	}
 	 
-	result = p_dx_MouseDevice->SetProperty( DIPROP_BUFFERSIZE, &dipdw.diph );
+	/*
+	result = p_dx_MouseDevice->SetProperty( DIPROP_BUFFERSIZE, &dipdw.diph);
 	if( FAILED( result ) )
 	{
 		SaveReleaseDevice();
 		return false;
 	}
-
+	*/
 	GoAcquire();
-
 	return true;
  }
 
@@ -79,7 +126,8 @@ void Mouse::SaveReleaseDevice()
 	}
 }	
 
-void Mouse::setMouseBuffer()
+/*
+void Mouse::SetMouseBuffer()
 {
 	DIDEVICEOBJECTDATA od;
 	DWORD elements = 1;
@@ -89,19 +137,18 @@ void Mouse::setMouseBuffer()
 	
 	if (FAILED(hr))
 	{
-	// It's possible that we lost access to the keyboard
-	// Here we acquire access to the keyboard again
-	GoAcquire();
-	return;
+		// It's possible that we lost access to the keyboard
+		// Here we acquire access to the keyboard again
+		GoAcquire();
+		return;
 	}
-
 
 	// Switch case to get the data from the mouse
 	switch (od.dwOfs) 
 	{
 		// Mouse horizontal motion
 		case DIMOFS_X:
-			bufferedMouse.positionX += static_cast<long>(od.dwData);
+			bufferedMouse.positionX += static_cast<long>(od.dwData);			
 			break;
 
 		// Mouse vertical motion
@@ -113,10 +160,12 @@ void Mouse::setMouseBuffer()
 		case DIMOFS_BUTTON0:
 			if ( (long)od.dwData == 0 )
 			{
+				std::cout << "hoi";
 				bufferedMouse.button0 = false;
 			}
 			else
 			{
+				std::cout << "hoi";
 				bufferedMouse.button0 = true;
 			}
 			break;
@@ -226,6 +275,7 @@ void Mouse::ResetMouseStruct()
 	bufferedMouse.button6 = false;
 	bufferedMouse.button7 = false;	
 }
+*/
 
  bool Mouse::GoAcquire()
  {
@@ -240,12 +290,54 @@ void Mouse::ResetMouseStruct()
 	 return false;
  }
 
-LPDIRECTINPUTDEVICE8 Mouse::getMouseDevice()
+ int Mouse::ReadMouse()
 {
-	return p_dx_MouseDevice;
-}
+	HRESULT hr;
+	if(active == true)
+	{
+		hr = p_dx_MouseDevice->GetDeviceState(sizeof(DIMOUSESTATE2), &mousestate);
+		if(FAILED(hr))
+		{
+			if(hr = DIERR_INPUTLOST)
+			{
+				hr = p_dx_MouseDevice->Acquire();
+				if(FAILED(hr))
+				{
+					if(hr==DIERR_OTHERAPPHASPRIO)
+						return 2;
+					else
+						return 0;
+				}
+				p_dx_MouseDevice->GetDeviceState(sizeof(DIMOUSESTATE2), &mousestate);
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	}
 
-void Mouse::ReadMouse(LPDIRECTINPUTDEVICE8 argMouseDevice)
+	if (mousestate.rgbButtons[0] & 0x80)
+	{
+		std::cout << "LMB";
+	}
+return 1;
+ }
+
+ 
+
+ /*
+BufferedMouse Mouse::GetMouseInput()
 {
+	hr = p_dx_MouseDevice->Poll();
 	
+	if FAILED( hr ) 
+	{
+		GoAcquire();
+	}
+
+	SetMouseBuffer();
+
+	return bufferedMouse;
 }
+*/

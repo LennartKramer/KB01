@@ -56,9 +56,33 @@ void Kernel::programLoop() {
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
 	
-		//Lees de input van keyboard en muis
-		inputmanager.getKeyboard()->ReadKeyboard(inputmanager.getKeyboard()->getKeybDevice());
-		inputmanager.getMouse()->ReadMouse(inputmanager.getMouse()->getMouseDevice());
+		//Lees de input van keyboard, returned verschillende ints op basis van de ingedrukte knop.
+		int KeyboardInput = inputmanager.getKeyboard()->ReadKeyboard(inputmanager.getKeyboard()->getKeybDevice());
+		if(KeyboardInput == 2)
+		{
+			msg.message = WM_QUIT;
+		}
+		
+		inputmanager.getMouse()->ReadMouse();
+
+		int* x = 0;
+		int* y = 0;
+
+	//	inputmanager.getMouse()->GetCoords(x , y);
+
+	//	std::cout << x;
+	//	std::cout << y;
+
+		if (inputmanager.getMouse()->IsDown(0))
+		{
+		//	std::cout << "Linkermuis ingedrukt";
+		}
+		
+		if (inputmanager.getMouse()->IsUp(0))
+		{
+			std::cout << "Linkermuis niet ingedrukt";
+		}
+
 
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {

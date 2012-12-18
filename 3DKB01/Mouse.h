@@ -9,22 +9,32 @@
 class Mouse
 {
 public:
+	Mouse();
 	Mouse(HWND argWindow);
 	~Mouse(void);
 	bool InitializeMouse();
 	bool GoAcquire();
 	void SaveReleaseDevice();
-	void ReadMouse(LPDIRECTINPUTDEVICE8);
-	void setMouseBuffer(); 
+	void SetMouseBuffer(); 
 	void ResetMouseStruct();
-	LPDIRECTINPUTDEVICE8 getMouseDevice();
-//	bool ProcessKBInput(byte argKeyIsPressed);
+	bool IsDown(int button);
+	bool IsUp(int button);
+	void GetCoords(int* x, int* y);
+	int GetWheel();
+	void Activate();
+	void Deactivate();
+	int ReadMouse();
+	//BufferedMouse GetMouseInput();
 private:	
-	BufferedMouse		 bufferedMouse;
+//	BufferedMouse		 bufferedMouse;
+	DIMOUSESTATE2		 mousestate;
+	bool				 active;
 	HWND				 hwnd;	
 	HRESULT				 hr;
 	LPDIRECTINPUT8		 p_dx_MouseObject;
 	LPDIRECTINPUTDEVICE8 p_dx_MouseDevice;
 };
+
+
 
 #endif

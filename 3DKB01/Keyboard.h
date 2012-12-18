@@ -14,9 +14,8 @@ public:
 	bool InitializeKeyboard();
 	bool GoAcquire();
 	void SaveReleaseDevice();
-	void ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb);
+	int ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb);
 	LPDIRECTINPUTDEVICE8 getKeybDevice();
-	//	bool ProcessKBInput(byte argKeyIsPressed);
 private:
 	HRESULT				 hr;
 	HWND				 hwnd;

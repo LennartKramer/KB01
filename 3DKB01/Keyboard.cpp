@@ -89,7 +89,7 @@ void Keyboard::SaveReleaseDevice()
 	}
 }	
 
- void Keyboard::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
+ int Keyboard::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
  {
 	 // So first define a buffer to hold these bytes and then store the keyboard state in it:
 	char chr_KeybState[256];
@@ -104,7 +104,7 @@ void Keyboard::SaveReleaseDevice()
 		// It's possible that we lost access to the keyboard
 		// Here we acquire access to the keyboard again
 		GoAcquire();
-		return;
+		return 0;
 	}
 
 
@@ -116,13 +116,13 @@ void Keyboard::SaveReleaseDevice()
 
 	if (chr_KeybState[DIK_ESCAPE]/128)
 	{
-		std::cout << "Escape Button Pressed.";
+		 return 2;
 	}
 
 	 if (chr_KeybState[DIK_DELETE]/128)
 	{
 		std::cout << "Delete Button Pressed.";
 	}
-
+	 return 1;
  }
 
