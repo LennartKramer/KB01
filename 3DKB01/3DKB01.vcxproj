@@ -27,7 +27,6 @@
     <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BufferedMouse.h" />
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Inputmanager.h" />
     <ClInclude Include="Kernel.h" />

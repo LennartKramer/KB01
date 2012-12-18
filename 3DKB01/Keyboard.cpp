@@ -1,29 +1,11 @@
 #include <iostream>
 #include "Keyboard.h"
 
-Keyboard::~Keyboard()
-{
-}
-
 Keyboard::Keyboard(HWND argWindow)
 {
-	p_dx_KeybObject		= NULL; 
-	p_dx_KeybDevice		= NULL; 
-	hwnd				= argWindow;	
-
-	if (InitializeKeyboard())
-	{
-		std::cout << "Initialize Keyboard Method Succes";
-	}
-	else
-	{
-		std::cout << "Initialize Keyboard Method Failed";
-	}
-}
-
-LPDIRECTINPUTDEVICE8 Keyboard::getKeybDevice()
-{
-	return p_dx_KeybDevice;
+	escapePressed = false;
+	hwnd = argWindow;	
+	InitializeKeyboard();
 }
 
 bool Keyboard::InitializeKeyboard()
@@ -89,7 +71,7 @@ void Keyboard::SaveReleaseDevice()
 	}
 }	
 
- int Keyboard::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
+ int Keyboard::ReadKeyboard()
  {
 	 // So first define a buffer to hold these bytes and then store the keyboard state in it:
 	char chr_KeybState[256];
@@ -98,7 +80,7 @@ void Keyboard::SaveReleaseDevice()
 	//The standard data format of a keyboard corresponds to an array of 256 bytes, and the size of a char is the same as the size of a byte, 8 bits. 
 	//This is why an array of chars is used.
 	
-	hr = p_Keyb->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
+	hr = p_dx_KeybDevice->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
 	if (FAILED(hr))
 	{
 		// It's possible that we lost access to the keyboard
@@ -116,13 +98,17 @@ void Keyboard::SaveReleaseDevice()
 
 	if (chr_KeybState[DIK_ESCAPE]/128)
 	{
-		 return 2;
+		 escapePressed = true;
 	}
 
-	 if (chr_KeybState[DIK_DELETE]/128)
+	if (chr_KeybState[DIK_DELETE]/128)
 	{
 		std::cout << "Delete Button Pressed.";
 	}
 	 return 1;
  }
 
+ bool Keyboard::IsEscapePressed()
+ {
+	 return escapePressed;
+ }
