@@ -25,6 +25,7 @@ void Kernel::initialize()
 	windowmanager = Windowmanager();
 	scenemanager = Scenemanager();
 	resourcemanager = Resourcemanager();
+	inputmanager = Inputmanager();
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	windowmanager.getWindow("window1")->show();
@@ -64,6 +65,9 @@ void Kernel::initialize()
 	/ used to draw to the scene.
 	*/
 	resourcemanager.loadMaterials(directX->getDevice());
+
+	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
+	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
 }
 
 void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
@@ -83,6 +87,17 @@ void Kernel::programLoop() {
 
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
+		//Reading input from keyboard and mouse.
+		inputmanager.getKeyboard()->ReadKeyboard();
+		inputmanager.getMouse()->ReadMouse();
+
+		//Exit program when escape is pushed.
+		if (inputmanager.getKeyboard()->IsEscapePressed())
+		{
+			msg.message = WM_QUIT;
+		}
+
+
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.
