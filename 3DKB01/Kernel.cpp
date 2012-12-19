@@ -70,6 +70,15 @@ void Kernel::initialize()
 	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
 }
 
+void Kernel::createSingleScene()
+{
+	scenemanager.createScene();
+	addRendererToScene();
+	scenemanager.getScene("scene1")->addEntityModel();
+	scenemanager.getScene("scene1")->addEntityCamera();
+}
+
+
 void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
 {
 	windowSceneBind[argWindow] = argScene;
@@ -109,6 +118,7 @@ void Kernel::programLoop() {
 			directX->render(resourcemanager.getMeshMaterials(), 
 				resourcemanager.getMeshTextures(), resourcemanager.getDwNumMaterials(),
 				resourcemanager.getMesh(), sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
+			std::cout << ".";
 		}
 	}
 

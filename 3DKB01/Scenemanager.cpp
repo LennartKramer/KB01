@@ -1,5 +1,5 @@
 #include "Scenemanager.h"
-
+#include <string>
 
 Scenemanager::Scenemanager(void)
 {
@@ -22,5 +22,22 @@ void Scenemanager::addScene(Scene* argScene)
 }
 
 // Get scene from list
-Scene* Scenemanager::getScene(std::string argSceneName) { return 0; }
+Scene* Scenemanager::getScene(std::string argSceneName)
+{
+	std::list<Scene*>::iterator Iterator;
+	for(Iterator = scenes.begin(); Iterator != scenes.end(); ++Iterator)
+	{
+		if((*Iterator)->getName() == argSceneName)
+		{
+			return (*Iterator);
+		}
+	}
+}
+
+void Scenemanager::drawScene(Scene *argScene)
+{
+	argScene->setView(); // set the view   ...(camera)
+	argScene->drawEntities();
+}
+
 

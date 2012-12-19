@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\3DKB01\3DKB01\3DKB01\Entity.cpp" />
+    <ClCompile Include="..\..\3DKB01\3DKB01\3DKB01\EntityCamera.cpp" />
+    <ClCompile Include="..\..\3DKB01\3DKB01\3DKB01\EntityModel.cpp" />
     <ClCompile Include="Inputmanager.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -27,6 +30,9 @@
     <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\3DKB01\3DKB01\3DKB01\Entity.h" />
+    <ClInclude Include="..\..\3DKB01\3DKB01\3DKB01\EntityCamera.h" />
+    <ClInclude Include="..\..\3DKB01\3DKB01\3DKB01\EntityModel.h" />
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Inputmanager.h" />
     <ClInclude Include="Kernel.h" />

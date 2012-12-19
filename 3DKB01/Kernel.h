@@ -31,6 +31,7 @@ public:
 	void programLoop();
 	void addWindowToScene();
 	void addRendererToScene();
+	void createSingleScene()
 	void bindWindowScene(LotsoWindow* argWindow, Scene* argScene);
 	void cleanup();
 	RendererDirectX* getDirectX(void);

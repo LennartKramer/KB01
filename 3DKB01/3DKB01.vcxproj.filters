@@ -105,6 +105,15 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\3DKB01\3DKB01\3DKB01\Entity.cpp">
+      <Filter>Source Files\Scene\Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3DKB01\3DKB01\3DKB01\EntityCamera.cpp">
+      <Filter>Source Files\Scene\Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3DKB01\3DKB01\3DKB01\EntityModel.cpp">
+      <Filter>Source Files\Scene\Subclasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windowmanager.h">
@@ -148,6 +157,15 @@
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3DKB01\3DKB01\3DKB01\Entity.h">
+      <Filter>Header Files\Scene\Subclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3DKB01\3DKB01\3DKB01\EntityCamera.h">
+      <Filter>Header Files\Scene\Subclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3DKB01\3DKB01\3DKB01\EntityModel.h">
+      <Filter>Header Files\Scene\Subclasses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
