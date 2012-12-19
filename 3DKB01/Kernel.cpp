@@ -72,10 +72,10 @@ void Kernel::initialize()
 
 void Kernel::createSingleScene()
 {
-	scenemanager.createScene();
-	addRendererToScene();
-	scenemanager.getScene("scene1")->addEntityModel();
-	scenemanager.getScene("scene1")->addEntityCamera();
+//	scenemanager.createScene();
+//	addRendererToScene();
+//	scenemanager.getScene("scene1")->addEntityModel();
+//	scenemanager.getScene("scene1")->addEntityCamera();
 }
 
 
@@ -106,7 +106,6 @@ void Kernel::programLoop() {
 			msg.message = WM_QUIT;
 		}
 
-
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.
@@ -118,7 +117,6 @@ void Kernel::programLoop() {
 			directX->render(resourcemanager.getMeshMaterials(), 
 				resourcemanager.getMeshTextures(), resourcemanager.getDwNumMaterials(),
 				resourcemanager.getMesh(), sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
-			std::cout << ".";
 		}
 	}
 

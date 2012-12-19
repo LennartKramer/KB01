@@ -114,6 +114,12 @@
     <ClCompile Include="EntityModel.cpp">
       <Filter>Source Files\Scene\Subclasses</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceModel.cpp">
+      <Filter>Source Files\ResourceM</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceTexture.cpp">
+      <Filter>Source Files\ResourceM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windowmanager.h">
@@ -166,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="EntityModel.h">
       <Filter>Header Files\Scene\Subclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceTexture.h">
+      <Filter>Header Files\ResourceM</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceModel.h">
+      <Filter>Header Files\ResourceM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

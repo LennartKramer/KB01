@@ -20,6 +20,7 @@ private:
 	RendererDirectX directX;
 public:
 	Scene(void);
+	Scene(std::string argName);
 	~Scene(void);
 
 	void setDirectX(RendererDirectX argDirectX) { directX = argDirectX; }

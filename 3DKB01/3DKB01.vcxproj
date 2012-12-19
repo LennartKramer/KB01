@@ -23,6 +23,8 @@
     <ClCompile Include="RendererDirectX.cpp" />
     <ClCompile Include="RendererInterface.cpp" />
     <ClCompile Include="Resourcemanager.cpp" />
+    <ClCompile Include="ResourceModel.cpp" />
+    <ClCompile Include="ResourceTexture.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneHeightmap.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
@@ -42,6 +44,8 @@
     <ClInclude Include="RendererDirectX.h" />
     <ClInclude Include="RendererInterface.h" />
     <ClInclude Include="Resourcemanager.h" />
+    <ClInclude Include="ResourceModel.h" />
+    <ClInclude Include="ResourceTexture.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHeightmap.h" />
     <ClInclude Include="Scenemanager.h" />

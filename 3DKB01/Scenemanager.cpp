@@ -11,8 +11,8 @@ Scenemanager::~Scenemanager(void)
 // Creates a scene
 void Scenemanager::createScene()
 {
-	Scene* scene = new Scene();
-	addScene(scene);
+//	Scene* scene = new Scene();
+//	addScene(scene);
 }
 
 // Adds scene to list
@@ -36,8 +36,8 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 
 void Scenemanager::drawScene(Scene *argScene)
 {
-	argScene->setView(); // set the view   ...(camera)
-	argScene->drawEntities();
+//	argScene->setView(); // set the view   ...(camera)
+//	argScene->drawEntities();
 }
 
 

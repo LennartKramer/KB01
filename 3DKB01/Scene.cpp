@@ -5,6 +5,7 @@ Scene::Scene(std::string argName)
 {
 	name = argName;
 }
+
 Scene::~Scene()
 {
 }
@@ -22,6 +23,6 @@ void Scene::drawEntities()
 		{
 			// get the model and the texture from the entity (the iterator)
 
-			directX.renderEntityModel(); // put the model and texture into the renderer using the renderEntityModel method
+		//	directX.renderEntityModel(); // put the model and texture into the renderer using the renderEntityModel method
 		}
 }

@@ -78,6 +78,7 @@ HRESULT Resourcemanager::loadMaterials(LPDIRECT3DDEVICE9 device)
 			}
 		}
 	}
+
 	// Release material buffer since we don't need it anymore.
 	pD3DXMtrlBuffer->Release();
 
