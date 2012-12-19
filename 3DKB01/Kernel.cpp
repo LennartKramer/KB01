@@ -58,13 +58,21 @@ void Kernel::initialize()
 		sceneHeightmap.getBitmapOffset() ,sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
 	std::cout << "stap4" << std::endl;
 	*/
+	
 	// directX->initGeometry(); - Drawing a landscape instead of a triangle now.
+	
 	/*
 	/ loadMaterials
 	/ Initialize a Material Buffer and a Texture Buffer,
 	/ used to draw to the scene.
-	*/
-	resourcemanager.loadMaterials(directX->getDevice());
+	*/	
+
+	resourcemanager.setDevice(directX->getDevice());
+	resourcemanager.loadMesh("meshes/tiger.x");
+	//resourcemanager.loadMaterials(directX->getDevice());
+
+	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
+	ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 
 	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
 	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
@@ -114,9 +122,16 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
-			directX->render(resourcemanager.getMeshMaterials(), 
-				resourcemanager.getMeshTextures(), resourcemanager.getDwNumMaterials(),
-				resourcemanager.getMesh(), sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
+		
+			/*
+			directX->render(
+				resourcemanager.getMeshMaterials(), 
+				resourcemanager.getMeshTextures(), 
+				resourcemanager.getDwNumMaterials(),
+				resourcemanager.getMesh(), 
+				sceneHeightmap.getBitmapWidth(), 
+				sceneHeightmap.getBitmapHeight());
+				*/
 		}
 	}
 

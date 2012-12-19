@@ -1,11 +1,16 @@
 #include "ResourceTexture.h"
 
 
-ResourceTexture::ResourceTexture(void)
+ResourceTexture::ResourceTexture(LPDIRECT3DTEXTURE9* argTexture)
+{
+	g_pMeshTextures = argTexture;
+}
+
+ResourceTexture::~ResourceTexture()
 {
 }
 
-
-ResourceTexture::~ResourceTexture(void)
+LPDIRECT3DTEXTURE9* ResourceTexture::getMeshTextures()
 {
+	return g_pMeshTextures;
 }

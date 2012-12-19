@@ -16,7 +16,6 @@ public:
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
 	void drawScene(Scene *argScene);
-
 };
 
 #endif

@@ -6,28 +6,32 @@
 #include <strsafe.h>
 #include <mmsystem.h>
 #include <fstream>
+#include <map>
+#include <string>
+
+#include "ResourceModel.h"
+#include "ResourceTexture.h"
 
 class Resourcemanager
 {
 private:
-	LPD3DXBUFFER		pD3DXMtrlBuffer;
-
-	LPD3DXMESH          g_pMesh;
-	D3DMATERIAL9*       g_pMeshMaterials;
-	LPDIRECT3DTEXTURE9* g_pMeshTextures;
-	DWORD               g_dwNumMaterials;
-
-	int imageDimensions;
+	LPDIRECT3DDEVICE9 device;
+	std::map<LPCTSTR, ResourceModel*> resourceModels;
+	std::map<LPCTSTR, ResourceTexture*> resourceTextures;
 public:
-	Resourcemanager(void);
+	Resourcemanager();
 	~Resourcemanager(void);
 
-	LPD3DXMESH getMesh(void);
-	D3DMATERIAL9* getMeshMaterials(void);
-	LPDIRECT3DTEXTURE9* getMeshTextures(void);
-	DWORD getDwNumMaterials(void);
+	void setDevice(LPDIRECT3DDEVICE9);
 
-	HRESULT loadMaterials(LPDIRECT3DDEVICE9 device);
+	HRESULT loadAllMeshes();
+	HRESULT loadMesh(LPCTSTR);
+
+	ResourceModel*		getResourceModel(LPCTSTR);
+	ResourceTexture*	getResourceTexture(LPCTSTR);
+
+
+//	HRESULT loadMaterials(LPDIRECT3DDEVICE9);
 };
 
 #endif __RESOURCEMANAGER_H__
