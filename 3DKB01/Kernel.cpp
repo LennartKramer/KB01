@@ -46,9 +46,9 @@ void Kernel::initialize()
 
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
-	std::cout << "stap1" << std::endl;
+
 	directX->setupMatrices();
-	std::cout << "stap2" << std::endl;
+
 
 	/*
 	directX->initializeIndices(windowmanager.getWindow("window1")->getHandle(), directX->getDevice(),
@@ -125,11 +125,8 @@ void Kernel::programLoop() {
 			ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
 			ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 
-			// NULL is waar eerst materials stond en bij 1 een dnum. (deze comment kan later weg).
-			directX->render(
-				NULL, 
+			directX->render(			
 				resourcetexture->getMeshTextures(), 
-				1,
 				resourcemodel->getMesh(), 
 				sceneHeightmap.getBitmapWidth(), 
 				sceneHeightmap.getBitmapHeight());

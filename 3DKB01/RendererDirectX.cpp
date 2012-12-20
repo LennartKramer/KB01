@@ -33,6 +33,9 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	d3dpp.Windowed = TRUE;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	d3dpp.BackBufferWidth = 1920;
+	d3dpp.BackBufferHeight = 1080;
+	
 
 	if(FAILED(g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &g_pd3dDevice)))
@@ -42,7 +45,7 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 
 	g_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
 
 	return S_OK;
 };
@@ -225,6 +228,7 @@ void RendererDirectX::setupMatrices(void)
 
 	UINT iTime = timeGetTime() / 5;
 	FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 4000.0f;
+	D3DXMatrixTranslation(&matWorld, 0.0f , 0.0f , 0.0f);
 	D3DXMatrixRotationY(&matWorld, fAngle);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -244,8 +248,8 @@ void RendererDirectX::setupMatrices(void)
 / Clear the backbuffer to a black color and then draw the scene.
 / Present the backbuffer contents to the display(backbuffer -> frontbuffer).
 */
-void RendererDirectX::render(D3DMATERIAL9* g_pMeshMaterials, LPDIRECT3DTEXTURE9* g_pMeshTextures,
-	DWORD g_dwNumMaterials, LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight)
+void RendererDirectX::render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
+	 LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight)
 {
 	g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(5, 5, 5),
 		1.0f, 0);
@@ -264,14 +268,10 @@ void RendererDirectX::render(D3DMATERIAL9* g_pMeshMaterials, LPDIRECT3DTEXTURE9*
 		/*	
 		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
 		*/
-		for(DWORD i = 0; i < g_dwNumMaterials; i++)
-		{
-//			g_pd3dDevice->SetMaterial(&g_pMeshMaterials[i]);
-			g_pd3dDevice->SetTexture(0, g_pMeshTextures[i]);
 
-			g_pMesh->DrawSubset(i);
-		}
-
+		g_pd3dDevice->SetTexture(0, (*g_pMeshTextures));
+		g_pMesh->DrawSubset(0);
+		setupMatrices();
 		g_pd3dDevice->EndScene();
 	}
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);

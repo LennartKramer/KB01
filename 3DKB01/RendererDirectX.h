@@ -20,8 +20,8 @@ public:
 
 	void cleanUp(void);
 	void setupMatrices(void);
-	void render(D3DMATERIAL9* g_pMeshMaterials, LPDIRECT3DTEXTURE9* g_pMeshTextures,
-		DWORD g_dwNumMaterials, LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight);
+	void render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
+		LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight);
 	LPDIRECT3DDEVICE9 getDevice(void);
 	void initializeVertices(HWND hWnd, LPDIRECT3DDEVICE9 g_pd3dDevice,
 		int bmpOffset, int bmpWidth, int bmpHeight);
