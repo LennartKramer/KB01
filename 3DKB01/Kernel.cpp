@@ -122,16 +122,18 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
-		
-			/*
+			ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
+			ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+
+			// NULL is waar eerst materials stond en bij 1 een dnum. (deze comment kan later weg).
 			directX->render(
-				resourcemanager.getMeshMaterials(), 
-				resourcemanager.getMeshTextures(), 
-				resourcemanager.getDwNumMaterials(),
-				resourcemanager.getMesh(), 
+				NULL, 
+				resourcetexture->getMeshTextures(), 
+				1,
+				resourcemodel->getMesh(), 
 				sceneHeightmap.getBitmapWidth(), 
 				sceneHeightmap.getBitmapHeight());
-				*/
+				
 		}
 	}
 

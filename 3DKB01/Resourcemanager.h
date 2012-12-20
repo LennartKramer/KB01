@@ -16,8 +16,8 @@ class Resourcemanager
 {
 private:
 	LPDIRECT3DDEVICE9 device;
-	std::map<LPCTSTR, ResourceModel*> resourceModels;
-	std::map<LPCTSTR, ResourceTexture*> resourceTextures;
+	std::map<std::string, ResourceModel*> resourceModels;
+	std::map<std::string, ResourceTexture*> resourceTextures;
 public:
 	Resourcemanager();
 	~Resourcemanager(void);
@@ -25,10 +25,10 @@ public:
 	void setDevice(LPDIRECT3DDEVICE9);
 
 	HRESULT loadAllMeshes();
-	HRESULT loadMesh(LPCTSTR);
+	HRESULT loadMesh(std::string);
 
-	ResourceModel*		getResourceModel(LPCTSTR);
-	ResourceTexture*	getResourceTexture(LPCTSTR);
+	ResourceModel*		getResourceModel(std::string);
+	ResourceTexture*	getResourceTexture(std::string);
 
 
 //	HRESULT loadMaterials(LPDIRECT3DDEVICE9);

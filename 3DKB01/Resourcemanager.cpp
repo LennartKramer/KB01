@@ -28,15 +28,17 @@ HRESULT Resourcemanager::loadAllMeshes()
 }
 
 
-HRESULT Resourcemanager::loadMesh(LPCTSTR argMeshFile)
+HRESULT Resourcemanager::loadMesh(std::string argMeshFile)
 {
 	LPD3DXBUFFER		pD3DXMtrlBuffer = NULL;
 	LPDIRECT3DTEXTURE9*	g_pMeshTextures = NULL;
 	LPD3DXMESH			g_pMesh = NULL;
 	D3DMATERIAL9*		g_pMeshMaterials = NULL;
 	DWORD				g_dwNumMaterials = NULL;
-
-	if(FAILED(D3DXLoadMeshFromX(argMeshFile, D3DXMESH_SYSTEMMEM, 
+	
+	LPCSTR argMeshFile_LPCSTR = argMeshFile.c_str();
+	
+	if(FAILED(D3DXLoadMeshFromX(argMeshFile_LPCSTR, D3DXMESH_SYSTEMMEM, 
 		device, NULL, &pD3DXMtrlBuffer, NULL, &g_dwNumMaterials,
 		&g_pMesh)))
 	{
@@ -44,14 +46,13 @@ HRESULT Resourcemanager::loadMesh(LPCTSTR argMeshFile)
 		return E_FAIL;
 	}
 
-	ResourceModel* resourceModel = new ResourceModel(&g_pMesh);
-	resourceModels.insert(std::pair<LPCTSTR, ResourceModel*>(argMeshFile, resourceModel));
+	ResourceModel* resourceModel = new ResourceModel(g_pMesh);
+	resourceModels.insert(std::pair<std::string, ResourceModel*>(argMeshFile, resourceModel));
 
 	D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*) pD3DXMtrlBuffer->GetBufferPointer();
 	g_pMeshMaterials = new D3DMATERIAL9[g_dwNumMaterials];
 	g_pMeshTextures = new LPDIRECT3DTEXTURE9[g_dwNumMaterials];
 
-	
 	for(DWORD i = 0; i < g_dwNumMaterials; i++)
 	{
 		g_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
@@ -64,35 +65,30 @@ HRESULT Resourcemanager::loadMesh(LPCTSTR argMeshFile)
 
 		ResourceTexture* resourceTexture = new ResourceTexture(&g_pMeshTextures[i]);
 
-		resourceTextures.insert(std::pair<LPCTSTR, ResourceTexture*>(d3dxMaterials[i].pTextureFilename, resourceTexture));
+		resourceTextures.insert(std::pair<std::string, ResourceTexture*>(d3dxMaterials[i].pTextureFilename, resourceTexture));
 
 	}
 }
 
-ResourceModel*		Resourcemanager::getResourceModel(LPCTSTR argString)
+ResourceModel*		Resourcemanager::getResourceModel(std::string argString)
 {
-	std::map<LPCTSTR, ResourceModel*>::iterator Iterator;
+	std::map<std::string, ResourceModel*>::iterator Iterator;
 	for(Iterator = resourceModels.begin(); Iterator != resourceModels.end(); ++Iterator) 
 	{
-		if (Iterator->first == argString)
+		if (Iterator->first.compare(argString) == 0 )
 		{
 			return Iterator->second;
 		}
 	}
 }
 
-ResourceTexture*	Resourcemanager::getResourceTexture(LPCTSTR argString)
+ResourceTexture*	Resourcemanager::getResourceTexture(std::string argString)
 {
-	std::map<LPCTSTR, ResourceTexture*>::iterator Iterator;
+	std::map<std::string, ResourceTexture*>::iterator Iterator;
 	for(Iterator = resourceTextures.begin(); Iterator != resourceTextures.end(); ++Iterator) 
 	{
-		std::cout << argString << std::endl;
-		
-		std::cout << Iterator->first;
-
-		if (Iterator->first == argString)
+		if (Iterator->first.compare(argString) == 0 )
 		{
-			std::cout << Iterator->second;
 			return Iterator->second;
 		}
 	}

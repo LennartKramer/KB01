@@ -266,7 +266,7 @@ void RendererDirectX::render(D3DMATERIAL9* g_pMeshMaterials, LPDIRECT3DTEXTURE9*
 		*/
 		for(DWORD i = 0; i < g_dwNumMaterials; i++)
 		{
-			g_pd3dDevice->SetMaterial(&g_pMeshMaterials[i]);
+//			g_pd3dDevice->SetMaterial(&g_pMeshMaterials[i]);
 			g_pd3dDevice->SetTexture(0, g_pMeshTextures[i]);
 
 			g_pMesh->DrawSubset(i);
