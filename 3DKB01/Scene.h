@@ -16,19 +16,17 @@ class Scene
 private:
 	std::string name;
 	std::list<EntityModel*> entityModelList;
-	EntityCamera entityCamera;
-	RendererDirectX directX;
+	EntityCamera* entityCamera;
+	RendererDirectX* directX;
 public:
-	Scene(void);
-	Scene(std::string argName);
-	~Scene(void);
 
-	void setDirectX(RendererDirectX argDirectX) { directX = argDirectX; }
+	Scene(std::string argName, RendererDirectX*);
+	~Scene(void);
 
 	std::string getName();
 
-	void addEntityModel(D3DXVECTOR3 position , D3DXVECTOR3 orientation, ResourceModel model, ResourceTexture texture); 
-	void addEntityCamera(D3DXVECTOR3 position, D3DXVECTOR3 direction, D3DXVECTOR3 up);
+	void addEntityModel(D3DXVECTOR3, D3DXVECTOR3, ResourceModel*, ResourceTexture*); 
+	void addEntityCamera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
 
 
 	void drawEntities(); // draw all the entities in the scene

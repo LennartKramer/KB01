@@ -5,7 +5,7 @@
 #include <iostream>
 
 class RendererDirectX 
-	// : public RendererInterface
+	//: public RendererInterface
 {
 public:
 	RendererDirectX(void);
@@ -19,14 +19,22 @@ public:
 		LPWSTR, int);
 
 	void cleanUp(void);
-	void setupMatrices(void);
+	void setupMatrices(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
+	void setupWorldMatrix(D3DXVECTOR3, D3DXVECTOR3);
+
+	void beginScene();
+	void endScene();
+
 	void render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
 		LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight);
+
 	LPDIRECT3DDEVICE9 getDevice(void);
+
 	void initializeVertices(HWND hWnd, LPDIRECT3DDEVICE9 g_pd3dDevice,
 		int bmpOffset, int bmpWidth, int bmpHeight);
 	void initializeIndices(HWND hWnd, LPDIRECT3DDEVICE9 g_pd3dDevice,
 		int bmpWidth, int bmpHeight);
+
 private:
 	LPDIRECT3D9             g_pD3D;
 	LPDIRECT3DDEVICE9       g_pd3dDevice;

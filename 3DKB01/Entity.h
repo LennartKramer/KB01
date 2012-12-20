@@ -9,8 +9,9 @@ class Entity
 public:
 	Entity(void);
 	~Entity(void);
-private:
-	float x, y, z;
+	D3DXVECTOR3 getPosition();
+protected:
+	D3DXVECTOR3 position; //position (translation) of the entity
 };
 
 #endif

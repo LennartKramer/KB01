@@ -14,6 +14,7 @@ void programLoop();
 int main() {
 	Kernel kernel;
 	kernel.initialize();
+	kernel.createSingleScene();
 	kernel.programLoop();
 	kernel.cleanup();
 	return 0;

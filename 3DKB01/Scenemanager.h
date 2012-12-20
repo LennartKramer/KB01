@@ -12,7 +12,7 @@ private:
 public:
 	Scenemanager(void);
 	~Scenemanager(void);
-	void createScene();
+	void createScene(std::string, RendererDirectX*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
 	void drawScene(Scene *argScene);

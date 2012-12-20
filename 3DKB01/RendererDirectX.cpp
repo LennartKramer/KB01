@@ -222,27 +222,34 @@ void RendererDirectX::cleanUp(void)
 / After the view matrix is set up and defined by giving it and eye point,
 / from where it is being looked at. At last a perspective transform is set up.
 */
-void RendererDirectX::setupMatrices(void)
+void RendererDirectX::setupMatrices(D3DXVECTOR3 argPosition, D3DXVECTOR3 argDirection, D3DXVECTOR3 argUp)
 {
 	D3DXMATRIXA16 matWorld;
 
-	UINT iTime = timeGetTime() / 5;
-	FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 4000.0f;
+	//UINT iTime = timeGetTime() / 5;
+	//FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 4000.0f;
 	D3DXMatrixTranslation(&matWorld, 0.0f , 0.0f , 0.0f);
-	D3DXMatrixRotationY(&matWorld, fAngle);
+	//D3DXMatrixRotationY(&matWorld, fAngle);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	D3DXVECTOR3 vEyePt(0.0f, 8.0f, 12.0f);
-	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+	//D3DXVECTOR3 vEyePt(0.0f, 8.0f, 12.0f);
+	//D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
+	//D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMATRIXA16 matView;
-	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
+	D3DXMatrixLookAtLH(&matView, &argPosition, &argDirection, &argUp);
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
-	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj);
-};
+	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
+}
+
+void RendererDirectX::setupWorldMatrix(D3DXVECTOR3 position, D3DXVECTOR3 orientation)
+{
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixTranslation(&matWorld, position.x, position.y, position.z);
+	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+}
 
 /*
 / Clear the backbuffer to a black color and then draw the scene.
@@ -251,11 +258,6 @@ void RendererDirectX::setupMatrices(void)
 void RendererDirectX::render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
 	 LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight)
 {
-	g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(5, 5, 5),
-		1.0f, 0);
-
-	if(SUCCEEDED(g_pd3dDevice->BeginScene()))
-	{
 		/*
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(vertex_Vertices));
 		g_pd3dDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
@@ -271,11 +273,21 @@ void RendererDirectX::render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
 
 		g_pd3dDevice->SetTexture(0, (*g_pMeshTextures));
 		g_pMesh->DrawSubset(0);
-		setupMatrices();
-		g_pd3dDevice->EndScene();
-	}
-	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
 };
+
+void RendererDirectX::beginScene()
+{
+	g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(5, 5, 5),
+		1.0f, 0);
+
+	g_pd3dDevice->BeginScene();
+}
+
+void RendererDirectX::endScene()
+{
+	g_pd3dDevice->EndScene();
+	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+}
 
 LPDIRECT3DDEVICE9 RendererDirectX::getDevice(void) {
 	return g_pd3dDevice;

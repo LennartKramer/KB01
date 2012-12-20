@@ -47,8 +47,6 @@ void Kernel::initialize()
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
 
-	directX->setupMatrices();
-
 
 	/*
 	directX->initializeIndices(windowmanager.getWindow("window1")->getHandle(), directX->getDevice(),
@@ -71,8 +69,8 @@ void Kernel::initialize()
 	resourcemanager.loadMesh("meshes/tiger.x");
 	//resourcemanager.loadMaterials(directX->getDevice());
 
-	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
-	ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+	//ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
+	//ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 
 	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
 	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
@@ -80,18 +78,38 @@ void Kernel::initialize()
 
 void Kernel::createSingleScene()
 {
-//	scenemanager.createScene();
-//	addRendererToScene();
-//	scenemanager.getScene("scene1")->addEntityModel();
-//	scenemanager.getScene("scene1")->addEntityCamera();
+	scenemanager.createScene("scene1", directX);
+
+	D3DXVECTOR3 modelPosition = D3DXVECTOR3(0.0, 0.0, 0.0);
+	D3DXVECTOR3 modelOrientation = D3DXVECTOR3(0.0, 0.0, 0.0);
+
+	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
+	ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+
+	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
+
+	modelPosition = D3DXVECTOR3(-2.0, 0.0, 0.0);
+	modelOrientation = D3DXVECTOR3(100.0, 0.0, 50.0);
+
+	resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
+	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+
+	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
+
+	D3DXVECTOR3 cameraPosition = D3DXVECTOR3(0.0, 5.0, -8.0);
+	D3DXVECTOR3 cameraDirection = D3DXVECTOR3(0.0, 0.0, 0.0);
+	D3DXVECTOR3 cameraUp = D3DXVECTOR3(0.0, 1.0, 0.0);
+
+	
+	scenemanager.getScene("scene1")->addEntityCamera(cameraPosition, cameraDirection, cameraUp);
 }
 
 
-void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
-{
-	windowSceneBind[argWindow] = argScene;
+//void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
+//{
+	//windowSceneBind[argWindow] = argScene;
 	//windowSceneBind.insert(std::pair<eWindow*, Scene*>(argWindow, argScene));
-}
+//}
 
 // -------------------------------------------------
 /* programLoop */
@@ -122,6 +140,7 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
+			/*
 			ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
 			ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 
@@ -130,7 +149,10 @@ void Kernel::programLoop() {
 				resourcemodel->getMesh(), 
 				sceneHeightmap.getBitmapWidth(), 
 				sceneHeightmap.getBitmapHeight());
-				
+			*/	
+			directX->beginScene();
+			scenemanager.drawScene(scenemanager.getScene("scene1"));
+			directX->endScene();
 		}
 	}
 
