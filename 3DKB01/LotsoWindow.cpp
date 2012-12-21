@@ -27,7 +27,7 @@ LotsoWindow::LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, in
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 
 	// HRBUSH hbrBackground - The background colour.
-	windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);;
+	windowClass.hbrBackground = NULL;
 
 	// LPCTSTR lpszMenuName - The menu resource to use.
 	windowClass.lpszMenuName = NULL;

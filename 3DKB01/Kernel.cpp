@@ -80,7 +80,7 @@ void Kernel::createSingleScene()
 {
 	scenemanager.createScene("scene1", directX);
 
-	D3DXVECTOR3 modelPosition = D3DXVECTOR3(0.0, 0.0, 0.0);
+	D3DXVECTOR3 modelPosition = D3DXVECTOR3(2.0, 0.0, 0.0);
 	D3DXVECTOR3 modelOrientation = D3DXVECTOR3(0.0, 0.0, 0.0);
 
 	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
@@ -89,7 +89,7 @@ void Kernel::createSingleScene()
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
 	modelPosition = D3DXVECTOR3(-2.0, 0.0, 0.0);
-	modelOrientation = D3DXVECTOR3(100.0, 0.0, 50.0);
+	modelOrientation = D3DXVECTOR3(0.0, D3DX_PI/2, 0.0);
 
 	resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
 	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");

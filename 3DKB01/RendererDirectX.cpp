@@ -35,6 +35,8 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 	d3dpp.BackBufferWidth = 1920;
 	d3dpp.BackBufferHeight = 1080;
+	d3dpp.EnableAutoDepthStencil = true;
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	
 
 	if(FAILED(g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
@@ -224,13 +226,13 @@ void RendererDirectX::cleanUp(void)
 */
 void RendererDirectX::setupMatrices(D3DXVECTOR3 argPosition, D3DXVECTOR3 argDirection, D3DXVECTOR3 argUp)
 {
-	D3DXMATRIXA16 matWorld;
+	//D3DXMATRIXA16 matWorld;
 
 	//UINT iTime = timeGetTime() / 5;
 	//FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 4000.0f;
-	D3DXMatrixTranslation(&matWorld, 0.0f , 0.0f , 0.0f);
+	//D3DXMatrixTranslation(&matWorld, 0.0f , 0.0f , 0.0f);
 	//D3DXMatrixRotationY(&matWorld, fAngle);
-	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	//g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	//D3DXVECTOR3 vEyePt(0.0f, 8.0f, 12.0f);
 	//D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
@@ -247,7 +249,11 @@ void RendererDirectX::setupMatrices(D3DXVECTOR3 argPosition, D3DXVECTOR3 argDire
 void RendererDirectX::setupWorldMatrix(D3DXVECTOR3 position, D3DXVECTOR3 orientation)
 {
 	D3DXMATRIXA16 matWorld;
-	D3DXMatrixTranslation(&matWorld, position.x, position.y, position.z);
+	D3DXMATRIXA16 matTranslation;
+	D3DXMATRIXA16 matOrientation;
+	D3DXMatrixRotationY(&matOrientation, orientation.y);
+	D3DXMatrixTranslation(&matTranslation, position.x, position.y, position.z);
+	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 }
 
@@ -277,7 +283,7 @@ void RendererDirectX::render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
 
 void RendererDirectX::beginScene()
 {
-	g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(5, 5, 5),
+	g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(122, 50, 202),
 		1.0f, 0);
 
 	g_pd3dDevice->BeginScene();
