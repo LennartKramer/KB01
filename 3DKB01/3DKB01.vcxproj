@@ -29,6 +29,7 @@
     <ClCompile Include="SceneHeightmap.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
     <ClCompile Include="LotsoWindow.cpp" />
+    <ClCompile Include="SceneSkybox.cpp" />
     <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +51,7 @@
     <ClInclude Include="SceneHeightmap.h" />
     <ClInclude Include="Scenemanager.h" />
     <ClInclude Include="LotsoWindow.h" />
+    <ClInclude Include="SceneSkybox.h" />
     <ClInclude Include="Windowmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

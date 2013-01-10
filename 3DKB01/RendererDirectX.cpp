@@ -281,19 +281,7 @@ void RendererDirectX::render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
 		g_pMesh->DrawSubset(0);
 };
 
-void RendererDirectX::beginScene()
-{
-	g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(122, 50, 202),
-		1.0f, 0);
 
-	g_pd3dDevice->BeginScene();
-}
-
-void RendererDirectX::endScene()
-{
-	g_pd3dDevice->EndScene();
-	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
-}
 
 LPDIRECT3DDEVICE9 RendererDirectX::getDevice(void) {
 	return g_pd3dDevice;

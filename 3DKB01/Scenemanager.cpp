@@ -37,7 +37,7 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 void Scenemanager::drawScene(Scene *argScene)
 {
 	argScene->setView(); // set the view   ...(camera)
-	argScene->drawEntities();
+	argScene->renderScene();
 }
 
 

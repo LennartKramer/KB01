@@ -22,9 +22,6 @@ public:
 	void setupMatrices(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
 	void setupWorldMatrix(D3DXVECTOR3, D3DXVECTOR3);
 
-	void beginScene();
-	void endScene();
-
 	void render(LPDIRECT3DTEXTURE9* g_pMeshTextures,
 		LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight);
 

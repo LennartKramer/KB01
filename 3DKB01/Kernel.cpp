@@ -150,9 +150,7 @@ void Kernel::programLoop() {
 				sceneHeightmap.getBitmapWidth(), 
 				sceneHeightmap.getBitmapHeight());
 			*/	
-			directX->beginScene();
 			scenemanager.drawScene(scenemanager.getScene("scene1"));
-			directX->endScene();
 		}
 	}
 

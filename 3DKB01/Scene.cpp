@@ -5,6 +5,7 @@ Scene::Scene(std::string argName, RendererDirectX* argDirectX)
 {
 	name = argName;
 	directX = argDirectX;
+	createSkybox();
 }
 
 Scene::~Scene()
@@ -31,6 +32,28 @@ void Scene::setView()
 {
 	directX->setupMatrices(entityCamera->getPosition(), entityCamera->getDirection(), entityCamera->getUp());
 }
+
+void Scene::createSkybox()
+{
+	skybox = new SceneSkybox(directX);
+}
+
+void Scene::renderScene()
+{
+    // Clear the backbuffer to a purple color
+	directX->getDevice()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB( 122, 50, 202 ), 1.0f, 0 );
+	directX->getDevice()->BeginScene();
+
+	
+	drawEntities();
+	skybox->Render();
+	
+	directX->getDevice()->EndScene();
+	directX->getDevice()->Present(NULL, NULL, NULL, NULL);
+}
+
+
+
 
 void Scene::drawEntities()
 {
