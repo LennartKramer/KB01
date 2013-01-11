@@ -14,9 +14,9 @@ Resourcemanager::~Resourcemanager(void)
 	LoadAllMeshes will be used at initialization and use the loadmesh method
 */
 
-void Resourcemanager::setDevice(LPDIRECT3DDEVICE9 argDevice)
+void Resourcemanager::setDevice(void* argDevice)
 {
-	device = argDevice;
+	device = (LPDIRECT3DDEVICE9)argDevice;
 }
 
 	

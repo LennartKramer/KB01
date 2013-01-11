@@ -8,7 +8,7 @@ SceneSkybox::SceneSkybox()
 }
 
 
-SceneSkybox::SceneSkybox(RendererDirectX* argRendererDirectX)
+SceneSkybox::SceneSkybox(RendererInterface* argRendererDirectX)
 {
 	directX = argRendererDirectX;
 	initialize();
@@ -28,15 +28,19 @@ void SceneSkybox::initialize()
 
 	InitVB();
 
-	directX->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	directX->getDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
-	directX->getDevice()->SetRenderState(D3DRS_ZENABLE, TRUE );
+	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) directX->getDevice();
+
+	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	device->SetRenderState(D3DRS_ZENABLE, TRUE );
 
 }
 
 HRESULT SceneSkybox::InitVB()
 {
-    // Initialize three vertices for rendering a triangle
+   LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) directX->getDevice();
+	
+	// Initialize three vertices for rendering a triangle
     CUSTOMVERTEX vertices[] =
     {
         { 1.0f, 33.0f, 0.0f,  0xffff0000, }, // x, y, z , color
@@ -47,9 +51,7 @@ HRESULT SceneSkybox::InitVB()
     // Create the vertex buffer. Here we are allocating enough memory
     // (from the default pool) to hold all our 3 custom vertices. We also
     // specify the FVF, so the vertex buffer knows what data it contains.
-	if( FAILED( directX->getDevice()->CreateVertexBuffer( 3 * sizeof( CUSTOMVERTEX ),
-                                                  0, D3DFVF_CUSTOMVERTEX,
-                                                  D3DPOOL_DEFAULT, &g_pVB, NULL ) ) )
+	if( FAILED( device->CreateVertexBuffer( 3 * sizeof( CUSTOMVERTEX ),0, D3DFVF_CUSTOMVERTEX,D3DPOOL_DEFAULT, &g_pVB, NULL ) ) )
     {
         return E_FAIL;
     }
@@ -77,9 +79,10 @@ VOID SceneSkybox::Render()
         // just the FVF, so that D3D knows what type of vertices we are dealing
         // with. Finally, we call DrawPrimitive() which does the actual rendering
         // of our geometry (in this case, just one triangle).
-	directX->getDevice()->SetStreamSource(0, g_pVB, 0, sizeof( CUSTOMVERTEX ) );
-	directX->getDevice()->SetFVF( D3DFVF_CUSTOMVERTEX );
-	directX->getDevice()->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 1 );
+	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) directX->getDevice();
+	device->SetStreamSource(0, g_pVB, 0, sizeof( CUSTOMVERTEX ) );
+	device->SetFVF( D3DFVF_CUSTOMVERTEX );
+	device->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 1 );
 
 }
 

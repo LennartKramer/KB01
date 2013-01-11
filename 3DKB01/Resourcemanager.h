@@ -22,7 +22,7 @@ public:
 	Resourcemanager();
 	~Resourcemanager(void);
 
-	void setDevice(LPDIRECT3DDEVICE9);
+	void setDevice(void*);
 
 	HRESULT loadAllMeshes();
 	HRESULT loadMesh(std::string);

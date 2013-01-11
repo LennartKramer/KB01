@@ -96,9 +96,6 @@
     <ClCompile Include="SceneHeightmap.cpp">
       <Filter>Source Files\Scene\Subclasses</Filter>
     </ClCompile>
-    <ClCompile Include="RendererInterface.cpp">
-      <Filter>Source Files\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
@@ -184,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="SceneSkybox.h">
       <Filter>Header Files\Scene\Subclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

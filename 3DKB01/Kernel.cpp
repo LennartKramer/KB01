@@ -80,25 +80,25 @@ void Kernel::createSingleScene()
 {
 	scenemanager.createScene("scene1", directX);
 
-	D3DXVECTOR3 modelPosition = D3DXVECTOR3(2.0, 0.0, 0.0);
-	D3DXVECTOR3 modelOrientation = D3DXVECTOR3(0.0, 0.0, 0.0);
+	Vector modelPosition = Vector(2.0, 0.0, 0.0);
+	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
 
 	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
 	ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	modelPosition = D3DXVECTOR3(-2.0, 0.0, 0.0);
-	modelOrientation = D3DXVECTOR3(0.0, D3DX_PI/2, 0.0);
+	modelPosition = Vector(-2.0, 0.0, 0.0);
+	modelOrientation = Vector(0.0, D3DX_PI/2, 0.0);
 
 	resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
 	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	D3DXVECTOR3 cameraPosition = D3DXVECTOR3(0.0, 5.0, -8.0);
-	D3DXVECTOR3 cameraDirection = D3DXVECTOR3(0.0, 0.0, 0.0);
-	D3DXVECTOR3 cameraUp = D3DXVECTOR3(0.0, 1.0, 0.0);
+	Vector cameraPosition = Vector(0.0, 5.0, -8.0);
+	Vector cameraDirection = Vector(0.0, 0.0, 0.0);
+	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 
 	
 	scenemanager.getScene("scene1")->addEntityCamera(cameraPosition, cameraDirection, cameraUp);
@@ -123,7 +123,7 @@ void Kernel::programLoop() {
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
 		//Reading input from keyboard and mouse.
-		inputmanager.getKeyboard()->ReadKeyboard();
+		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
 		inputmanager.getMouse()->ReadMouse();
 
 		//Exit program when escape is pushed.
@@ -131,6 +131,8 @@ void Kernel::programLoop() {
 		{
 			msg.message = WM_QUIT;
 		}
+
+
 
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -150,7 +152,9 @@ void Kernel::programLoop() {
 				sceneHeightmap.getBitmapWidth(), 
 				sceneHeightmap.getBitmapHeight());
 			*/	
+
 			scenemanager.drawScene(scenemanager.getScene("scene1"));
+
 		}
 	}
 
@@ -176,7 +180,7 @@ void Kernel::cleanup()
 	windowmanager.cleanup();
 }
 
-RendererDirectX* Kernel::getDirectX(void)
+RendererInterface* Kernel::getDirectX(void)
 {
 	return directX;
 };

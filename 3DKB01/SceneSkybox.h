@@ -11,13 +11,13 @@ class SceneSkybox
 public:
 
 	SceneSkybox();
-	SceneSkybox(RendererDirectX*);
+	SceneSkybox(RendererInterface*);
 	~SceneSkybox(void);
 	void initialize();
 	HRESULT InitVB();
 	void Render();
 
-	RendererDirectX* directX;
+	RendererInterface* directX;
 	LPDIRECT3D9             g_pD3D; // Used to create the D3DDevice
 	LPDIRECT3DVERTEXBUFFER9 g_pVB; // Buffer to hold vertices
 

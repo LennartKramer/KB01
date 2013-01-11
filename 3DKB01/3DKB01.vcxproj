@@ -21,7 +21,6 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="RendererDirectX.cpp" />
-    <ClCompile Include="RendererInterface.cpp" />
     <ClCompile Include="Resourcemanager.cpp" />
     <ClCompile Include="ResourceModel.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
@@ -52,6 +51,7 @@
     <ClInclude Include="Scenemanager.h" />
     <ClInclude Include="LotsoWindow.h" />
     <ClInclude Include="SceneSkybox.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="Windowmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

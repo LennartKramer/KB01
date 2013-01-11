@@ -6,14 +6,14 @@
 class EntityCamera : Entity
 {
 public:
-	EntityCamera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
+	EntityCamera(Vector, Vector, Vector);
 	~EntityCamera(void);
-	D3DXVECTOR3 getDirection(); 
-	D3DXVECTOR3 getUp();
-	D3DXVECTOR3 getPosition();
+	Vector getDirection(); 
+	Vector getUp();
+	Vector getPosition();
 private:
-	D3DXVECTOR3 direction;	// the direction the camera is looking at
-	D3DXVECTOR3 up;   // wich direction is up?
+	Vector direction;	// the direction the camera is looking at
+	Vector up;   // wich direction is up?
 };
 
 #endif

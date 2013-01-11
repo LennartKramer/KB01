@@ -1,7 +1,7 @@
 #include "EntityCamera.h"
 
 
-EntityCamera::EntityCamera(D3DXVECTOR3 argPosition, D3DXVECTOR3 argDirection, D3DXVECTOR3 argUp)
+EntityCamera::EntityCamera(Vector argPosition, Vector argDirection, Vector argUp)
 {
 	position = argPosition;
 	direction = argDirection;
@@ -9,12 +9,12 @@ EntityCamera::EntityCamera(D3DXVECTOR3 argPosition, D3DXVECTOR3 argDirection, D3
 }
 
 
-D3DXVECTOR3 EntityCamera::getDirection()
+Vector EntityCamera::getDirection()
 {
 	return direction;
 }
 
-D3DXVECTOR3 EntityCamera::getUp()
+Vector EntityCamera::getUp()
 {
 	return up;
 }
@@ -23,7 +23,7 @@ EntityCamera::~EntityCamera(void)
 {
 }
 
-D3DXVECTOR3 EntityCamera::getPosition()
+Vector EntityCamera::getPosition()
 {
 	return position;
 }

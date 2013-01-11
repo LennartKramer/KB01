@@ -15,7 +15,7 @@ class Kernel
 {
 private:
 	std::map<LotsoWindow*, Scene*> windowSceneBind;
-	RendererDirectX* directX;
+	RendererInterface* directX;
 	Windowmanager windowmanager;
 	Scenemanager scenemanager;
 	Resourcemanager resourcemanager;
@@ -34,7 +34,7 @@ public:
 	void createSingleScene();
 	//void bindWindowScene(LotsoWindow* argWindow, Scene* argScene);
 	void cleanup();
-	RendererDirectX* getDirectX(void);
+	RendererInterface* getDirectX(void);
 };
 
 #endif

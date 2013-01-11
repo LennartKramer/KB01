@@ -3,15 +3,16 @@
 
 #include "ResourceModel.h"
 #include "ResourceTexture.h"
+#include "RendererInterface.h"
 
 class Entity
 {
 public:
 	Entity(void);
 	~Entity(void);
-	D3DXVECTOR3 getPosition();
+	Vector getPosition();
 protected:
-	D3DXVECTOR3 position; //position (translation) of the entity
+	Vector position; //position (translation) of the entity
 };
 
 #endif

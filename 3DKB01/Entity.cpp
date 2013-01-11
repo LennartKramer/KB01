@@ -10,7 +10,7 @@ Entity::~Entity(void)
 {
 }
 
-D3DXVECTOR3 Entity::getPosition()
+Vector Entity::getPosition()
 {
 	return position;
 }

@@ -9,7 +9,7 @@ Scenemanager::~Scenemanager(void)
 }
 
 // Creates a scene
-void Scenemanager::createScene(std::string argName, RendererDirectX* argDirectX)
+void Scenemanager::createScene(std::string argName, RendererInterface* argDirectX)
 {
 	Scene* scene = new Scene(argName, argDirectX);
 	addScene(scene);
@@ -32,6 +32,7 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 			return (*Iterator);
 		}
 	}
+	return NULL;
 }
 
 void Scenemanager::drawScene(Scene *argScene)

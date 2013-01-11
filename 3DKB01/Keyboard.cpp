@@ -105,6 +105,12 @@ void Keyboard::SaveReleaseDevice()
 	{
 		std::cout << "Delete Button Pressed.";
 	}
+
+	if (chr_KeybState[DIK_UP]/128)
+	{
+		return 2;
+	}
+
 	 return 1;
  }
 

@@ -18,17 +18,17 @@ private:
 	std::string name;
 	std::list<EntityModel*> entityModelList;
 	EntityCamera* entityCamera;
-	RendererDirectX* directX;
+	RendererInterface* directX;
 	SceneSkybox* skybox;
 public:
 
-	Scene(std::string argName, RendererDirectX*);
+	Scene(std::string argName, RendererInterface*);
 	~Scene(void);
 
 	std::string getName();
 
-	void addEntityModel(D3DXVECTOR3, D3DXVECTOR3, ResourceModel*, ResourceTexture*); 
-	void addEntityCamera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
+	void addEntityModel(Vector, Vector, ResourceModel*, ResourceTexture*); 
+	void addEntityCamera(Vector, Vector, Vector);
 
 	void createSkybox();
 	void renderScene();
