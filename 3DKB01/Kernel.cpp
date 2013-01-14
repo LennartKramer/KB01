@@ -35,7 +35,7 @@ void Kernel::initialize()
 	/ height of the bitmap file and store them into the SceneHeightmap
 	/ class.
 	*/
-	char* bitmap = "heightmap.bmp";
+	LPCTSTR bitmap = "heightmap.bmp";
 	sceneHeightmap.initializeDimensions(bitmap, windowmanager.getWindow("window1")->getHandle());
 	/*
 	/ Create a Renderer from DirectX

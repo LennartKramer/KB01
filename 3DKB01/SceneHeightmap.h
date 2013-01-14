@@ -29,7 +29,7 @@ public:
 	void divideHeightMap(void);
 	void shutdownHeightMap(void);
 
-	bool initializeDimensions(const char* fileName, HWND hWnd);
+	bool initializeDimensions(LPCTSTR fileName, HWND hWnd);
 	int getBitmapWidth(void);
 	int getBitmapHeight(void);
 	HeightMapType* getHeightMapData(void);
