@@ -13,6 +13,7 @@ Kernel::Kernel(void)
 	sceneHeightmap = SceneHeightmap();
 	terFront = 0;
 	terSide = 0;
+	terUp = 0;
 }
 
 
@@ -101,7 +102,7 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	Vector cameraPosition = Vector(0.0, 5.0, -8.0);
+	Vector cameraPosition = Vector(0.0, 30.0, -30.0);
 	Vector cameraDirection = Vector(0.0, 0.0, 0.0);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 
@@ -157,6 +158,15 @@ void Kernel::programLoop() {
 			terSide += 1;
 		}
 
+		if(keyboardinput == 7)
+		{
+			terUp -= 1;
+		}
+
+		if(keyboardinput == 8)
+		{
+			terUp += 1;
+		}
 
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -177,7 +187,7 @@ void Kernel::programLoop() {
 				sceneHeightmap.getBitmapHeight());
 			*/	
 
-			scenemanager.drawScene(scenemanager.getScene("scene1"), terSide , terFront , sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight() );
+			scenemanager.drawScene(scenemanager.getScene("scene1"), terSide , terFront , terUp, sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight() );
 
 
 		}

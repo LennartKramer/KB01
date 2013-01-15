@@ -18,13 +18,6 @@ int SceneHeightmap::set_offset (void)
     short dummy;
 
     f_DataFile.open("heightmap.bmp", std::ios::binary);
-    
-    char* test = new char[256];
-
-    for (int i = 0; i < 255; i++)
-    {
-        test[i] = f_DataFile.get();
-    }
 
     for (int i = 0; i < 10; i++)
     {

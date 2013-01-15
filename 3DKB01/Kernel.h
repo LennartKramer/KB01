@@ -24,7 +24,7 @@ private:
 	//LRESULT CALLBACK messageHandler(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
     float terFront;
 	float terSide;
-
+	float terUp;
 public:
 	Kernel(void);
 	~Kernel(void);

@@ -36,7 +36,7 @@ public:
 	virtual void fillVertices(int, int, int){}
 	virtual void fillIndices(int, int, int){}
 
-	virtual void drawPrimitive(float, float, int, int){}
+	virtual void drawPrimitive(float, float, float, int, int){}
 
 	virtual void setStreamSource(void){}
 	virtual void setIndices(void){}

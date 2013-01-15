@@ -255,14 +255,14 @@ void RendererDirectX::fillVertices(int argOffset, int argHeight, int argWidth)
     delete [] cv_Vertices;
 }
 
-void RendererDirectX::drawPrimitive(float terSide, float terFront, int argWidth, int argHeight)
+void RendererDirectX::drawPrimitive(float terSide, float terFront, float terUp, int argWidth, int argHeight)
 {
 	
 	D3DXMATRIX m_Rotation;
-    D3DXMatrixRotationX(&m_Rotation, D3DX_PI / 2);
-    
+    D3DXMatrixRotationX(&m_Rotation, D3DX_PI / 2 );
+
 	D3DXMATRIX m_Translation;
-    D3DXMatrixTranslation(&m_Translation, terSide, terFront,0);
+    D3DXMatrixTranslation(&m_Translation, terSide, terFront, terUp);
 
     D3DXMATRIX m_World;
     D3DXMatrixMultiply(&m_World, &m_Translation, &m_Rotation);

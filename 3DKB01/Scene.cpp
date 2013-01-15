@@ -38,7 +38,7 @@ void Scene::createSkybox()
 	skybox = new SceneSkybox(directX);
 }
 
-void Scene::renderScene(float argTerSide, float argTerFront,  int argWidth, int argHeight)
+void Scene::renderScene(float argTerSide, float argTerFront, float argTerUp,  int argWidth, int argHeight)
 {
 	// Clear the backbuffer to a purple color
 	directX->clear();
@@ -49,9 +49,9 @@ void Scene::renderScene(float argTerSide, float argTerFront,  int argWidth, int 
 	directX->setIndices();
 
 	
-	directX->drawPrimitive(argTerSide, argTerFront, argWidth, argHeight);
+	directX->drawPrimitive(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
 
-//	drawEntities();
+	drawEntities();
 
 //	skybox->Render();
 	

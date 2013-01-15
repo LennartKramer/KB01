@@ -126,6 +126,17 @@ void Keyboard::SaveReleaseDevice()
 		return 6;
 	}
 
+	if (chr_KeybState[DIK_P]/128)
+	{
+		return 7;
+	}
+
+	if (chr_KeybState[DIK_L]/128)
+	{
+		return 8;
+	}
+
+
 	return 1;
  }
 

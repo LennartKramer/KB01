@@ -2,6 +2,7 @@
 #define __RENDERERDIRECTX_H__
 
 #include "RendererInterface.h"
+#include "CustomVertex.h"
 #include <d3d9.h>
 #include <d3dx9math.h>
 #include <d3dx9math.inl>
@@ -31,7 +32,7 @@ public:
 	void fillVertices(int, int, int);
 	void fillIndices(int, int, int);
 
-	void drawPrimitive(float, float, int, int);
+	void drawPrimitive(float, float, float, int, int);
 
 	void setStreamSource(void);
 	void setIndices(void);
