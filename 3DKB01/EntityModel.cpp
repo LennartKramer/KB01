@@ -14,6 +14,11 @@ EntityModel::~EntityModel(void)
 {
 }
 
+void EntityModel::setPosition(Vector argPosition)
+{
+	position = argPosition;
+}
+
 void EntityModel::drawEntityModel()
 {
 	

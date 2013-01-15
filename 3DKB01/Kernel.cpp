@@ -132,6 +132,11 @@ void Kernel::programLoop() {
 		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
 		inputmanager.getMouse()->ReadMouse();
 
+
+		
+		std::cout << inputmanager.getMouse()->getXcoord() << " ";
+		std::cout << inputmanager.getMouse()->getYcoord() << " ";
+
 		//Exit program when escape is pushed.
 		if (inputmanager.getKeyboard()->IsEscapePressed())
 		{

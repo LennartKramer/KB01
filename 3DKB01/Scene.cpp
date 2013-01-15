@@ -51,7 +51,7 @@ void Scene::renderScene(float argTerSide, float argTerFront, float argTerUp,  in
 	
 	directX->drawPrimitive(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
 
-	drawEntities();
+	drawEntities(argTerSide, argTerFront, argTerUp);
 
 //	skybox->Render();
 	
@@ -61,11 +61,25 @@ void Scene::renderScene(float argTerSide, float argTerFront, float argTerUp,  in
 	directX->present();
 }
 
-void Scene::drawEntities()
+void Scene::drawEntities(float argTerSide,float argTerFront,float argTerUp)
 {
+	Vector oldPosition;
+
 	std::list<EntityModel*>::iterator Iterator;
 		for(Iterator = entityModelList.begin(); Iterator != entityModelList.end(); ++Iterator)
 		{
+			oldPosition = (*Iterator)->getPosition();
+			float currentX = oldPosition.getX();
+			float currentY = oldPosition.getY();
+			float currentZ = oldPosition.getZ();
+
+			float newPositionX = argTerSide + currentX;
+			float newPositionY = argTerFront + currentY;
+			float newPositionZ = -argTerUp + currentZ;
+
+			Vector newPosition = Vector(newPositionX, newPositionY, newPositionZ);
+			(*Iterator)->setPosition(newPosition);
+			
 			// get the model and the texture from the entity (the iterator)
 			directX->setupWorldMatrix((*Iterator)->getPosition(), (*Iterator)->getOrientation());
 			//directX->render(

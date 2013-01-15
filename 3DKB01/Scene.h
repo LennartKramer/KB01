@@ -32,7 +32,7 @@ public:
 
 	void createSkybox();
 	void renderScene(float, float, float, int, int);
-	void drawEntities(); // draw all the entities in the scene
+	void drawEntities(float, float, float); // draw all the entities in the scene
 	void setView(); // set the view matrices, depends on the position and orientation of the camera
 
 

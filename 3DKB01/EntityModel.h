@@ -13,6 +13,7 @@ public:
 	ResourceTexture* getTexture() { return texture; }
 	Vector getOrientation() { return orientation; }
 	Vector getPosition() { return position; }
+	void setPosition(Vector argPosition);
 private:
 	Vector orientation; 	// the orientation of the entity
 	ResourceModel* model;

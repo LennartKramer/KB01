@@ -11,6 +11,7 @@ public:
 	Entity(void);
 	~Entity(void);
 	Vector getPosition();
+	void setPosition(Vector);
 protected:
 	Vector position; //position (translation) of the entity
 };
