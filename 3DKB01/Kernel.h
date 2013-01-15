@@ -22,7 +22,8 @@ private:
 	Inputmanager inputmanager;
 	SceneHeightmap sceneHeightmap;
 	//LRESULT CALLBACK messageHandler(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
-    
+    float terFront;
+	float terSide;
 
 public:
 	Kernel(void);

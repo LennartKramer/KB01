@@ -24,15 +24,24 @@ public:
 	void endScene(void);
 	void clear(void);
 	void present(void);
+	void setFvf(void);
 
 	void setTexture(ResourceTexture*);
+
+	void fillVertices(int, int, int);
+	void fillIndices(int, int, int);
+
+	void drawPrimitive(float, float, int, int);
+
+	void setStreamSource(void);
+	void setIndices(void);
 
 	// void render(void* g_pMeshTextures, void* g_pMesh, int bmpWidth, int bmpHeight);
 
 	void* getDevice(void);
 
-	void initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpOffset, int bmpWidth, int bmpHeight);
-	void initializeIndices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, int bmpHeight);
+//	void initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpOffset, int bmpWidth, int bmpHeight);
+//	void initializeIndices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, int bmpHeight);
 	//LPDIRECT3DDEVICE9
 private:
 	LPDIRECT3D9             g_pD3D;

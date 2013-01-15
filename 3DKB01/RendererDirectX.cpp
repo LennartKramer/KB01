@@ -3,7 +3,8 @@
 
 RendererDirectX::RendererDirectX(void)
 {
-	// Leave empty for now.
+	g_pIB = NULL;
+	g_pVB = NULL;
 };
 
 /*
@@ -48,6 +49,8 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	g_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
+	
+	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
 
 	return S_OK;
 };
@@ -115,7 +118,7 @@ void RendererDirectX::setupWorldMatrix(Vector position, Vector orientation)
 	D3DXMATRIXA16 matOrientation;
 
 	D3DXMatrixRotationY(&matOrientation, orientation.getY());
-
+	
 	D3DXMatrixTranslation(&matTranslation, position.getX(), position.getY(), position.getZ());
 	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
@@ -142,10 +145,140 @@ void RendererDirectX::present()
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
+void RendererDirectX::setFvf()
+{
+	g_pd3dDevice->SetFVF(D3DFVF_XYZ|D3DFVF_DIFFUSE);
+}
+
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
 {
 	LPDIRECT3DTEXTURE9* texture = argTexture->getMeshTextures();
 	g_pd3dDevice->SetTexture(0, (  (*texture)  ));
+}
+
+void RendererDirectX::fillIndices(int argOffset, int argHeight, int argWidth)
+{
+	int WIDTH = argWidth;
+	int HEIGHT = argHeight;
+
+    short *s_Indices = new short[(WIDTH-1)*(HEIGHT-1)*6];
+
+    for (int x=0;x< WIDTH-1;x++)    {
+
+
+        for (int y=0; y< HEIGHT-1;y++)        {
+            s_Indices[(x+y*(WIDTH-1))*6+2] = x+y*WIDTH;
+            s_Indices[(x+y*(WIDTH-1))*6+1] = (x+1)+y*WIDTH;
+            s_Indices[(x+y*(WIDTH-1))*6] = (x+1)+(y+1)*WIDTH;
+
+            s_Indices[(x+y*(WIDTH-1))*6+3] = (x+1)+(y+1)*WIDTH;
+            s_Indices[(x+y*(WIDTH-1))*6+4] = x+y*WIDTH;
+            s_Indices[(x+y*(WIDTH-1))*6+5] = x+(y+1)*WIDTH;
+        }
+    }
+
+    if (FAILED(g_pd3dDevice->CreateIndexBuffer((WIDTH-1)*(HEIGHT-1)*6*sizeof(short),D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,D3DPOOL_MANAGED,&g_pIB,NULL)))
+    {
+       
+    }
+
+    VOID* p_Indices;
+    if (FAILED(g_pIB->Lock(0, (WIDTH-1)*(HEIGHT-1)*6*sizeof(short), (void**)&p_Indices, 0)))
+    {
+        
+    }else{
+        memcpy(p_Indices, s_Indices, (WIDTH-1)*(HEIGHT-1)*6*sizeof(short));
+        g_pIB->Unlock();
+    }
+    delete [] s_Indices;
+}
+
+
+struct OURCUSTOMVERTEX
+{
+    float x,y,z;
+    DWORD color;
+};
+
+void RendererDirectX::fillVertices(int argOffset, int argHeight, int argWidth)
+{
+	int offset = argOffset;
+	int WIDTH = argWidth;
+	int HEIGHT = argHeight;
+	
+    OURCUSTOMVERTEX *cv_Vertices = new OURCUSTOMVERTEX[WIDTH*WIDTH];
+
+    std::ifstream f_DataFile;
+    short unsigned int dummy;
+    f_DataFile.open("heightmap.bmp", std::ios::binary);
+    if (f_DataFile.is_open())
+    {
+
+        for (int i = 0;i< (offset);i++)        {
+            dummy = f_DataFile.get();
+        }
+
+        for (int x=0;x< WIDTH;x++)        {
+
+            for (int y=0; y< HEIGHT;y++)            {
+                int height = f_DataFile.get();
+                height += f_DataFile.get();
+                height += f_DataFile.get();
+                height /= 8;
+                cv_Vertices[y*WIDTH + x].x = -x;
+                cv_Vertices[y*WIDTH + x].y = y;
+                cv_Vertices[y*WIDTH + x].z = height;
+                cv_Vertices[y*WIDTH + x].color = 0xffffffff;
+            }
+        }
+    }else{
+        
+    }
+
+    f_DataFile.close();
+
+	
+    if (FAILED(g_pd3dDevice->CreateVertexBuffer(WIDTH*HEIGHT*sizeof(OURCUSTOMVERTEX), 0, D3DFVF_XYZ|D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &g_pVB, NULL)))
+    {        
+       
+    }
+	
+
+    VOID* p_Vertices;
+    if (FAILED(g_pVB->Lock(0, WIDTH*HEIGHT*sizeof(OURCUSTOMVERTEX), (void**)&p_Vertices, 0)))
+    {
+        
+    }else{
+        memcpy(p_Vertices, cv_Vertices, WIDTH*HEIGHT*sizeof(OURCUSTOMVERTEX));
+        g_pVB->Unlock();
+    }
+    delete [] cv_Vertices;
+}
+
+void RendererDirectX::drawPrimitive(float terSide, float terFront, int argWidth, int argHeight)
+{
+	
+	D3DXMATRIX m_Rotation;
+    D3DXMatrixRotationX(&m_Rotation, D3DX_PI / 2);
+    
+	D3DXMATRIX m_Translation;
+    D3DXMatrixTranslation(&m_Translation, terSide, terFront,0);
+
+    D3DXMATRIX m_World;
+    D3DXMatrixMultiply(&m_World, &m_Translation, &m_Rotation);
+    g_pd3dDevice->SetTransform(D3DTS_WORLD, &m_World);
+	
+	g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,0,0,argWidth*argHeight,0,(argWidth-1)*(argHeight-1)*2);
+}
+
+void RendererDirectX::setStreamSource()
+{
+	g_pd3dDevice->SetStreamSource( 0, g_pVB, 0, sizeof(OURCUSTOMVERTEX) );
+}
+
+void RendererDirectX::setIndices()
+{
+	g_pd3dDevice->SetIndices(g_pIB);
 }
 
 /*
@@ -182,7 +315,7 @@ void* RendererDirectX::getDevice(void) {
 	return g_pd3dDevice;
 };
 
-
+/*
 void RendererDirectX::initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, 
 	int bmpHeight, int bmpOffset)
 {
@@ -208,9 +341,9 @@ void RendererDirectX::initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpW
 				height += f_DataFile.get();
 				height += f_DataFile.get();
 				height /= 8;
-				vertex_Vertices[y*bmpWidth+x].x = (float)-x;
-				vertex_Vertices[y*bmpWidth+x].y = (float)y;
-				vertex_Vertices[y*bmpWidth+x].z = (float)height;
+				vertex_Vertices[y*bmpWidth+x].x = -x;
+				vertex_Vertices[y*bmpWidth+x].y = y;
+				vertex_Vertices[y*bmpWidth+x].z = height;
 				vertex_Vertices[y*bmpWidth+x].colour = 0xffffffff;
 			}
 		}
@@ -280,3 +413,4 @@ void RendererDirectX::initializeIndices(HWND hWnd, void* g_pd3dDevice, int bmpWi
 	}
 	delete [] s_Indices;
 };
+*/

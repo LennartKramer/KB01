@@ -29,14 +29,24 @@ public:
 	virtual void beginScene(void){}
 	virtual void endScene(void){}
 	virtual void present(void){}
+	virtual void setFvf(void){}
 
 	virtual void setTexture(ResourceTexture*){}
+
+	virtual void fillVertices(int, int, int){}
+	virtual void fillIndices(int, int, int){}
+
+	virtual void drawPrimitive(float, float, int, int){}
+
+	virtual void setStreamSource(void){}
+	virtual void setIndices(void){}
+
 
 	/*
 		clear  v
 		beginscene  v
-		drawprimitive
-		setfvf
+		drawprimitive v
+		setfvf v
 		settexture v
 		endscene  v
 		present  v

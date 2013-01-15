@@ -1,10 +1,8 @@
 #include "SceneHeightmap.h"
-#include <iostream>
-#include <string>
+
 
 SceneHeightmap::SceneHeightmap(void)
 {
-
 };
 
 
@@ -13,83 +11,101 @@ SceneHeightmap::~SceneHeightmap(void)
 
 };
 
-bool SceneHeightmap::initializeDimensions(LPCTSTR fileName, HWND hWnd)
+int SceneHeightmap::set_offset (void)
 {
-	BITMAP bmp;
+    std::ifstream f_DataFile;
+    WORD offset = 0;
+    short dummy;
 
-	HDC lhdcDest = NULL;
-	HBITMAP phBitmap = NULL;
-	HPALETTE *phPalette = NULL;
-	HINSTANCE hInst = NULL;
-	//HANDLE test;
+    f_DataFile.open("heightmap.bmp", std::ios::binary);
+    
+    char* test = new char[256];
 
-	phBitmap = (HBITMAP)LoadImageA(hInst, fileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
-	// std::string fileNameTest = "C:\\Users\\Peter-Pim\\Documents\\Opleiding Informatica\\Informatica Cursus 2012 en 2013\\Blok 6 (3D - Engine)\\Project\\Applicatie\\3DKB01\\heightmap.bmp";
-	// const char* c = fileNameTest.c_str();
-	// test = LoadImage(hInst, fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+    for (int i = 0; i < 255; i++)
+    {
+        test[i] = f_DataFile.get();
+    }
 
-	// DWORD error = GetLastError();
+    for (int i = 0; i < 10; i++)
+    {
+        dummy = f_DataFile.get();
+    }
 
-	if(phBitmap == NULL)
-	{
-		MessageBox(hWnd, "SceneHeightmap initializeDimensions: Could not find bitmap file", "Error", MB_OK);
-		return false;
-	}
+    offset = f_DataFile.get();
+    offset += f_DataFile.get()*256;
+    offset += f_DataFile.get()*256*256;
+    offset += f_DataFile.get()*256*256*256;
 
-	SelectObject(lhdcDest, phBitmap);
+    f_DataFile.close();
+    
+   return offset;
+};
 
-	GetObject(phBitmap, sizeof(BITMAP), (void*)&bmp);
+long SceneHeightmap::set_height (void)
+{
+    std::ifstream f_DataFile;
+    long HEIGHT = 0;
+    short dummy;
 
-	bmpWidth = bmp.bmWidth;
-	bmpHeight = bmp.bmHeight;
+    f_DataFile.open("heightmap.bmp", std::ios::binary);
 
-	heightMap_struct = new HeightMapType[bmpWidth * bmpHeight];
-	if(!heightMap_struct)
-	{
-		MessageBox(hWnd, "SceneHeightmap initializeDimensions: Could not build HeightMapType struct", "Error", MB_OK);
-		return false;
-	}
+    if (f_DataFile.is_open())
+    {
+        for (int i = 0; i < 22; i++)
+        {
+            dummy = f_DataFile.get();
+        }
 
-	k = 0;
+        HEIGHT = f_DataFile.get();
+        HEIGHT += f_DataFile.get()*256;
+        HEIGHT += f_DataFile.get()*256*256;
+        HEIGHT += f_DataFile.get()*256*256*256;
 
-	for(j = 0; j < bmpHeight; j++)
-	{
-		for(i = 0; i < bmpWidth; i++)
-		{
-			height = bmpImage[k];
+        f_DataFile.close();
+    }
+    return HEIGHT;
+};
 
-			index = (bmpHeight * j) + i;
+long SceneHeightmap::set_width (void)
+{
+    std::ifstream f_DataFile;
+    int WIDTH = 0;
+    short dummy;
 
-			heightMap_struct[index].x = (float)i;
-			heightMap_struct[index].y = (float)height;
-			heightMap_struct[index].z = (float)j;
+    f_DataFile.open("heightmap.bmp", std::ios::binary);
 
-			k += 3;
-		}
-	}
+    if (f_DataFile.is_open())
+    {
+
+        for (int i = 0; i < 18; i++)
+        {
+            dummy = f_DataFile.get();
+        }
+
+        WIDTH = f_DataFile.get();
+        WIDTH += f_DataFile.get()*256;
+        WIDTH += f_DataFile.get()*256*256;
+        WIDTH += f_DataFile.get()*256*256*256;
+
+        f_DataFile.close();
+    }
+    return WIDTH;
+};
+
+
+
+bool SceneHeightmap::initializeDimensions(LPCSTR fileName)
+{
+	bmpOffset = set_offset();
+	bmpWidth  = set_width();
+	bmpHeight = set_height();
+
 	return true;
 };
 
-void SceneHeightmap::divideHeightMap(void)
+int SceneHeightmap::getBitmapOffset(void)
 {
-	int i, j;
-
-	for(j = 0; j < bmpHeight; j++)
-	{
-		for(i = 0; i < bmpWidth; i++)
-		{
-			heightMap_struct[(bmpHeight * j) + i].y /= 15.0f;
-		}
-	}
-};
-
-void SceneHeightmap::shutdownHeightMap(void)
-{
-	if(heightMap_struct)
-	{
-		delete [] heightMap_struct;
-		heightMap_struct = 0;
-	}
+	return bmpOffset;
 };
 
 int SceneHeightmap::getBitmapWidth(void)
@@ -100,9 +116,4 @@ int SceneHeightmap::getBitmapWidth(void)
 int SceneHeightmap::getBitmapHeight(void)
 {
 	return bmpHeight;
-};
-
-HeightMapType* SceneHeightmap::getHeightMapData(void)
-{
-	return heightMap_struct;
 };

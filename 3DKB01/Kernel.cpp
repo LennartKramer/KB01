@@ -11,6 +11,8 @@ Kernel::Kernel(void)
 	resourcemanager = Resourcemanager();
 	inputmanager = Inputmanager();
 	sceneHeightmap = SceneHeightmap();
+	terFront = 0;
+	terSide = 0;
 }
 
 
@@ -36,7 +38,7 @@ void Kernel::initialize()
 	/ class.
 	*/
 	LPCTSTR bitmap = "heightmap.bmp";
-	sceneHeightmap.initializeDimensions(bitmap, windowmanager.getWindow("window1")->getHandle());
+	sceneHeightmap.initializeDimensions(bitmap);
 	/*
 	/ Create a Renderer from DirectX
 	/ First initialize the device which will be used to add
@@ -46,6 +48,9 @@ void Kernel::initialize()
 
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+
+	directX->fillVertices(sceneHeightmap.getBitmapOffset(), sceneHeightmap.getBitmapHeight(), sceneHeightmap.getBitmapWidth());
+	directX->fillIndices(sceneHeightmap.getBitmapOffset(), sceneHeightmap.getBitmapHeight(), sceneHeightmap.getBitmapWidth());
 
 
 	/*
@@ -131,7 +136,26 @@ void Kernel::programLoop() {
 		{
 			msg.message = WM_QUIT;
 		}
+		
+		if(keyboardinput == 3)
+		{
+			terFront -= 1;
+		}
 
+		if(keyboardinput == 4)
+		{
+			terFront += 1;
+		}
+
+		if(keyboardinput == 5)
+		{
+			terSide -= 1;
+		}
+
+		if(keyboardinput == 6)
+		{
+			terSide += 1;
+		}
 
 
 		// Are there any messages waiting to be processed?
@@ -153,7 +177,8 @@ void Kernel::programLoop() {
 				sceneHeightmap.getBitmapHeight());
 			*/	
 
-			scenemanager.drawScene(scenemanager.getScene("scene1"));
+			scenemanager.drawScene(scenemanager.getScene("scene1"), terSide , terFront , sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight() );
+
 
 		}
 	}

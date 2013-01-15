@@ -108,10 +108,25 @@ void Keyboard::SaveReleaseDevice()
 
 	if (chr_KeybState[DIK_UP]/128)
 	{
-		return 2;
+		return 3;
 	}
 
-	 return 1;
+	if (chr_KeybState[DIK_DOWN]/128)
+	{
+		return 4;
+	}
+
+	if (chr_KeybState[DIK_LEFT]/128)
+	{
+		return 5;
+	}
+
+	if (chr_KeybState[DIK_RIGHT]/128)
+	{
+		return 6;
+	}
+
+	return 1;
  }
 
  bool Keyboard::IsEscapePressed()

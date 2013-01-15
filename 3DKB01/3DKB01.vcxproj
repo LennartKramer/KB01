@@ -57,6 +57,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C2B84CEA-F8B0-4FC5-92B9-EF1F80BBAEC0}</ProjectGuid>
     <RootNamespace>My3DKB01</RootNamespace>
+    <ProjectName>3DKB01</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
