@@ -75,7 +75,7 @@ void Scene::drawEntities(float argTerSide,float argTerFront,float argTerUp)
 
 			float newPositionX = argTerSide + currentX;
 			float newPositionY = argTerFront + currentY;
-			float newPositionZ = -argTerUp + currentZ;
+			float newPositionZ = argTerUp + currentZ;
 
 			Vector newPosition = Vector(newPositionX, newPositionY, newPositionZ);
 			(*Iterator)->setPosition(newPosition);

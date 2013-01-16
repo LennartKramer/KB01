@@ -226,8 +226,8 @@ void RendererDirectX::fillVertices(int argOffset, int argHeight, int argWidth)
                 height += f_DataFile.get();
                 height /= 8;
                 cv_Vertices[y*WIDTH + x].x = -x;
-                cv_Vertices[y*WIDTH + x].y = y;
-                cv_Vertices[y*WIDTH + x].z = height;
+                cv_Vertices[y*WIDTH + x].y = height;
+                cv_Vertices[y*WIDTH + x].z = y;
                 cv_Vertices[y*WIDTH + x].color = 0xffffffff;
             }
         }
@@ -259,7 +259,7 @@ void RendererDirectX::drawPrimitive(float terSide, float terFront, float terUp, 
 {
 	
 	D3DXMATRIX m_Rotation;
-    D3DXMatrixRotationX(&m_Rotation, D3DX_PI / 2 );
+    D3DXMatrixRotationX(&m_Rotation, 0.0 );
 
 	D3DXMATRIX m_Translation;
     D3DXMatrixTranslation(&m_Translation, terSide, terFront, terUp);

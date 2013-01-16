@@ -102,7 +102,7 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	Vector cameraPosition = Vector(0.0, 30.0, -30.0);
+	Vector cameraPosition = Vector(0.0, 0.0, -30.0);
 	Vector cameraDirection = Vector(0.0, 0.0, 0.0);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 
