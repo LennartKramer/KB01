@@ -20,7 +20,7 @@ public:
 	RendererInterface* directX;
 	LPDIRECT3D9             g_pD3D; // Used to create the D3DDevice
 	LPDIRECT3DVERTEXBUFFER9 g_pVB; // Buffer to hold vertices
-	LPDIRECT3DTEXTURE9 texture;
+	LPDIRECT3DTEXTURE9		texture;
 
 	// A structure for our custom vertex type
 	struct CUSTOMVERTEX

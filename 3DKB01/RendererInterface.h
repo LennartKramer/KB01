@@ -33,27 +33,17 @@ public:
 
 	virtual void setTexture(ResourceTexture*){}
 
+	virtual HRESULT createSkybox() = 0;
+
 	virtual void fillVertices(int, int, int){}
 	virtual void fillIndices(int, int, int){}
 
-	virtual void drawPrimitive(float, float, float, int, int){}
+
+	virtual void drawPrimitive(){}
+	virtual void drawIndexedPrimitive(float, float, float, int, int){}
 
 	virtual void setStreamSource(void){}
 	virtual void setIndices(void){}
-
-
-	/*
-		clear  v
-		beginscene  v
-		drawprimitive v
-		setfvf v
-		settexture v
-		endscene  v
-		present  v
-	*/
-
-	//virtual void render(void* g_pMeshTextures, void* g_pMesh, int bmpWidth, int bmpHeight){}
-	//LPDIRECT3DTEXTURE9* g_pMeshTextures,LPD3DXMESH g_pMesh, int bmpWidth, int bmpHeight
 
 	virtual void initializeVertices(HWND hWnd, void* g_pd3dDevice,
 		int bmpOffset, int bmpWidth, int bmpHeight){}

@@ -50,17 +50,13 @@ void Scene::renderScene(float argTerSide, float argTerFront, float argTerUp,  in
 	directX->beginScene();
 
 	skybox->Render();
-	//drawEntities();
 
-	
-	directX->setStreamSource();
-	directX->setFvf();
-	directX->setIndices();
+//	directX->setStreamSource();
+//	directX->setFvf();
+//	directX->setIndices();
 
-	directX->drawPrimitive(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
-	drawEntities(argTerSide, argTerFront, argTerUp);
-
-//	skybox->Render();
+//	directX->drawIndexedPrimitive(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
+	//drawEntities(argTerSide, argTerFront, argTerUp);
 
 	directX->endScene();
 	directX->present();

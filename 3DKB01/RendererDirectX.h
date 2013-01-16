@@ -9,6 +9,12 @@
 
 #include <iostream>
 
+struct OURCUSTOMVERTEX
+{
+    float x,y,z;
+	float fU, fV;
+};
+
 class RendererDirectX : public RendererInterface
 {
 public:
@@ -27,12 +33,15 @@ public:
 	void present(void);
 	void setFvf(void);
 
+	HRESULT createSkybox(void);
+
 	void setTexture(ResourceTexture*);
 
 	void fillVertices(int, int, int);
 	void fillIndices(int, int, int);
 
-	void drawPrimitive(float, float, float, int, int);
+	void drawPrimitive();
+	void drawIndexedPrimitive(float, float, float, int, int);
 
 	void setStreamSource(void);
 	void setIndices(void);
@@ -41,6 +50,7 @@ public:
 
 	void* getDevice(void);
 
+	#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
 //	void initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpOffset, int bmpWidth, int bmpHeight);
 //	void initializeIndices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, int bmpHeight);
 	//LPDIRECT3DDEVICE9
