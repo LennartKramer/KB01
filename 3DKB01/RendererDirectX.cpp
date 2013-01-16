@@ -107,7 +107,7 @@ void RendererDirectX::setupCamera(Vector argPosition, Vector argDirection, Vecto
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 1.9, 1.0f, 0.0f, 100.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
 }
 

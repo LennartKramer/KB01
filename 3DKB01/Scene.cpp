@@ -17,49 +17,56 @@ std::string Scene::getName()
 	return name;
 }
 
+// Adds an entityModel to scene.
 void Scene::addEntityModel(Vector argPosition , Vector argOrientation, ResourceModel* argModel, ResourceTexture* argTexture)
 {
 	EntityModel* entityModel = new EntityModel(argPosition, argOrientation, argModel, argTexture);
 	entityModelList.push_back(entityModel);
 }
-
+// Adds a camera to the scene.
 void Scene::addEntityCamera(Vector argPosition, Vector argDirection, Vector argUp)
 {
 	entityCamera = new EntityCamera(argPosition, argDirection, argUp);
 }
 
+// Sets the view orientation of the camera.
 void Scene::setView()
 {
 	directX->setupCamera(entityCamera->getPosition(), entityCamera->getDirection(), entityCamera->getUp());
 }
 
+// Creates a skybox
 void Scene::createSkybox()
 {
 	skybox = new SceneSkybox(directX);
 }
 
+// Renders a scene.
+// Draws it on the screen
 void Scene::renderScene(float argTerSide, float argTerFront, float argTerUp,  int argWidth, int argHeight)
 {
 	// Clear the backbuffer to a purple color
 	directX->clear();
 	directX->beginScene();
+
+	skybox->Render();
+	//drawEntities();
+
 	
 	directX->setStreamSource();
 	directX->setFvf();
 	directX->setIndices();
 
-	
 	directX->drawPrimitive(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
-
 	drawEntities(argTerSide, argTerFront, argTerUp);
 
 //	skybox->Render();
-	
-	
 
 	directX->endScene();
 	directX->present();
 }
+
+// Draws all entities on the screen.
 
 void Scene::drawEntities(float argTerSide,float argTerFront,float argTerUp)
 {
