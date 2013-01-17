@@ -13,9 +13,8 @@ SceneHeightmap::SceneHeightmap(RendererInterface* argRenderer, ResourceTexture* 
 	LPCTSTR bitmap = "heightmap.bmp";
 	initializeDimensions(bitmap);
 
-	fillIndices();
 	fillVertices();
-	
+	fillIndices();
 }
 
 SceneHeightmap::~SceneHeightmap(void)
@@ -57,16 +56,13 @@ void SceneHeightmap::fillIndices()
 	int amount = (WIDTH-1)*(HEIGHT-1)*6;
 	std::string type = "Terrain";
 
-	//*s_Indices = (short)1337;
-	short* test = s_Indices;
-	renderer->createIndexBuffer(amount, type, test);
+	renderer->createIndexBuffer(amount, type, s_Indices);
 
     delete [] s_Indices;
 }
 
 void SceneHeightmap::fillVertices()
 {
-	LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL; 
 	int offset = bmpOffset;
 	int WIDTH = bmpWidth;
 	int HEIGHT = bmpHeight;

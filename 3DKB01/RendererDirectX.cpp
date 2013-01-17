@@ -48,7 +48,7 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
 	
-//	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
+	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
 
 	return S_OK;
 };
@@ -102,7 +102,7 @@ void RendererDirectX::setupCamera(Vector argPosition, Vector argDirection, Vecto
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 1.9, 1.0f, 0.0f, 100.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 1.9f, 1.0f, 0.0f, 100.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
 }
 
@@ -155,7 +155,7 @@ void RendererDirectX::setFvf(std::string argType)
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
 {
 	LPDIRECT3DTEXTURE9* texture = argTexture->getMeshTextures();
-	g_pd3dDevice->SetTexture(0, (  (*texture)  ));
+	g_pd3dDevice->SetTexture(0, *texture);
 }
 
 void RendererDirectX::drawPrimitive()
@@ -168,7 +168,7 @@ void RendererDirectX::drawPrimitive()
 // specify the FVF, so the vertex buffer knows what data it contains.
 void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTOMVERTEX* argVertices )
 {
-	LPDIRECT3DVERTEXBUFFER9 vertexbuffer;
+	LPDIRECT3DVERTEXBUFFER9 vertexbuffer = NULL;
 
 	if (argType.compare("Skybox") == 0)
 	{
@@ -199,7 +199,7 @@ void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTO
 
 void RendererDirectX::createIndexBuffer(int argSize, const std::string& argType, short* argIndices)
 {
-	LPDIRECT3DINDEXBUFFER9 indexbuffer;
+	LPDIRECT3DINDEXBUFFER9 indexbuffer = NULL;
 	
 	g_pd3dDevice->CreateIndexBuffer(argSize*sizeof(short),D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,D3DPOOL_MANAGED,&indexbuffer,NULL);
 
@@ -231,7 +231,7 @@ void RendererDirectX::drawIndexedPrimitive(float terSide, float terFront, float 
 
 void RendererDirectX::setStreamSource(std::string argType)
 {
-	LPDIRECT3DVERTEXBUFFER9 vertexbuffer;
+	LPDIRECT3DVERTEXBUFFER9 vertexbuffer = NULL;
 
 	std::map<std::string, LPDIRECT3DVERTEXBUFFER9>::iterator Iterator;
 	for(Iterator = vertexBufferMap.begin(); Iterator != vertexBufferMap.end(); ++Iterator) 
@@ -246,7 +246,7 @@ void RendererDirectX::setStreamSource(std::string argType)
 
 void RendererDirectX::setIndices(std::string argType)
 {
-	LPDIRECT3DINDEXBUFFER9 indexbuffer;
+	LPDIRECT3DINDEXBUFFER9 indexbuffer = NULL;
 	
 	std::map<std::string, LPDIRECT3DINDEXBUFFER9>::iterator Iterator;
 	for(Iterator = indexBufferMap.begin(); Iterator != indexBufferMap.end(); ++Iterator) 

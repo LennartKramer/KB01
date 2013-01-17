@@ -56,7 +56,7 @@ void Scene::renderScene()
 	//skybox->Render();
 	terrain->render();
 
-	//drawEntities(argTerSide, argTerFront, argTerUp);
+	//drawEntities(0.0, 0.0, 0.0);
 
 	renderer->endScene();
 	renderer->present();

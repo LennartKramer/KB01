@@ -29,6 +29,7 @@ void Resourcemanager::loadTexture(std::string argName)
 	ResourceTexture* resourceTexture = new ResourceTexture(&texture);
 	
 	resourceTextures.insert(std::pair<std::string, ResourceTexture*>(argName, resourceTexture));
+
 }
 
 HRESULT Resourcemanager::loadAllMeshes()

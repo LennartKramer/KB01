@@ -45,20 +45,6 @@ void Kernel::initialize()
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
 	resourcemanager.setDevice(directX->getDevice());
-
-
-
-
-	/*
-	directX->initializeIndices(windowmanager.getWindow("window1")->getHandle(), directX->getDevice(),
-		sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
-	std::cout << "stap3" << std::endl;
-	directX->initializeVertices(windowmanager.getWindow("window1")->getHandle(), directX->getDevice(),
-		sceneHeightmap.getBitmapOffset() ,sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight());
-	std::cout << "stap4" << std::endl;
-	*/
-	
-	// directX->initGeometry(); - Drawing a landscape instead of a triangle now.
 	
 	/*
 	/ loadMaterials
@@ -98,13 +84,13 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	Vector cameraPosition = Vector(0.5, 20, -80);
+	Vector cameraPosition = Vector(0.5, 20, -40);
 	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
 	Vector cameraDirection = Vector(-0.5, 0.5, 1.0);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 	
-	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
-	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
+//	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
+//	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	
 	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 	scenemanager.getScene("scene1")->addTerrain(resourcetexture);
