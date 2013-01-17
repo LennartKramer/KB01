@@ -1,11 +1,10 @@
 #include "Scene.h"
 #include "EntityModel.h"
 
-Scene::Scene(std::string argName, RendererInterface* argDirectX)
+Scene::Scene(std::string argName, RendererInterface* argRenderer)
 {
 	name = argName;
-	directX = argDirectX;
-	createSkybox();
+	renderer = argRenderer;
 }
 
 Scene::~Scene()
@@ -32,34 +31,35 @@ void Scene::addEntityCamera(Vector argPosition, Vector argDirection, Vector argU
 // Sets the view orientation of the camera.
 void Scene::setView()
 {
-	directX->setupCamera(entityCamera->getPosition(), entityCamera->getDirection(), entityCamera->getUp());
+	renderer->setupCamera(entityCamera->getPosition(), entityCamera->getDirection(), entityCamera->getUp());
 }
 
-// Creates a skybox
-void Scene::createSkybox()
+
+void Scene::addSkybox(ResourceTexture* argTexture)
 {
-	skybox = new SceneSkybox(directX);
+	skybox = new SceneSkybox(renderer, argTexture);
+}
+
+void Scene::addTerrain(ResourceTexture* argTexture)
+{
+	terrain = new SceneHeightmap(renderer, argTexture);
 }
 
 // Renders a scene.
 // Draws it on the screen
-void Scene::renderScene(float argTerSide, float argTerFront, float argTerUp,  int argWidth, int argHeight)
+void Scene::renderScene()
 {
 	// Clear the backbuffer to a purple color
-	directX->clear();
-	directX->beginScene();
+	renderer->clear();
+	renderer->beginScene();
+	
+	//skybox->Render();
+	terrain->render();
 
-	skybox->Render();
-
-//	directX->setStreamSource();
-//	directX->setFvf();
-//	directX->setIndices();
-
-//	directX->drawIndexedPrimitive(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
 	//drawEntities(argTerSide, argTerFront, argTerUp);
 
-	directX->endScene();
-	directX->present();
+	renderer->endScene();
+	renderer->present();
 }
 
 // Draws all entities on the screen.
@@ -84,11 +84,11 @@ void Scene::drawEntities(float argTerSide,float argTerFront,float argTerUp)
 			(*Iterator)->setPosition(newPosition);
 			
 			// get the model and the texture from the entity (the iterator)
-			directX->setupWorldMatrix((*Iterator)->getPosition(), (*Iterator)->getOrientation());
+			renderer->setupWorldMatrix((*Iterator)->getPosition(), (*Iterator)->getOrientation());
 			//directX->render(
 			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ;
 			
-			directX->setTexture((*Iterator)->getTexture());
+			renderer->setTexture((*Iterator)->getTexture());
 			mesh->DrawSubset(0);
 
 		}

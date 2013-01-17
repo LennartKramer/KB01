@@ -1,10 +1,8 @@
 #include "RendererDirectX.h"
-#include "CustomVertex.h"
 
 RendererDirectX::RendererDirectX(void)
 {
-	g_pIB = NULL;
-	g_pVB = NULL;
+
 };
 
 /*
@@ -55,11 +53,8 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	return S_OK;
 };
 
-
 void RendererDirectX::cleanUp(void)
 {
-	if(g_pVB != 0)
-		g_pVB->Release();
 	if(g_pd3dDevice != 0)
 		g_pd3dDevice->Release();
 	if(g_pD3D != 0)
@@ -145,9 +140,16 @@ void RendererDirectX::present()
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void RendererDirectX::setFvf()
+void RendererDirectX::setFvf(std::string argType)
 {
-	g_pd3dDevice->SetFVF(D3DFVF_XYZ|D3DFVF_DIFFUSE);
+	
+	if(argType.compare("Skybox") == 0)
+	{
+		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
+	}else if (argType.compare("Terrain") == 0)
+	{
+		g_pd3dDevice->SetFVF(D3DFVF_XYZ|D3DFVF_DIFFUSE);
+	}
 }
 
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
@@ -156,193 +158,60 @@ void RendererDirectX::setTexture(ResourceTexture* argTexture)
 	g_pd3dDevice->SetTexture(0, (  (*texture)  ));
 }
 
-void RendererDirectX::fillIndices(int argOffset, int argHeight, int argWidth)
+void RendererDirectX::drawPrimitive()
 {
-	int WIDTH = argWidth;
-	int HEIGHT = argHeight;
-
-    short *s_Indices = new short[(WIDTH-1)*(HEIGHT-1)*6];
-
-    for (int x=0;x< WIDTH-1;x++)    {
-
-
-        for (int y=0; y< HEIGHT-1;y++)        {
-            s_Indices[(x+y*(WIDTH-1))*6+2] = x+y*WIDTH;
-            s_Indices[(x+y*(WIDTH-1))*6+1] = (x+1)+y*WIDTH;
-            s_Indices[(x+y*(WIDTH-1))*6] = (x+1)+(y+1)*WIDTH;
-
-            s_Indices[(x+y*(WIDTH-1))*6+3] = (x+1)+(y+1)*WIDTH;
-            s_Indices[(x+y*(WIDTH-1))*6+4] = x+y*WIDTH;
-            s_Indices[(x+y*(WIDTH-1))*6+5] = x+(y+1)*WIDTH;
-        }
-    }
-
-    if (FAILED(g_pd3dDevice->CreateIndexBuffer((WIDTH-1)*(HEIGHT-1)*6*sizeof(short),D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,D3DPOOL_MANAGED,&g_pIB,NULL)))
-    {
-       
-    }
-
-    VOID* p_Indices;
-    if (FAILED(g_pIB->Lock(0, (WIDTH-1)*(HEIGHT-1)*6*sizeof(short), (void**)&p_Indices, 0)))
-    {
-        
-    }else{
-        memcpy(p_Indices, s_Indices, (WIDTH-1)*(HEIGHT-1)*6*sizeof(short));
-        g_pIB->Unlock();
-    }
-    delete [] s_Indices;
+	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 16 );
 }
 
-
-HRESULT RendererDirectX::createSkybox()
+// Create the vertex buffer.
+// (from the default pool) to hold all our 3 custom vertices. We also
+// specify the FVF, so the vertex buffer knows what data it contains.
+void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTOMVERTEX* argVertices )
 {
-		
-    OURCUSTOMVERTEX vertices[] =
-    {
+	LPDIRECT3DVERTEXBUFFER9 vertexbuffer;
 
-
-       	//bottom
-		{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
-		{ 1.0f, 0.0f, 1.0f, 0.0f, 0.0f },
-
-		{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-		{ 1.0f, 0.0f, 1.0f, 0.0f, 0.0f },
-		{ 1.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-
-
-		//back
-		{ 0.0f, 0.0f, 1.0f, 0.2f, 1.0f },
-		{ 0.0f, 1.0f, 1.0f, 0.2f, 0.0f },
-		{ 1.0f, 1.0f, 1.0f, 0.4f, 0.0f },
-
-		{ 0.0f, 0.0f, 1.0f, 0.2f, 1.0f },
-		{ 1.0f, 0.0f, 1.0f, 0.4f, 1.0f },
-		{ 1.0f, 1.0f, 1.0f, 0.4f, 0.0f },
-
-
-		//right
-		{ 1.0f, 0.0f, 0.0f, 0.6f, 1.0f },
-		{ 1.0f, 1.0f, 0.0f, 0.6f, 0.0f },
-		{ 1.0f, 1.0f, 1.0f, 0.4f, 0.0f },
-
-		{ 1.0f, 0.0f, 0.0f, 0.6f, 1.0f },
-		{ 1.0f, 0.0f, 1.0f, 0.4f, 1.0f },
-		{ 1.0f, 1.0f, 1.0f, 0.4f, 0.0f },
-
-
-		//left
-		{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 0.0f, 1.0f, 0.2f, 1.0f },
-		{ 0.0f, 1.0f, 1.0f, 0.2f, 0.0f },
-
-		{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 1.0f, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, 1.0f, 1.0f, 0.2f, 0.0f },
-
-
-		//up
-		{ 0.0f, 1.0f, 0.0f, 1.0f, 1.0f },
-		{ 0.0f, 1.0f, 1.0f, 1.0f, 0.0f },
-		{ 1.0f, 1.0f, 1.0f, 0.8f, 0.0f },
-
-		{ 0.0f, 1.0f, 0.0f, 1.0f, 1.0f },
-		{ 1.0f, 1.0f, 0.0f, 0.8f, 1.0f },
-		{ 1.0f, 1.0f, 1.0f, 0.8f, 0.0f },
-
-
-		//front
-		{ 0.0f, 0.0f, 0.0f, 0.8f, 1.0f },
-		{ 0.0f, 1.0f, 0.0f, 0.8f, 0.0f },
-		{ 1.0f, 1.0f, 0.0f, 0.6f, 0.0f },
-
-		{ 0.0f, 0.0f, 0.0f, 0.8f, 1.0f },
-		{ 1.0f, 1.0f, 0.0f, 0.6f, 0.0f },
-		{ 1.0f, 0.0f, 0.0f, 0.6f, 1.0f },
-    };
-
-    // Create the vertex buffer.
-    // (from the default pool) to hold all our 3 custom vertices. We also
-    // specify the FVF, so the vertex buffer knows what data it contains.
-	if( FAILED( g_pd3dDevice->CreateVertexBuffer( 36 * sizeof( OURCUSTOMVERTEX ), 0, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &g_pVB, NULL ) ) )
-    {
-        return E_FAIL;
-    }
+	if (argType.compare("Skybox") == 0)
+	{
+		//skybox
+		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof( CUSTOMVERTEX ), 0, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &vertexbuffer, NULL );
+	}
+	else if(argType.compare("Terrain") == 0)
+	{
+		//terrain
+		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_XYZ|D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vertexbuffer, NULL);
+	}
 
 	// Fill the vertex buffer.
 	// To do this, we need to Lock() the VB to
     // gain access to the vertices. 
 	// This mechanism is required because vertex
     // buffers may be in device memory.
-    VOID* pVertices;
-    if( FAILED( g_pVB->Lock( 0, sizeof( vertices ), ( void** )&pVertices, 0 ) ) )
-        return E_FAIL;
-    memcpy( pVertices, vertices, sizeof( vertices ) );
-    g_pVB->Unlock();
+	
+	VOID* pVertices;
+	vertexbuffer->Lock( 0, argSize*sizeof( CUSTOMVERTEX ), ( void** )&pVertices, 0 );
+	
+	memcpy( pVertices, argVertices, sizeof( argVertices ) );
+	vertexbuffer->Unlock();
 
-    return S_OK;
+	
+	vertexBufferMap.insert(std::pair<std::string, LPDIRECT3DVERTEXBUFFER9>(argType, vertexbuffer));
 }
 
-
-void RendererDirectX::fillVertices(int argOffset, int argHeight, int argWidth)
+void RendererDirectX::createIndexBuffer(int argSize, const std::string& argType, short* argIndices)
 {
-	int offset = argOffset;
-	int WIDTH = argWidth;
-	int HEIGHT = argHeight;
+	LPDIRECT3DINDEXBUFFER9 indexbuffer;
 	
-    OURCUSTOMVERTEX *cv_Vertices = new OURCUSTOMVERTEX[WIDTH*WIDTH];
+	g_pd3dDevice->CreateIndexBuffer(argSize*sizeof(short),D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,D3DPOOL_MANAGED,&indexbuffer,NULL);
 
-    std::ifstream f_DataFile;
-    short unsigned int dummy;
-    f_DataFile.open("heightmap.bmp", std::ios::binary);
-    if (f_DataFile.is_open())
-    {
+    VOID* p_Indices;
+	indexbuffer->Lock(0, argSize*sizeof(short), (void**)&p_Indices, 0);
 
-        for (int i = 0;i< (offset);i++)        {
-            dummy = f_DataFile.get();
-        }
-
-        for (int x=0;x< WIDTH;x++)        {
-
-            for (int y=0; y< HEIGHT;y++)            {
-                int height = f_DataFile.get();
-                height += f_DataFile.get();
-                height += f_DataFile.get();
-                height /= 8;
-                cv_Vertices[y*WIDTH + x].x = -x;
-                cv_Vertices[y*WIDTH + x].y = height;
-                cv_Vertices[y*WIDTH + x].z = y;
-     //           cv_Vertices[y*WIDTH + x].color = 0xffffffff;
-            }
-        }
-    }else{
-        
-    }
-
-    f_DataFile.close();
-
-	
-    if (FAILED(g_pd3dDevice->CreateVertexBuffer(WIDTH*HEIGHT*sizeof(OURCUSTOMVERTEX), 0, D3DFVF_XYZ|D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &g_pVB, NULL)))
-    {        
-       
-    }
-	
-
-    VOID* p_Vertices;
-    if (FAILED(g_pVB->Lock(0, WIDTH*HEIGHT*sizeof(OURCUSTOMVERTEX), (void**)&p_Vertices, 0)))
-    {
-        
-    }else{
-        memcpy(p_Vertices, cv_Vertices, WIDTH*HEIGHT*sizeof(OURCUSTOMVERTEX));
-        g_pVB->Unlock();
-    }
-    delete [] cv_Vertices;
+    memcpy(p_Indices, argIndices, argSize*sizeof(short));
+    indexbuffer->Unlock();
+   
+	indexBufferMap.insert(std::pair<std::string, LPDIRECT3DINDEXBUFFER9>(argType, indexbuffer));
 }
 
-void RendererDirectX::drawPrimitive()
-{
-	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 16 );
-}
 
 void RendererDirectX::drawIndexedPrimitive(float terSide, float terFront, float terUp, int argWidth, int argHeight)
 {
@@ -360,146 +229,38 @@ void RendererDirectX::drawIndexedPrimitive(float terSide, float terFront, float 
 	g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,0,0,argWidth*argHeight,0,(argWidth-1)*(argHeight-1)*2);
 }
 
-void RendererDirectX::setStreamSource()
+void RendererDirectX::setStreamSource(std::string argType)
 {
-	g_pd3dDevice->SetStreamSource( 0, g_pVB, 0, sizeof(OURCUSTOMVERTEX) );
+	LPDIRECT3DVERTEXBUFFER9 vertexbuffer;
+
+	std::map<std::string, LPDIRECT3DVERTEXBUFFER9>::iterator Iterator;
+	for(Iterator = vertexBufferMap.begin(); Iterator != vertexBufferMap.end(); ++Iterator) 
+	{
+		if (Iterator->first.compare(argType) == 0 )
+		{
+			vertexbuffer = Iterator->second;
+		}
+	}
+	g_pd3dDevice->SetStreamSource( 0, vertexbuffer, 0, sizeof(CUSTOMVERTEX) );
 }
 
-void RendererDirectX::setIndices()
+void RendererDirectX::setIndices(std::string argType)
 {
-	g_pd3dDevice->SetIndices(g_pIB);
+	LPDIRECT3DINDEXBUFFER9 indexbuffer;
+	
+	std::map<std::string, LPDIRECT3DINDEXBUFFER9>::iterator Iterator;
+	for(Iterator = indexBufferMap.begin(); Iterator != indexBufferMap.end(); ++Iterator) 
+	{
+		if (Iterator->first.compare(argType) == 0 )
+		{
+			indexbuffer = Iterator->second;
+		}
+	}
+	g_pd3dDevice->SetIndices(indexbuffer);
 }
 
-/*
-/ Clear the backbuffer to a black color and then draw the scene.
-/ Present the backbuffer contents to the display(backbuffer -> frontbuffer).
-*/
-
-/*
-void RendererDirectX::render(void* g_pMeshTextures,
-	 void* g_pMesh, int bmpWidth, int bmpHeight)
-{
-	LPDIRECT3DTEXTURE9 texture = (LPDIRECT3DTEXTURE9) g_pMeshTextures;	
-	LPD3DXMESH mesh = (LPD3DXMESH) g_pMesh ;
-*/
-	/*
-		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(vertex_Vertices));
-		g_pd3dDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
-		g_pd3dDevice->SetIndices(g_pIB);
-
-		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, bmpWidth*bmpHeight, 0,
-			(bmpWidth-1)*(bmpHeight-1)*2);
-		*/
-
-		/*	
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
-		*/
-/*
-		g_pd3dDevice->SetTexture(0, (texture));
-		mesh->DrawSubset(0);
-};
-*/
 
 void* RendererDirectX::getDevice(void) {
 	return g_pd3dDevice;
 };
 
-/*
-void RendererDirectX::initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, 
-	int bmpHeight, int bmpOffset)
-{
-	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) g_pd3dDevice;
-
-	Vertex_TD *vertex_Vertices = new Vertex_TD[bmpWidth*bmpWidth];
-
-	std::ifstream f_DataFile;
-	unsigned int dummy;
-	f_DataFile.open("heightmap.bmp", std::ios::binary);
-
-	if(f_DataFile.is_open())
-	{
-		for(int i = 0; i < (bmpOffset); i++)
-		{
-			dummy = f_DataFile.get();
-		}
-		for(int x = 0; x < bmpWidth; x++)
-		{
-			for(int y = 0; y < bmpHeight; y++)
-			{
-				int height = f_DataFile.get();
-				height += f_DataFile.get();
-				height += f_DataFile.get();
-				height /= 8;
-				vertex_Vertices[y*bmpWidth+x].x = -x;
-				vertex_Vertices[y*bmpWidth+x].y = y;
-				vertex_Vertices[y*bmpWidth+x].z = height;
-				vertex_Vertices[y*bmpWidth+x].colour = 0xffffffff;
-			}
-		}
-	}
-	else
-	{
-		MessageBox(hWnd, "RendererDirectX fillVertices: Error while looking for heightdata.", "Error", MB_OK);
-	}
-	f_DataFile.close();
-	
-
-	if(FAILED( device->CreateVertexBuffer(bmpWidth*bmpHeight*sizeof(vertex_Vertices), 0,
-		D3DFVF_XYZ | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &g_pVB, NULL)))
-	{
-		MessageBox(hWnd, "RendererDirectX fillVertices: Error while creating VertexBuffer", "Error", MB_OK);
-	}
-
-	VOID* p_Vertices;
-	if(FAILED(g_pVB->Lock(0, bmpWidth*bmpHeight*sizeof(vertex_Vertices),
-		(void**)&p_Vertices, 0)))
-	{
-		MessageBox(hWnd, "RendererirectX filLVertices: Error while trying to lock memory.", "Error", MB_OK);
-	}
-	else
-	{
-		memcpy(p_Vertices, vertex_Vertices, bmpWidth*bmpHeight*sizeof(vertex_Vertices));
-		g_pVB->Unlock();
-	}
-	delete [] vertex_Vertices;
-};
-
-void RendererDirectX::initializeIndices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, 
-	int bmpHeight)
-{
-	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) g_pd3dDevice;
-	
-	short *s_Indices = new short[(bmpWidth-1)*(bmpHeight-1)*6];
-
-	for(int x = 0; x < bmpWidth-1; x++)
-	{
-		for(int y = 0; y < bmpHeight-1; y++)
-		{
-			s_Indices[(x+y*(bmpWidth-1))*6+2] = x+y*bmpWidth;
-			s_Indices[(x+y*(bmpWidth-1))*6+1] = (x+1)+y*bmpWidth;
-			s_Indices[(x+y*(bmpWidth-1))*6] = (x+1)+(y+1)*bmpWidth;
-
-			s_Indices[(x+y*(bmpWidth-1))*6+3] = (x+1)+(y+1)*bmpWidth;
-            s_Indices[(x+y*(bmpWidth-1))*6+4] = x+y*bmpWidth;
-            s_Indices[(x+y*(bmpWidth-1))*6+5] = x+(y+1)*bmpWidth;
-        }
-	}
-	if(FAILED(device->CreateIndexBuffer((bmpWidth-1)*(bmpHeight-1)*6*sizeof(short),
-		D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_pIB, NULL)))
-	{
-		MessageBox(hWnd, "RendererDirectX fillIndices: Error while creating IndexBuffer", "Error", MB_OK);
-	}
-	VOID* p_Indices;
-	if(FAILED(g_pIB->Lock(0, (bmpWidth-1)*(bmpHeight-1)*6*sizeof(short),
-		(void**)&p_Indices, 0)))
-	{
-		MessageBox(hWnd, "RendererDirectX fillIndices: Error while trying to lock memory", "Error", MB_OK);
-	} 
-	else
-	{
-		memcpy(p_Indices, s_Indices, (bmpWidth-1)*(bmpHeight-1)*6*sizeof(short));
-		g_pIB->Unlock();
-	}
-	delete [] s_Indices;
-};
-*/

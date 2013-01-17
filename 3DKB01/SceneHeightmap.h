@@ -6,15 +6,26 @@
 #include <d3d9.h>
 #include <d3dx9math.h>
 
+#include "RendererInterface.h"
+
 class SceneHeightmap
 {
 private:
 	int bmpOffset;
 	int bmpWidth;
 	int bmpHeight;
+
+	RendererInterface* renderer;
+	ResourceTexture* texture;
 public:
 	SceneHeightmap(void);
+	SceneHeightmap(RendererInterface*, ResourceTexture*);
 	~SceneHeightmap(void);
+
+	void fillVertices();
+	void fillIndices();
+
+	void render(void);
 
 	bool initializeDimensions(LPCSTR fileName);
 	

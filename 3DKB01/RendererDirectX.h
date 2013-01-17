@@ -2,18 +2,14 @@
 #define __RENDERERDIRECTX_H__
 
 #include "RendererInterface.h"
-#include "CustomVertex.h"
 #include <d3d9.h>
 #include <d3dx9math.h>
 #include <d3dx9math.inl>
-
+#include <map>
 #include <iostream>
+#include <string>
 
-struct OURCUSTOMVERTEX
-{
-    float x,y,z;
-	float fU, fV;
-};
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
 
 class RendererDirectX : public RendererInterface
 {
@@ -27,41 +23,35 @@ public:
 	void setupCamera(Vector, Vector, Vector);
 	void setupWorldMatrix(Vector, Vector);
 
+	void createVertexBuffer(int, std::string, CUSTOMVERTEX*);
+	void createIndexBuffer(int, const std::string&, short*);
+
 	void beginScene(void);
 	void endScene(void);
 	void clear(void);
 	void present(void);
-	void setFvf(void);
-
-	HRESULT createSkybox(void);
+	void setFvf(std::string);
 
 	void setTexture(ResourceTexture*);
-
-	void fillVertices(int, int, int);
-	void fillIndices(int, int, int);
 
 	void drawPrimitive();
 	void drawIndexedPrimitive(float, float, float, int, int);
 
-	void setStreamSource(void);
-	void setIndices(void);
-
-	// void render(void* g_pMeshTextures, void* g_pMesh, int bmpWidth, int bmpHeight);
+	void setStreamSource(std::string);
+	void setIndices(std::string);
 
 	void* getDevice(void);
 
-	#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
-//	void initializeVertices(HWND hWnd, void* g_pd3dDevice, int bmpOffset, int bmpWidth, int bmpHeight);
-//	void initializeIndices(HWND hWnd, void* g_pd3dDevice, int bmpWidth, int bmpHeight);
-	//LPDIRECT3DDEVICE9
+	
 private:
+	std::map<std::string, LPDIRECT3DVERTEXBUFFER9>	vertexBufferMap;
+	std::map<std::string, LPDIRECT3DINDEXBUFFER9>	indexBufferMap;
+
 	LPDIRECT3D9             g_pD3D;
 	LPDIRECT3DDEVICE9       g_pd3dDevice;
-	LPDIRECT3DINDEXBUFFER9  g_pIB;
-	LPDIRECT3DVERTEXBUFFER9 g_pVB;
-	LPDIRECT3DTEXTURE9		g_pTexture;
 
-	Vertex_TD *vertex_Vertices;
+//	LPDIRECT3DTEXTURE9		g_pTexture;
+//	Vertex_TD*				vertex_Vertices;
 };
 
 #endif

@@ -10,10 +10,6 @@ Kernel::Kernel(void)
 	scenemanager = Scenemanager();
 	resourcemanager = Resourcemanager();
 	inputmanager = Inputmanager();
-	sceneHeightmap = SceneHeightmap();
-	terFront = 0;
-	terSide = 0;
-	terUp = 0;
 }
 
 
@@ -38,8 +34,7 @@ void Kernel::initialize()
 	/ height of the bitmap file and store them into the SceneHeightmap
 	/ class.
 	*/
-	LPCTSTR bitmap = "heightmap.bmp";
-	sceneHeightmap.initializeDimensions(bitmap);
+
 	/*
 	/ Create a Renderer from DirectX
 	/ First initialize the device which will be used to add
@@ -49,9 +44,9 @@ void Kernel::initialize()
 
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+	resourcemanager.setDevice(directX->getDevice());
 
-	directX->fillVertices(sceneHeightmap.getBitmapOffset(), sceneHeightmap.getBitmapHeight(), sceneHeightmap.getBitmapWidth());
-	directX->fillIndices(sceneHeightmap.getBitmapOffset(), sceneHeightmap.getBitmapHeight(), sceneHeightmap.getBitmapWidth());
+
 
 
 	/*
@@ -71,8 +66,9 @@ void Kernel::initialize()
 	/ used to draw to the scene.
 	*/	
 
-	resourcemanager.setDevice(directX->getDevice());
+	resourcemanager.loadTexture("textures/skybox.png");
 	resourcemanager.loadMesh("meshes/tiger.x");
+
 	//resourcemanager.loadMaterials(directX->getDevice());
 
 	//ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
@@ -102,11 +98,17 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	Vector cameraPosition = Vector(0.5, 0.5, 0.5);
+	Vector cameraPosition = Vector(0.5, 20, -80);
+	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
 	Vector cameraDirection = Vector(-0.5, 0.5, 1.0);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
-
 	
+	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
+	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
+	
+	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+	scenemanager.getScene("scene1")->addTerrain(resourcetexture);
+
 	scenemanager.getScene("scene1")->addEntityCamera(cameraPosition, cameraDirection, cameraUp);
 }
 
@@ -132,46 +134,12 @@ void Kernel::programLoop() {
 		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
 		inputmanager.getMouse()->ReadMouse();
 
-
-		
-		std::cout << inputmanager.getMouse()->getXcoord() << " ";
-		std::cout << inputmanager.getMouse()->getYcoord() << " ";
-
 		//Exit program when escape is pushed.
 		if (inputmanager.getKeyboard()->IsEscapePressed())
 		{
 			msg.message = WM_QUIT;
 		}
 		
-		if(keyboardinput == 3)
-		{
-			terFront -= 1;
-		}
-
-		if(keyboardinput == 4)
-		{
-			terFront += 1;
-		}
-
-		if(keyboardinput == 5)
-		{
-			terSide -= 1;
-		}
-
-		if(keyboardinput == 6)
-		{
-			terSide += 1;
-		}
-
-		if(keyboardinput == 7)
-		{
-			terUp -= 1;
-		}
-
-		if(keyboardinput == 8)
-		{
-			terUp += 1;
-		}
 
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -192,7 +160,7 @@ void Kernel::programLoop() {
 				sceneHeightmap.getBitmapHeight());
 			*/	
 
-			scenemanager.drawScene(scenemanager.getScene("scene1"), terSide , terFront , terUp, sceneHeightmap.getBitmapWidth(), sceneHeightmap.getBitmapHeight() );
+			scenemanager.drawScene(scenemanager.getScene("scene1"));
 
 
 		}

@@ -23,6 +23,8 @@ public:
 	~Resourcemanager(void);
 
 	void setDevice(void*);
+	
+	void loadTexture(std::string);
 
 	HRESULT loadAllMeshes();
 	HRESULT loadMesh(std::string);

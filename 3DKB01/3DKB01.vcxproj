@@ -32,7 +32,6 @@
     <ClCompile Include="Windowmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityCamera.h" />
     <ClInclude Include="EntityModel.h" />

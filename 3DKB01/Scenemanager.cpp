@@ -35,10 +35,10 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 	return NULL;
 }
 
-void Scenemanager::drawScene(Scene *argScene, float argTerSide, float argTerFront, float argTerUp, int argWidth, int argHeight)
+void Scenemanager::drawScene(Scene *argScene)
 {
 	argScene->setView(); // set the view   ...(camera)
-	argScene->renderScene(argTerSide, argTerFront, argTerUp, argWidth, argHeight);
+	argScene->renderScene();
 }
 
 

@@ -15,7 +15,7 @@ public:
 	void createScene(std::string, RendererInterface*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
-	void drawScene(Scene *argScene,float,float,float, int , int);
+	void drawScene(Scene *argScene);
 };
 
 #endif

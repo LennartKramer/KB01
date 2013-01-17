@@ -2,14 +2,20 @@
 #define __RENDERERINTERFACE_H__
 
 #include "ResourceTexture.h"
-#include "CustomVertex.h"
 #include "VECTOR.h"
 #include <fstream>
 
 #pragma warning(disable : 4996)
 #pragma warning(default : 4996)
 
-#define D3DFVF_CustomVertex (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+struct CUSTOMVERTEX
+{
+//	CUSTOMVERTEX(){}
+//	CUSTOMVERTEX(float argX,float argY,float argZ,float argFU,float argFV){ x = argX; y = argY; z = argZ; fU = argFU; fV = argFV; }
+
+	float x,y,z;
+	float fU, fV;
+};
 
 interface RendererInterface
 {
@@ -25,25 +31,23 @@ public:
 
 	virtual void* getDevice(void) = 0;
 	
+	virtual void createVertexBuffer(int, std::string, CUSTOMVERTEX*){}
+	virtual void createIndexBuffer(int, const std::string&, short*) = 0;
+
+
 	virtual void clear(void){}
 	virtual void beginScene(void){}
 	virtual void endScene(void){}
 	virtual void present(void){}
-	virtual void setFvf(void){}
+	virtual void setFvf(std::string){}
 
 	virtual void setTexture(ResourceTexture*){}
-
-	virtual HRESULT createSkybox() = 0;
-
-	virtual void fillVertices(int, int, int){}
-	virtual void fillIndices(int, int, int){}
-
 
 	virtual void drawPrimitive(){}
 	virtual void drawIndexedPrimitive(float, float, float, int, int){}
 
-	virtual void setStreamSource(void){}
-	virtual void setIndices(void){}
+	virtual void setStreamSource(std::string){}
+	virtual void setIndices(std::string){}
 
 	virtual void initializeVertices(HWND hWnd, void* g_pd3dDevice,
 		int bmpOffset, int bmpWidth, int bmpHeight){}

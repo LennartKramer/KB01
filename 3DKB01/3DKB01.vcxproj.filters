@@ -152,9 +152,6 @@
     <ClInclude Include="LotsoWindow.h">
       <Filter>Header Files\Window</Filter>
     </ClInclude>
-    <ClInclude Include="CustomVertex.h">
-      <Filter>Header Files\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="SceneHeightmap.h">
       <Filter>Header Files\Scene\Subclasses</Filter>
     </ClInclude>
