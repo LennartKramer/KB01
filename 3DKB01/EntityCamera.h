@@ -12,6 +12,7 @@ public:
 	Vector getUp();
 	Vector getPosition();
 	void changePosition(int);
+
 private:
 	Vector direction;	// the direction the camera is looking at
 	Vector up;   // wich direction is up?

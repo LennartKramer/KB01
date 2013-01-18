@@ -45,7 +45,13 @@ void Kernel::initialize()
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
 	resourcemanager.setDevice(directX->getDevice());
-	
+
+	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
+	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
+}
+
+void Kernel::createSingleScene()
+{
 	/*
 	/ loadMaterials
 	/ Initialize a Material Buffer and a Texture Buffer,
@@ -54,18 +60,6 @@ void Kernel::initialize()
 	resourcemanager.loadTexture("textures/terrain.bmp");
 	resourcemanager.loadTexture("textures/skybox.png");
 	resourcemanager.loadMesh("meshes/tiger.x");
-
-	//resourcemanager.loadMaterials(directX->getDevice());
-
-	//ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
-	//ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
-
-	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
-	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
-}
-
-void Kernel::createSingleScene()
-{
 	scenemanager.createScene("scene1", directX);
 
 	Vector modelPosition = Vector(2.0, 0.0, 0.0);
@@ -84,13 +78,13 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	Vector cameraPosition = Vector(0.5, 40, -60);
-	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
+	//Vector cameraPosition = Vector(0.5, 40, -60);
+	Vector cameraPosition = Vector(0.5, 0.5, 0.5);
 	Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 	
-	//resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
-	//scenemanager.getScene("scene1")->addSkybox(resourcetexture);
+	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
+	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	
 	resourcetexture  = resourcemanager.getResourceTexture("textures/terrain.bmp");
 	scenemanager.getScene("scene1")->addTerrain(resourcetexture);

@@ -13,7 +13,6 @@ class SceneSkybox
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
 
 public:
-
 	SceneSkybox();
 	SceneSkybox(RendererInterface*, ResourceTexture*);
 	~SceneSkybox(void);
