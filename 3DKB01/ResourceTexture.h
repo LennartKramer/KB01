@@ -7,11 +7,11 @@
 class ResourceTexture
 {
 private:
-	LPDIRECT3DTEXTURE9* g_pMeshTextures;
+	LPDIRECT3DTEXTURE9 g_pMeshTextures;
 public:
 	ResourceTexture(LPDIRECT3DTEXTURE9*);
 	~ResourceTexture();
-	LPDIRECT3DTEXTURE9* getMeshTextures();
+	LPDIRECT3DTEXTURE9 getMeshTextures();
 };
 
 #endif

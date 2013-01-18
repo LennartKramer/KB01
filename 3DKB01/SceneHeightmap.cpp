@@ -24,7 +24,8 @@ SceneHeightmap::~SceneHeightmap(void)
 
 void SceneHeightmap::render(void)
 {
-	
+	renderer->setTexture(texture);
+
 	renderer->setStreamSource("Terrain");
 	renderer->setFvf("Terrain");
 	renderer->setIndices("Terrain");

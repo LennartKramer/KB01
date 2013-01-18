@@ -102,7 +102,7 @@ void RendererDirectX::setupCamera(Vector argPosition, Vector argDirection, Vecto
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 1.9f, 1.0f, 0.0f, 100.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 0.0f, 100.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
 }
 
@@ -154,7 +154,7 @@ void RendererDirectX::setFvf(std::string argType)
 
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
 {
-
+	/*
 	LPDIRECT3DTEXTURE9* texture1 = argTexture->getMeshTextures();
 	LPDIRECT3DTEXTURE9 texture;
 
@@ -162,9 +162,11 @@ void RendererDirectX::setTexture(ResourceTexture* argTexture)
                           "textures/skybox.png",
                           &texture);
 	g_pd3dDevice->SetTexture(0,  texture  );
+	*/
 
-	//LPDIRECT3DTEXTURE9* texture = argTexture->getMeshTextures();
-	//g_pd3dDevice->SetTexture(0, *texture);
+	LPDIRECT3DTEXTURE9 texture = argTexture->getMeshTextures();
+
+	g_pd3dDevice->SetTexture(0, texture);
 }
 
 void RendererDirectX::drawPrimitive()

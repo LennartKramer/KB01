@@ -51,7 +51,7 @@ void Kernel::initialize()
 	/ Initialize a Material Buffer and a Texture Buffer,
 	/ used to draw to the scene.
 	*/	
-
+	resourcemanager.loadTexture("textures/terrain.bmp");
 	resourcemanager.loadTexture("textures/skybox.png");
 	resourcemanager.loadMesh("meshes/tiger.x");
 
@@ -84,15 +84,15 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	//Vector cameraPosition = Vector(0.5, 20, -80);
-	Vector cameraPosition = Vector(0.5, 0.5, 0.5);
+	Vector cameraPosition = Vector(0.5, 40, -60);
+	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
 	Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 	
-   // resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
-  //	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
+	//resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
+	//scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	
-	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+	resourcetexture  = resourcemanager.getResourceTexture("textures/terrain.bmp");
 	scenemanager.getScene("scene1")->addTerrain(resourcetexture);
 
 	scenemanager.getScene("scene1")->addEntityCamera(cameraPosition, cameraDirection, cameraUp);
@@ -151,20 +151,7 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
-			/*
-			ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
-			ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
-
-			directX->render(			
-				resourcetexture->getMeshTextures(), 
-				resourcemodel->getMesh(), 
-				sceneHeightmap.getBitmapWidth(), 
-				sceneHeightmap.getBitmapHeight());
-			*/	
-
 			scenemanager.drawScene(scenemanager.getScene("scene1"));
-
-
 		}
 	}
 
