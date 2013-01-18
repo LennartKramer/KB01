@@ -154,8 +154,17 @@ void RendererDirectX::setFvf(std::string argType)
 
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
 {
-	LPDIRECT3DTEXTURE9* texture = argTexture->getMeshTextures();
-	g_pd3dDevice->SetTexture(0, *texture);
+
+	LPDIRECT3DTEXTURE9* texture1 = argTexture->getMeshTextures();
+	LPDIRECT3DTEXTURE9 texture;
+
+	D3DXCreateTextureFromFile(g_pd3dDevice,
+                          "textures/skybox.png",
+                          &texture);
+	g_pd3dDevice->SetTexture(0,  texture  );
+
+	//LPDIRECT3DTEXTURE9* texture = argTexture->getMeshTextures();
+	//g_pd3dDevice->SetTexture(0, *texture);
 }
 
 void RendererDirectX::drawPrimitive()
@@ -169,6 +178,8 @@ void RendererDirectX::drawPrimitive()
 void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTOMVERTEX* argVertices )
 {
 	LPDIRECT3DVERTEXBUFFER9 vertexbuffer = NULL;
+
+
 
 	if (argType.compare("Skybox") == 0)
 	{
@@ -190,7 +201,7 @@ void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTO
 	VOID* pVertices;
 	vertexbuffer->Lock( 0, argSize*sizeof( CUSTOMVERTEX ), ( void** )&pVertices, 0 );
 	
-	memcpy( pVertices, argVertices, sizeof( argVertices ) );
+	memcpy( pVertices, argVertices, argSize*sizeof( CUSTOMVERTEX ) );
 	vertexbuffer->Unlock();
 
 	

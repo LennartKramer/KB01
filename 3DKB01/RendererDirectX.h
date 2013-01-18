@@ -42,6 +42,7 @@ public:
 
 	void* getDevice(void);
 
+
 	
 private:
 	std::map<std::string, LPDIRECT3DVERTEXBUFFER9>	vertexBufferMap;
