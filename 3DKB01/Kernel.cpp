@@ -89,8 +89,8 @@ void Kernel::createSingleScene()
 	Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
 	Vector cameraUp = Vector(0.0, 1.0, 0.0);
 	
-//	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
-//	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
+   // resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
+  //	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	
 	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
 	scenemanager.getScene("scene1")->addTerrain(resourcetexture);
@@ -110,6 +110,7 @@ void Kernel::createSingleScene()
 // This is what the program will do in idle time.
 // -------------------------------------------------
 void Kernel::programLoop() {
+	Scene* focusedScene = scenemanager.getScene("scene1");
 	// So, let's process those messages.
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg)); // Just incase there's something there.
@@ -125,8 +126,23 @@ void Kernel::programLoop() {
 		{
 			msg.message = WM_QUIT;
 		}
-		
-
+		// Move the camera position when one of the following cases exists.
+		// Using a CASE statement.
+		/*
+		if(inputmanager.getKeyboard()->ReadKeyboard() == 3)
+		{
+			focusedScene->getCamera()->changePosition(3);
+		} else if(inputmanager.getKeyboard()->ReadKeyboard() == 4)
+		{
+			focusedScene->getCamera()->changePosition(4);
+		} else if(inputmanager.getKeyboard()->ReadKeyboard() == 5)
+		{
+			focusedScene->getCamera()->changePosition(5);
+		} else if(inputmanager.getKeyboard()->ReadKeyboard() == 6)
+		{
+			focusedScene->getCamera()->changePosition(6);
+		}
+		*/
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.

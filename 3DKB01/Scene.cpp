@@ -53,7 +53,7 @@ void Scene::renderScene()
 	renderer->clear();
 	renderer->beginScene();
 	
-	skybox->Render();
+//	skybox->Render();
 	terrain->render();
 
 	//drawEntities(0.0, 0.0, 0.0);

@@ -31,6 +31,7 @@ public:
 	void addSkybox(ResourceTexture*);
 	void addEntityModel(Vector, Vector, ResourceModel*, ResourceTexture*); 
 	void addEntityCamera(Vector, Vector, Vector);
+	EntityCamera* getCamera() { return entityCamera; } // inlined
 
 
 	void renderScene();
