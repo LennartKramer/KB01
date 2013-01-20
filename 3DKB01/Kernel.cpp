@@ -62,7 +62,7 @@ void Kernel::createSingleScene()
 	resourcemanager.loadMesh("meshes/tiger.x");
 	scenemanager.createScene("scene1", directX);
 
-	Vector modelPosition = Vector(2.0, 0.0, 0.0);
+	Vector modelPosition = Vector(0.0, 0.0, 1.0);
 	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
 
 	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
@@ -70,7 +70,7 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	modelPosition = Vector(-2.0, 0.0, 0.0);
+	modelPosition = Vector(0.0, 0.0, 0.0);
 	modelOrientation = Vector(0.0, D3DX_PI/2, 0.0);
 
 	resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
@@ -79,9 +79,9 @@ void Kernel::createSingleScene()
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
 	//Vector cameraPosition = Vector(0.5, 40, -60);
-	Vector cameraPosition = Vector(0.5, 0.5, 0.5);
-	Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
-	Vector cameraUp = Vector(0.0, 1.0, 0.0);
+	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
+	//Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
+	//Vector cameraUp = Vector(0.0, 1.0, 0.0);
 	
 	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
 	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
@@ -89,7 +89,7 @@ void Kernel::createSingleScene()
 	resourcetexture  = resourcemanager.getResourceTexture("textures/terrain.bmp");
 	scenemanager.getScene("scene1")->addTerrain(resourcetexture);
 
-	scenemanager.getScene("scene1")->addEntityCamera(cameraPosition, cameraDirection, cameraUp);
+	scenemanager.getScene("scene1")->addEntityCamera();
 }
 
 
@@ -105,6 +105,7 @@ void Kernel::createSingleScene()
 // -------------------------------------------------
 void Kernel::programLoop() {
 	Scene* focusedScene = scenemanager.getScene("scene1");
+
 	// So, let's process those messages.
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg)); // Just incase there's something there.
@@ -112,14 +113,13 @@ void Kernel::programLoop() {
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
 		//Reading input from keyboard and mouse.
+		inputmanager.getKeyboard()->reset();
 		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
 		inputmanager.getMouse()->ReadMouse();
 
 		//Exit program when escape is pushed.
-		if (inputmanager.getKeyboard()->IsEscapePressed())
-		{
-			msg.message = WM_QUIT;
-		}
+
+		
 		// Move the camera position when one of the following cases exists.
 		// Using a CASE statement.
 		/*
@@ -145,7 +145,9 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
-			scenemanager.drawScene(scenemanager.getScene("scene1"));
+			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
+			scenemanager.drawScene(scenemanager.getScene("scene1"),inputmanager.getMouse()->getCoordMouse(),inputmanager.getMouse()->IsMouseRButtonDown(),
+				inputmanager.getKeyboard()->getargTerSide(),inputmanager.getKeyboard()->getargTerFront(),inputmanager.getKeyboard()->getargTerUp());
 		}
 	}
 

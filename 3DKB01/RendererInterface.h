@@ -26,7 +26,7 @@ public:
 	virtual HRESULT initD3D(HWND hWnd) = 0;
 	virtual void cleanUp(void){}
 	
-	virtual void setupCamera(Vector, Vector ,Vector){}	
+	virtual void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat){}	
 	virtual void setupWorldMatrix(Vector, Vector){}
 
 	virtual void* getDevice(void) = 0;

@@ -1,9 +1,14 @@
 #include <iostream>
 #include "Keyboard.h"
 
+
+
 Keyboard::Keyboard(HWND argWindow)
 {
 	escapePressed = false;
+	argTerSide = 0;
+	argTerFront = 0;
+	argTerUp = 0;
 	hwnd = argWindow;	
 	InitializeKeyboard();
 }
@@ -73,8 +78,10 @@ void Keyboard::SaveReleaseDevice()
 
  int Keyboard::ReadKeyboard()
  {
+
 	 // So first define a buffer to hold these bytes and then store the keyboard state in it:
 	char chr_KeybState[256];
+
 
 	//The parameters are of course the size of our prepared buffer and the pointer to this buffer. 
 	//The standard data format of a keyboard corresponds to an array of 256 bytes, and the size of a char is the same as the size of a byte, 8 bits. 
@@ -89,58 +96,84 @@ void Keyboard::SaveReleaseDevice()
 		return 0;
 	}
 
-
 	//Now a bit of a detailed part, that I have included only to be complete. 
 	//For every key, 1 byte is reserved in our buffer. 
 	//When a key is pressed and the keyboard state is put into our buffer, only the first bit of the byte corresponding to that key will be turned to ‘1’, 
 	//the other 7 bits of that byte are not affected. So what we’re interested in, is only the first bit. 
 	//One way to separate this bit from the rest, is to divide the number by 128 (=2^7). So if the result of this division is 1, the key has been pressed.
 
+
+
+
 	if (chr_KeybState[DIK_ESCAPE]/128)
 	{
-		 escapePressed = true;
+		 return escapePressed =true;
 	}
 
-	if (chr_KeybState[DIK_DELETE]/128)
+	
+	if (chr_KeybState[DIK_W]/128)
 	{
-		std::cout << "Delete Button Pressed.";
+		if(argTerFront < 1)
+		{
+			++argTerFront; 
+		}
 	}
-
-	if (chr_KeybState[DIK_UP]/128)
+	
+	if (chr_KeybState[DIK_S]/128)
 	{
-		return 3;
+		if(argTerFront > -1)
+		{
+			--argTerFront; 
+		}
 	}
 
-	if (chr_KeybState[DIK_DOWN]/128)
+	if (chr_KeybState[DIK_D]/128)
 	{
-		return 4;
+		if(argTerSide < 1)
+		{
+			++argTerSide; 
+		}
 	}
 
-	if (chr_KeybState[DIK_LEFT]/128)
+	if (chr_KeybState[DIK_A]/128)
 	{
-		return 5;
+		if(argTerSide > -1)
+		{
+			--argTerSide; 
+		}
 	}
-
-	if (chr_KeybState[DIK_RIGHT]/128)
-	{
-		return 6;
-	}
-
-	if (chr_KeybState[DIK_P]/128)
-	{
-		return 7;
-	}
-
-	if (chr_KeybState[DIK_L]/128)
-	{
-		return 8;
-	}
-
-
+	
+	
 	return 1;
  }
+
 
  bool Keyboard::IsEscapePressed()
  {
 	 return escapePressed;
  }
+
+ float Keyboard::getargTerFront()
+ {
+	 return argTerFront;
+	 argTerFront = 0;
+ }
+
+  float Keyboard::getargTerSide()
+ {
+	 return argTerSide;
+	 argTerSide = 0;
+ }
+
+   float Keyboard::getargTerUp()
+ {
+	 return argTerUp;
+	 argTerUp = 0;
+ }
+
+   void Keyboard::reset()
+   {
+	argTerFront = 0;
+	argTerSide = 0;
+	argTerUp = 0;
+   }

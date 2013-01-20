@@ -30,13 +30,13 @@ public:
 	void addTerrain(ResourceTexture*);
 	void addSkybox(ResourceTexture*);
 	void addEntityModel(Vector, Vector, ResourceModel*, ResourceTexture*); 
-	void addEntityCamera(Vector, Vector, Vector);
+	void addEntityCamera();
 	EntityCamera* getCamera() { return entityCamera; } // inlined
 
 
-	void renderScene();
+	void renderScene(float argTerSide,float argTerFront,float argTerUp);
 	void drawEntities(float, float, float); // draw all the entities in the scene
-	void setView(); // set the view matrices, depends on the position and orientation of the camera
+	void setView(POINT mouse, bool isMouseRPressed); // set the view matrices, depends on the position and orientation of the camera
 
 
 };

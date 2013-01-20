@@ -68,7 +68,7 @@ void RendererDirectX::cleanUp(void)
 / After the view matrix is set up and defined by giving it and eye point,
 / from where it is being looked at. At last a perspective transform is set up.
 */
-void RendererDirectX::setupCamera(Vector argPosition, Vector argDirection, Vector argUp)
+void RendererDirectX::setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3* Lookat)
 {
 	//D3DXMATRIXA16 matWorld;
 
@@ -78,36 +78,23 @@ void RendererDirectX::setupCamera(Vector argPosition, Vector argDirection, Vecto
 	//D3DXMatrixRotationY(&matWorld, fAngle);
 	//g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	
-
-	D3DXVECTOR3 position;
-	position.x = argPosition.getX() ;
-	position.y = argPosition.getY() ;
-	position.z = argPosition.getZ() ;
-
-	D3DXVECTOR3 direction ;
-	direction.x = argDirection.getX() ;
-	direction.y = argDirection.getY() ;
-	direction.z = argDirection.getZ() ;
-
-	D3DXVECTOR3 up;
-	up.x = argUp.getX();
-	up.y = argUp.getY();
-	up.z = argUp.getZ();
+	D3DXVECTOR3 vUp( 0,1,0 );
 
 	//D3DXVECTOR3 vEyePt(0.0f, 8.0f, 12.0f);
 	//D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 	//D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMATRIXA16 matView;
-	D3DXMatrixLookAtLH(&matView, &position, &direction, &up);
+	D3DXMatrixLookAtLH(&matView, eyePT, Lookat, &vUp);
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 0.0f, 100.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
 }
 
 void RendererDirectX::setupWorldMatrix(Vector position, Vector orientation)
 {
+	
 	D3DXMATRIXA16 matWorld;
 	D3DXMATRIXA16 matTranslation;
 	D3DXMATRIXA16 matOrientation;

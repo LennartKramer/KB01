@@ -5,6 +5,8 @@
 #include <dinput.h> 
 #include <Windows.h>
 
+
+
 class Keyboard
 {
 public:
@@ -15,12 +17,22 @@ public:
 	void SaveReleaseDevice();
 	int ReadKeyboard();
 	bool IsEscapePressed();
+	bool getPressedKey(int);
+	float getargTerSide();
+	float getargTerFront();
+	float getargTerUp();
+	void reset();
+
 private:
 	bool				 escapePressed;
+	float				 argTerSide;
+	float				 argTerFront;
+	float				 argTerUp;
 	HRESULT				 hr;
 	HWND				 hwnd;
 	LPDIRECTINPUT8		 p_dx_KeybObject;
 	LPDIRECTINPUTDEVICE8 p_dx_KeybDevice;
+
 };
 
 #endif

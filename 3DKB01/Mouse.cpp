@@ -18,6 +18,7 @@ bool Mouse::IsDown(int button)
 	}
 	return false;
 }
+
 bool Mouse::IsUp(int button)
 {
 	return((mousestate.rgbButtons[button] & 0x80)!=0?false:true);
@@ -37,7 +38,6 @@ int Mouse::GetWheel()
 {
 	return(mousestate.lZ);
 }
-
 
 bool Mouse::InitializeMouse()
  {
@@ -75,7 +75,6 @@ bool Mouse::InitializeMouse()
 	return true;
  }
 
-
 void Mouse::SaveReleaseDevice()
 {
 	if(p_dx_MouseObject)
@@ -89,7 +88,7 @@ void Mouse::SaveReleaseDevice()
 	}
 }	
 
- bool Mouse::GoAcquire()
+bool Mouse::GoAcquire()
  {
 	 //try and aquire 5 times in case initial aquire fails.
 	 for(int i = 0; i < 5 ; ++i)
@@ -102,7 +101,7 @@ void Mouse::SaveReleaseDevice()
 	 return false;
  }
 
- int Mouse::ReadMouse()
+int Mouse::ReadMouse()
 {
 	hr = p_dx_MouseDevice->GetDeviceState(sizeof(DIMOUSESTATE2), &mousestate);
 	if(FAILED(hr))
@@ -127,3 +126,40 @@ void Mouse::SaveReleaseDevice()
 	}
  }
 
+void Mouse::setCoordMouse(POINT coord)
+{
+	mousestate.lX = coord.x;
+	mousestate.lY = coord.y;
+}
+
+POINT Mouse::getCoordMouse()
+{
+	POINT coordMouse;
+	coordMouse.x = mousestate.lX;
+	coordMouse.y = mousestate.lY;
+
+	return coordMouse;
+}
+
+
+bool Mouse::IsMouseLButtonDown()
+{
+	if(mousestate.rgbButtons[0] & 0x80)
+ {
+ return true;
+ }
+
+return false;
+
+}
+
+bool Mouse::IsMouseRButtonDown()
+{
+	if(mousestate.rgbButtons[1] & 0x80)
+ {
+ return true;
+ }
+
+return false;
+
+}

@@ -20,7 +20,7 @@ public:
 	HRESULT initD3D(HWND hWndw);
 
 	void cleanUp(void);
-	void setupCamera(Vector, Vector, Vector);
+	void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat);
 	void setupWorldMatrix(Vector, Vector);
 
 	void createVertexBuffer(int, std::string, CUSTOMVERTEX*);

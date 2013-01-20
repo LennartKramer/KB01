@@ -23,15 +23,16 @@ void Scene::addEntityModel(Vector argPosition , Vector argOrientation, ResourceM
 	entityModelList.push_back(entityModel);
 }
 // Adds a camera to the scene.
-void Scene::addEntityCamera(Vector argPosition, Vector argDirection, Vector argUp)
+void Scene::addEntityCamera()
 {
-	entityCamera = new EntityCamera(argPosition, argDirection, argUp);
+	entityCamera = new EntityCamera();
 }
 
 // Sets the view orientation of the camera.
-void Scene::setView()
+void Scene::setView(POINT mouse, bool isMouseRPressed)
 {
-	renderer->setupCamera(entityCamera->getPosition(), entityCamera->getDirection(), entityCamera->getUp());
+	entityCamera->Move(mouse,isMouseRPressed);
+	renderer->setupCamera(entityCamera->GetEyePt(), entityCamera->GetLookAtPt());
 }
 
 
@@ -47,16 +48,16 @@ void Scene::addTerrain(ResourceTexture* argTexture)
 
 // Renders a scene.
 // Draws it on the screen
-void Scene::renderScene()
+void Scene::renderScene(float argTerSide,float argTerFront,float argTerUp)
 {
 	// Clear the backbuffer to a purple color
 	renderer->clear();
 	renderer->beginScene();
 	
-	skybox->Render();
-	terrain->render();
+//	skybox->Render();
+//	terrain->render();
 
-	//drawEntities(0.0, 0.0, 0.0);
+	drawEntities(argTerSide, argTerFront, argTerUp);
 
 	renderer->endScene();
 	renderer->present();
@@ -77,15 +78,15 @@ void Scene::drawEntities(float argTerSide,float argTerFront,float argTerUp)
 			float currentZ = oldPosition.getZ();
 
 			float newPositionX = argTerSide + currentX;
-			float newPositionY = argTerFront + currentY;
-			float newPositionZ = argTerUp + currentZ;
+			float newPositionY = argTerUp + currentY;
+			float newPositionZ = argTerFront + currentZ;
 
 			Vector newPosition = Vector(newPositionX, newPositionY, newPositionZ);
 			(*Iterator)->setPosition(newPosition);
 			
 			// get the model and the texture from the entity (the iterator)
 			renderer->setupWorldMatrix((*Iterator)->getPosition(), (*Iterator)->getOrientation());
-			//directX->render(
+		
 			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ;
 			
 			renderer->setTexture((*Iterator)->getTexture());
