@@ -82,7 +82,7 @@ void Kernel::createSingleScene()
 	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
 	//Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
 	//Vector cameraUp = Vector(0.0, 1.0, 0.0);
-	
+
 	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
 	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	

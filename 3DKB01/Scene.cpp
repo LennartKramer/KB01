@@ -54,10 +54,12 @@ void Scene::renderScene(float argTerSide,float argTerFront,float argTerUp)
 	renderer->clear();
 	renderer->beginScene();
 	
-//	skybox->Render();
-//	terrain->render();
+	skybox->Render();
 
+	terrain->render(argTerSide, argTerFront, argTerUp);
 	drawEntities(argTerSide, argTerFront, argTerUp);
+
+	
 
 	renderer->endScene();
 	renderer->present();

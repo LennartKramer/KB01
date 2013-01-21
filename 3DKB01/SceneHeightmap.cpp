@@ -3,10 +3,12 @@
 
 SceneHeightmap::SceneHeightmap(void)
 {
+
 };
 
 SceneHeightmap::SceneHeightmap(RendererInterface* argRenderer, ResourceTexture* argTexture)
 {
+	position = Vector(0.0, 0.0, 0.0);
 	texture = argTexture;
 	renderer = argRenderer;
 
@@ -22,15 +24,29 @@ SceneHeightmap::~SceneHeightmap(void)
 
 };
 
-void SceneHeightmap::render(void)
+void SceneHeightmap::render(float argTerSide, float argTerFront, float argTerUp)
 {
+	
+	
+	float currentX = position.getX();
+	float currentY = position.getY();
+	float currentZ = position.getZ();
+
+	float newPositionX = argTerSide + currentX;
+	float newPositionY = argTerUp + currentY;
+	float newPositionZ = argTerFront + currentZ;
+
+	Vector newPosition = Vector(newPositionX, newPositionY, newPositionZ);
+
+	setPosition(newPosition);
+
 	renderer->setTexture(texture);
 
 	renderer->setStreamSource("Terrain");
 	renderer->setFvf("Terrain");
 	renderer->setIndices("Terrain");
 
-	renderer->drawIndexedPrimitive(0.0, 0.0, 0.0, bmpWidth, bmpHeight);	
+	renderer->drawIndexedPrimitive(position.getX(), position.getY(), position.getZ(), bmpWidth, bmpHeight);	
 }
 
 void SceneHeightmap::fillIndices()
@@ -67,7 +83,11 @@ void SceneHeightmap::fillVertices()
 	int offset = bmpOffset;
 	int WIDTH = bmpWidth;
 	int HEIGHT = bmpHeight;
-	
+
+	float change = 1.0f / (float)bmpWidth;
+	float fU = 0- change;
+	float fV = 0- change;	
+
     CUSTOMVERTEX *cv_Vertices = new CUSTOMVERTEX[WIDTH*WIDTH];
 
     std::ifstream f_DataFile;
@@ -81,18 +101,21 @@ void SceneHeightmap::fillVertices()
         }
 
         for (int x=0;x< WIDTH;x++)        {
-
+			fV = 0- change;
             for (int y=0; y< HEIGHT;y++)            {
-                int height = f_DataFile.get();
+				int height = f_DataFile.get();
                 height += f_DataFile.get();
                 height += f_DataFile.get();
                 height /= 8;
                 cv_Vertices[y*WIDTH + x].x = -x;
                 cv_Vertices[y*WIDTH + x].y = height;
                 cv_Vertices[y*WIDTH + x].z = y;
-				cv_Vertices[y*WIDTH + x].fU = 0;
-				cv_Vertices[y*WIDTH + x].fV = 0;
+				cv_Vertices[y*WIDTH + x].fU = fU;
+				cv_Vertices[y*WIDTH + x].fV = fV;
+				fV = fV - change;
             }
+				fU = fU - change;
+				
         }
     }else{
         

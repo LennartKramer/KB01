@@ -94,7 +94,7 @@ HRESULT SceneSkybox::initVB()
 	
 	CUSTOMVERTEX* cv_Vertices = new CUSTOMVERTEX[36];
 
-	for (int i = 0; i < 35; i++)
+	for (int i = 0; i < 36; i++)
 	{
 		cv_Vertices[i].x = vertices[i].x;
 		cv_Vertices[i].y = vertices[i].y;

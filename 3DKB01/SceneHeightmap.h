@@ -15,6 +15,8 @@ private:
 	int bmpWidth;
 	int bmpHeight;
 
+	Vector position;
+
 	RendererInterface* renderer;
 	ResourceTexture* texture;
 public:
@@ -25,7 +27,7 @@ public:
 	void fillVertices();
 	void fillIndices();
 
-	void render(void);
+	void render(float, float, float);
 
 	bool initializeDimensions(LPCSTR fileName);
 	
@@ -37,7 +39,8 @@ public:
 	long set_height (void);
 	long set_width (void);
 
-	
+	void setPosition(Vector argPosition){position = argPosition;}
+	Vector getPosition(){return position;}
 };
 
 #endif

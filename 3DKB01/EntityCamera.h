@@ -10,10 +10,10 @@ public:
 	EntityCamera();
 	~EntityCamera(void);
 
-	void                Reset();
-	void                SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt );
-	void                SetProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane, FLOAT fFarPlane );
-	void                Move(POINT CurMousePos,bool MouseButtonPressed);
+	void Reset();
+	void SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt );
+	void SetProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane, FLOAT fFarPlane );
+	void Move(POINT CurMousePos,bool MouseButtonPressed);
 	void SetDragRect( RECT &rc ) { m_rcDrag = rc; }
 
 

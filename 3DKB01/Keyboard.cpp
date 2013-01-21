@@ -143,6 +143,22 @@ void Keyboard::SaveReleaseDevice()
 		}
 	}
 	
+	if (chr_KeybState[DIK_UP]/128)
+	{
+		if(argTerSide < 1)
+		{
+			++argTerUp; 
+		}
+	}
+
+	if (chr_KeybState[DIK_DOWN]/128)
+	{
+		if(argTerSide > -1)
+		{
+			--argTerUp; 
+		}
+	}
+
 	
 	return 1;
  }

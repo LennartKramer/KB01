@@ -130,35 +130,27 @@ void RendererDirectX::present()
 void RendererDirectX::setFvf(std::string argType)
 {
 	
-	if(argType.compare("Skybox") == 0)
-	{
+//	if(argType.compare("Skybox") == 0)
+//	{
 		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
-	}else if (argType.compare("Terrain") == 0)
-	{
-		g_pd3dDevice->SetFVF(D3DFVF_XYZ|D3DFVF_DIFFUSE);
-	}
+//	}
+//	else if (argType.compare("Terrain") == 0)
+//	{
+//		g_pd3dDevice->SetFVF(D3DFVF_XYZ|D3DFVF_DIFFUSE);
+//	}
 }
 
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
 {
-	/*
-	LPDIRECT3DTEXTURE9* texture1 = argTexture->getMeshTextures();
-	LPDIRECT3DTEXTURE9 texture;
-
-	D3DXCreateTextureFromFile(g_pd3dDevice,
-                          "textures/skybox.png",
-                          &texture);
-	g_pd3dDevice->SetTexture(0,  texture  );
-	*/
-
 	LPDIRECT3DTEXTURE9 texture = argTexture->getMeshTextures();
-
 	g_pd3dDevice->SetTexture(0, texture);
 }
 
 void RendererDirectX::drawPrimitive()
 {
-	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 16 );
+	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 12 );
+
+
 }
 
 // Create the vertex buffer.
@@ -168,19 +160,17 @@ void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTO
 {
 	LPDIRECT3DVERTEXBUFFER9 vertexbuffer = NULL;
 
-
-
-	if (argType.compare("Skybox") == 0)
-	{
-		//skybox
-		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof( CUSTOMVERTEX ), 0, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &vertexbuffer, NULL );
-	}
-	else if(argType.compare("Terrain") == 0)
-	{
-		//terrain
-		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_XYZ|D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vertexbuffer, NULL);
-	}
-
+//	if (argType.compare("Skybox") == 0)
+//	{
+//		//skybox
+		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &vertexbuffer, NULL );
+//	}
+//	else if(argType.compare("Terrain") == 0)
+//	{
+//		//terrain
+//		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_XYZ|D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vertexbuffer, NULL);
+//	}
+//
 	// Fill the vertex buffer.
 	// To do this, we need to Lock() the VB to
     // gain access to the vertices. 
@@ -217,7 +207,7 @@ void RendererDirectX::drawIndexedPrimitive(float terSide, float terFront, float 
 {
 	
 	D3DXMATRIX m_Rotation;
-    D3DXMatrixRotationX(&m_Rotation, 0.0 );
+    D3DXMatrixRotationY(&m_Rotation, 0 );
 
 	D3DXMATRIX m_Translation;
     D3DXMatrixTranslation(&m_Translation, terSide, terFront, terUp);

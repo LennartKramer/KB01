@@ -5,8 +5,11 @@
 EntityCamera::EntityCamera()
 {
 	// Set attributes for the view matrix
-    D3DXVECTOR3 vEyePt = D3DXVECTOR3( -1.0f, -2.0f,-5.0f );
-    D3DXVECTOR3 vLookatPt = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
+    //D3DXVECTOR3 vEyePt = D3DXVECTOR3( -1.0f, -2.0f,-5.0f );
+    //D3DXVECTOR3 vLookatPt = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
+
+	D3DXVECTOR3 vEyePt = D3DXVECTOR3( 0.5f, 0.5f, 0.5f );
+    D3DXVECTOR3 vLookatPt = D3DXVECTOR3(  -0.5f, 0.5f, 0.5f );
 
 	// Setup the view matrix
     SetViewParams( &vEyePt, &vLookatPt );
