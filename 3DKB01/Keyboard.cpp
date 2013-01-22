@@ -171,20 +171,17 @@ void Keyboard::SaveReleaseDevice()
 
  float Keyboard::getargTerFront()
  {
-	 return argTerFront;
-	 argTerFront = 0;
+	 return argTerFront * 0.1;
  }
 
   float Keyboard::getargTerSide()
  {
-	 return argTerSide;
-	 argTerSide = 0;
+	 return argTerSide * 0.1;
  }
 
    float Keyboard::getargTerUp()
  {
-	 return argTerUp;
-	 argTerUp = 0;
+	 return argTerUp* 0.1;
  }
 
    void Keyboard::reset()

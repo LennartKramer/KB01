@@ -78,11 +78,6 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
-	//Vector cameraPosition = Vector(0.5, 40, -60);
-	//Vector cameraPosition = Vector(0.5, 0.5, 0.5);
-	//Vector cameraDirection = Vector(-0.5, 0.5, 0.5);
-	//Vector cameraUp = Vector(0.0, 1.0, 0.0);
-
 	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
 	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	
@@ -117,26 +112,11 @@ void Kernel::programLoop() {
 		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
 		inputmanager.getMouse()->ReadMouse();
 
-		//Exit program when escape is pushed.
 
-		
+
 		// Move the camera position when one of the following cases exists.
 		// Using a CASE statement.
-		/*
-		if(inputmanager.getKeyboard()->ReadKeyboard() == 3)
-		{
-			focusedScene->getCamera()->changePosition(3);
-		} else if(inputmanager.getKeyboard()->ReadKeyboard() == 4)
-		{
-			focusedScene->getCamera()->changePosition(4);
-		} else if(inputmanager.getKeyboard()->ReadKeyboard() == 5)
-		{
-			focusedScene->getCamera()->changePosition(5);
-		} else if(inputmanager.getKeyboard()->ReadKeyboard() == 6)
-		{
-			focusedScene->getCamera()->changePosition(6);
-		}
-		*/
+
 		// Are there any messages waiting to be processed?
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			// Translate it and send it off for processing.
