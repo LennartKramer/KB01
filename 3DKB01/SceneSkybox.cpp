@@ -85,10 +85,11 @@ HRESULT SceneSkybox::initVB()
 		{ 0.0f, 0.0f, 0.0f, 0.8f, 1.0f },
 		{ 0.0f, 1.0f, 0.0f, 0.8f, 0.0f },
 		{ 1.0f, 1.0f, 0.0f, 0.6f, 0.0f },
-
+		
 		{ 0.0f, 0.0f, 0.0f, 0.8f, 1.0f },
 		{ 1.0f, 1.0f, 0.0f, 0.6f, 0.0f },
 		{ 1.0f, 0.0f, 0.0f, 0.6f, 1.0f },
+		
     };
 	
 	
@@ -193,6 +194,9 @@ void SceneSkybox::Render()
 
 	renderer->setStreamSource("Skybox");
 	renderer->setFvf("Skybox");
+	renderer->zBufferDisable();
 	renderer->drawPrimitive();
+	renderer->zBufferEnable();
+	//directX->zBufferEnable();
 }
 

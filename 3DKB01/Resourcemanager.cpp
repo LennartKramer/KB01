@@ -18,17 +18,17 @@ void Resourcemanager::setDevice(void* argDevice)
 {
 	device = (LPDIRECT3DDEVICE9)argDevice;
 }
-
 void Resourcemanager::loadTexture(std::string argName)
 {
 	LPCSTR argName_LPCSTR = argName.c_str();
 	LPDIRECT3DTEXTURE9 texture;
 		
-	D3DXCreateTextureFromFile(device, argName_LPCSTR, &texture);
-
+	HRESULT result = D3DXCreateTextureFromFile(device, argName_LPCSTR, &texture);
+	Logger::message(result, "D3DXCreateTextureFromFile");
 	ResourceTexture* resourceTexture = new ResourceTexture(&texture);
 	
 	resourceTextures.insert(std::pair<std::string, ResourceTexture*>(argName, resourceTexture));
+
 }
 
 HRESULT Resourcemanager::loadAllMeshes()
@@ -102,4 +102,14 @@ ResourceTexture*	Resourcemanager::getResourceTexture(std::string argString)
 			return Iterator->second;
 		}
 	}
+}
+
+std::map<std::string, ResourceModel*> Resourcemanager::getResourceModels()
+{
+	return resourceModels;
+}
+
+std::map<std::string, ResourceTexture*> Resourcemanager::getResourceTextures()
+{
+	return resourceTextures;
 }

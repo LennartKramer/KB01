@@ -37,16 +37,18 @@ void Kernel::sandBoxInterface() {
 
 void Kernel::initialize()
 {
+	HRESULT result;
 	// create all managers
 	windowmanager = Windowmanager();
+	
 	scenemanager = Scenemanager();
 	resourcemanager = Resourcemanager();
 	inputmanager = Inputmanager();
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
-	windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
+	//windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
 	windowmanager.getWindow("window1")->show();
-	windowmanager.getWindow("window2")->show();
+	//windowmanager.getWindow("window2")->show();
 	/*
 	/ LPCSTR bitmap - A long string used to open a bitmapfile.
 	/ initializeDimensions - Find the value for the offset, width
@@ -62,19 +64,20 @@ void Kernel::initialize()
 	*/
 
 	directX = new RendererDirectX();
-	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+	result = directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+	Logger::message(result, "initialize direct3d...");
 
 	resourcemanager.setDevice(directX->getDevice());
 
-	LPDIRECT3DSURFACE9 pBackBuffer = NULL;
-	directX->getSwapChain("swap1")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
-	directX->getDevice()->SetRenderTarget(0, pBackBuffer);
+	//LPDIRECT3DSURFACE9 pBackBuffer = NULL;
+	//directX->getSwapChain("swap1")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
+	//directX->getDevice()->SetRenderTarget(0, pBackBuffer);
 	
-	int swapping;
-	std::cin >> swapping;
+	//int swapping;
+	//std::cin >> swapping;
 
-	directX->getSwapChain("swap2")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
-	directX->getDevice()->SetRenderTarget(0, pBackBuffer);
+	//directX->getSwapChain("swap2")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
+	//directX->getDevice()->SetRenderTarget(0, pBackBuffer);
 
 	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
 	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
@@ -90,9 +93,13 @@ void Kernel::createSingleScene()
 	resourcemanager.loadTexture("textures/skybox.png");
 	resourcemanager.loadTexture("textures/terrain.bmp");
 	resourcemanager.loadMesh("meshes/tiger.x");
+
+
 	scenemanager.createScene("scene1", directX);
 
+
 	Vector modelPosition = Vector(0.0, 0.0, 1.0);
+
 	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
 
 	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
@@ -100,7 +107,9 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
+
 	modelPosition = Vector(0.0, 0.0, 0.0);
+
 	modelOrientation = Vector(0.0, D3DX_PI/2, 0.0);
 
 	resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
@@ -108,11 +117,12 @@ void Kernel::createSingleScene()
 
 	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
+
 	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
 	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
 	
 	resourcetexture  = resourcemanager.getResourceTexture("textures/terrain.bmp");
-	scenemanager.getScene("scene1")->addTerrain(resourcetexture);
+	//scenemanager.getScene("scene1")->addTerrain(resourcetexture);
 
 	scenemanager.getScene("scene1")->addEntityCamera();
 }
@@ -129,7 +139,7 @@ void Kernel::createSingleScene()
 // This is what the program will do in idle time.
 // -------------------------------------------------
 void Kernel::programLoop() {
-	Scene* focusedScene = scenemanager.getScene("scene1");
+	Scene* focusedScene = scenemanager.getScene("level1.llf");
 
 	// So, let's process those messages.
 	MSG msg;
@@ -153,12 +163,61 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
+
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager.drawScene(scenemanager.getScene("scene1"),inputmanager.getMouse()->getCoordMouse(),inputmanager.getMouse()->IsMouseRButtonDown(),
+			scenemanager.drawScene(focusedScene,inputmanager.getMouse()->getCoordMouse(),inputmanager.getMouse()->IsMouseRButtonDown(),
 				inputmanager.getKeyboard()->getargTerSide(),inputmanager.getKeyboard()->getargTerFront(),inputmanager.getKeyboard()->getargTerUp());
+
 		}
 	}
 
+}
+
+void Kernel::loadLevelFile(std::string argLevelfile)
+{
+	std::string line;
+	std::ifstream infile;
+	infile.open (argLevelfile);
+	getline(infile,line);
+	while(line != "meshes:") // skip lines until meshes is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+    getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load meshes from the lines until end is found
+        {
+			resourcemanager.loadMesh(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	while(line != "textures:") // skip lines until textures is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+	getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load textures from the lines until end is found
+        {
+			resourcemanager.loadTexture(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	while(line != "heightmap:") // skip lines until heightmap is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+	    getline(infile,line); // Saves the line in "line".
+		getline(infile,line); // Saves the line in "line".
+		resourcemanager.loadTexture(line); 
+	while(line != "skybox:") // skip lines until skybox is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+		getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load skybox from the lines until end is found
+        {
+			resourcemanager.loadTexture(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	Resourcemanager* resources = &resourcemanager;
+	scenemanager.createSceneFromFile(argLevelfile, directX, resources);
 }
 
 //-----------------------------------------------------------------------------

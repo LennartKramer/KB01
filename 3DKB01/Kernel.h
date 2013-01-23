@@ -7,9 +7,11 @@
 #include "Resourcemanager.h"
 #include "Inputmanager.h"
 #include "SceneHeightmap.h"
+#include "Logger.h"
 #include <map>
 #include <iostream>
 #include <Windows.h>
+
 
 class Kernel
 {
@@ -33,6 +35,7 @@ public:
 	//void bindWindowScene(LotsoWindow* argWindow, Scene* argScene);
 	void cleanup();
 	RendererInterface* getDirectX(void);
+	void loadLevelFile(std::string);
 };
 
 #endif

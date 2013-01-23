@@ -31,6 +31,8 @@ public:
 	void clear(void);
 	void present(void);
 	void setFvf(std::string);
+	void zBufferEnable() { g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); }
+	void zBufferDisable() { g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, FALSE );g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); }
 
 	void setTexture(ResourceTexture*);
 

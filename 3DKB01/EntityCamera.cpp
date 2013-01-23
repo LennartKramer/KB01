@@ -6,8 +6,10 @@ EntityCamera::EntityCamera()
 {
 
 	// Set attributes for the view matrix
+
  //   D3DXVECTOR3 vEyePt = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
   //  D3DXVECTOR3 vLookatPt = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+
     //D3DXVECTOR3 vEyePt = D3DXVECTOR3( -1.0f, -2.0f,-5.0f );
     //D3DXVECTOR3 vLookatPt = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
 
@@ -92,6 +94,46 @@ VOID EntityCamera::SetProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
     D3DXMatrixPerspectiveFovLH( &m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
 }
 
+/*
+void EntityCamera::rotate(float argRelativeX, float argRelativeY)
+{
+	D3DXVECTOR3 vDirection,vRotAxis;
+D3DXMATRIX matRotAxis,matRotZ;
+
+
+D3DXVec3Normalize(&vDirection,
+                  &(direction - position)); //create direction vector
+
+D3DXVec3Cross(&vRotAxis,&vDirection,&up); //strafe vector
+D3DXVec3Normalize(&vRotAxis,&vRotAxis);
+
+//create rotation matrices
+D3DXMatrixRotationAxis(&matRotAxis,
+                       &vRotAxis,
+                       argRelativeY / -360);
+
+D3DXMatrixRotationZ(&matRotZ, argRelativeX / -360);
+
+//rotate direction
+D3DXVec3TransformCoord(&vDirection,&vDirection,&(matRotAxis * matRotZ));
+//rotate up vector
+D3DXVec3TransformCoord(&up,&up,&(matRotAxis * matRotZ));
+//translate up vector
+direction = vDirection + position;
+} //Rotate
+
+void EntityCamera::update(float argRelativeX, float argRelativeY)
+{
+	rotate(argRelativeX, argRelativeY);
+//Move();
+
+//create view matrix
+//D3DXMatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUp);
+//set view matrix
+//g_App.GetDevice()->SetTransform(D3DTS_VIEW,&m_matView);
+}
+*/
+//void EntityCamera::changePosition(int value)
 
 //--------------------------------------------------------------------------------------
 // Figure out the mouse delta based on mouse movement

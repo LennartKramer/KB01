@@ -41,9 +41,9 @@ void Scene::addSkybox(ResourceTexture* argTexture)
 	skybox = new SceneSkybox(renderer, argTexture);
 }
 
-void Scene::addTerrain(ResourceTexture* argTexture)
+void Scene::addTerrain(std::string argHeightmap, ResourceTexture* argTexture)
 {
-	terrain = new SceneHeightmap(renderer, argTexture);
+	terrain = new SceneHeightmap(renderer, argHeightmap, argTexture);
 }
 
 // Renders a scene.
@@ -58,12 +58,12 @@ void Scene::renderScene(float argTerSide,float argTerFront,float argTerUp)
 
 	terrain->render(argTerSide, argTerFront, argTerUp);
 	drawEntities(argTerSide, argTerFront, argTerUp);
-
 	
 
 	renderer->endScene();
 	renderer->present();
 }
+
 
 // Draws all entities on the screen.
 
@@ -88,11 +88,14 @@ void Scene::drawEntities(float argTerSide,float argTerFront,float argTerUp)
 			
 			// get the model and the texture from the entity (the iterator)
 			renderer->setupWorldMatrix((*Iterator)->getPosition(), (*Iterator)->getOrientation());
-		
+
 			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ;
 			
 			renderer->setTexture((*Iterator)->getTexture());
 			mesh->DrawSubset(0);
-
 		}
 }
+EntityCamera* Scene::getEntityCamera()
+	{
+		return entityCamera;
+	}

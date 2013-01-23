@@ -6,13 +6,13 @@ SceneHeightmap::SceneHeightmap(void)
 
 };
 
-SceneHeightmap::SceneHeightmap(RendererInterface* argRenderer, ResourceTexture* argTexture)
+SceneHeightmap::SceneHeightmap(RendererInterface* argRenderer, std::string argHeightmap, ResourceTexture* argTexture)
 {
 	position = Vector(0.0, 0.0, 0.0);
 	texture = argTexture;
 	renderer = argRenderer;
 
-	LPCTSTR bitmap = "heightmap.bmp";
+	LPCTSTR bitmap = argHeightmap.c_str();
 	initializeDimensions(bitmap);
 
 	fillVertices();

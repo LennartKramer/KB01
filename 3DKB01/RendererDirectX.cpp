@@ -2,15 +2,10 @@
 
 RendererDirectX::RendererDirectX(void)
 {
-
 };
 
-/*
-/ Destroy the instance of the object from this class.
-*/
 RendererDirectX::~RendererDirectX(void)
 {
-	//directX = NULL;
 };
 
 /*
@@ -24,6 +19,7 @@ RendererDirectX::~RendererDirectX(void)
 */
 HRESULT RendererDirectX::initD3D(HWND hWnd)
 {
+	HRESULT result;
 	if(0 == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
 
@@ -42,29 +38,29 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	
 
-	if(FAILED(g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
+	if(FAILED(result = g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &g_pd3dDevice)))
 	{
-		return E_FAIL;
+		return result;
 	}
 
 	// After the device was created, this first swappchain already exists.
 	LPDIRECT3DSWAPCHAIN9 swapChain1 = getSwapChain("swap1");
 	LPDIRECT3DSWAPCHAIN9 swapChain2 = getSwapChain("swap2");
 
-	g_pd3dDevice->GetSwapChain(0, &swapChain1);
+	//g_pd3dDevice->GetSwapChain(0, &swapChain1);
 	// Create and additional swap chain to render to another window.
-	g_pd3dDevice->CreateAdditionalSwapChain(&d3dpp, &swapChain2);
-	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//g_pd3dDevice->CreateAdditionalSwapChain(&d3dpp, &swapChain2);
+	//g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 	// Enable swapping between windows.
-	g_pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
+	//g_pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 	g_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
 	
 //	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
 
-	return S_OK;
+	return D3D_OK;
 };
 
 void RendererDirectX::cleanUp(void)
@@ -167,8 +163,6 @@ void RendererDirectX::setTexture(ResourceTexture* argTexture)
 void RendererDirectX::drawPrimitive()
 {
 	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 12 );
-
-
 }
 
 // Create the vertex buffer.

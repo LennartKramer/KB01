@@ -4,26 +4,21 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <ctime>
+#include <stdio.h>
+#include <time.h>
+#include <d3dx9.h>
 
-class Logger
+static class Logger
 {
 public:
 	Logger(void);
 	~Logger(void);
-	void message(const std::string &text);
-	void warning(const std::string &text);
-	void critical(const std::string &text);
-	std::string currenttime();
+	void static message(HRESULT, const std::string);
+	void static message(const std::string text);
+	void static warning(const std::string &text);
+	void static critical(const std::string &text);
+	void static clearLog() { std::ofstream logfile("logfile.txt", std::ios::out); }
+	std::string static currenttime();
 };
-
-//int main()
-//{
-	//Logger logger;
-	//logger.message("er wordt nu iets gelogd...");
-	//int stop;
-	//std::cin >> stop;
-	//return 0;
-//}
 
 #endif

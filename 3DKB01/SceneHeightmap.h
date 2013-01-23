@@ -21,7 +21,7 @@ private:
 	ResourceTexture* texture;
 public:
 	SceneHeightmap(void);
-	SceneHeightmap(RendererInterface*, ResourceTexture*);
+	SceneHeightmap(RendererInterface*, std::string, ResourceTexture*);
 	~SceneHeightmap(void);
 
 	void fillVertices();

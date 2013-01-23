@@ -8,6 +8,7 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include "Logger.h"
 
 #include "ResourceModel.h"
 #include "ResourceTexture.h"
@@ -25,13 +26,14 @@ public:
 	void setDevice(void*);
 	
 	void loadTexture(std::string);
-
 	HRESULT loadAllMeshes();
 	HRESULT loadMesh(std::string);
 
+
 	ResourceModel*		getResourceModel(std::string);
 	ResourceTexture*	getResourceTexture(std::string);
-
+	std::map<std::string, ResourceModel*> getResourceModels();
+	std::map<std::string, ResourceTexture*> getResourceTextures();
 
 //	HRESULT loadMaterials(LPDIRECT3DDEVICE9);
 };

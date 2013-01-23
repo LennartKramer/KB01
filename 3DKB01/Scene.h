@@ -27,7 +27,7 @@ public:
 
 	std::string getName();
 
-	void addTerrain(ResourceTexture*);
+	void addTerrain(std::string, ResourceTexture*);
 	void addSkybox(ResourceTexture*);
 	void addEntityModel(Vector, Vector, ResourceModel*, ResourceTexture*); 
 	void addEntityCamera();
@@ -37,8 +37,7 @@ public:
 	void renderScene(float argTerSide,float argTerFront,float argTerUp);
 	void drawEntities(float, float, float); // draw all the entities in the scene
 	void setView(POINT mouse, bool isMouseRPressed); // set the view matrices, depends on the position and orientation of the camera
-
-
+	EntityCamera* getEntityCamera();
 };
 
 #endif

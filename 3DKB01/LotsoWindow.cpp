@@ -37,7 +37,6 @@ LotsoWindow::LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, in
 
 	RegisterClass(&windowClass);
 
-
 	lotsoWindow = CreateWindow(title, title, WS_OVERLAPPEDWINDOW, x, y, width, height, GetDesktopWindow(), NULL, windowClass.hInstance, NULL);
 
 	name = argName;

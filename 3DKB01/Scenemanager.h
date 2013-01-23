@@ -4,6 +4,10 @@
 #include "Scene.h"
 #include <list>
 #include <iostream>
+#include <sstream>
+#include <vector>
+#include <map>
+#include "Resourcemanager.h"
 
 class Scenemanager
 {
@@ -13,6 +17,7 @@ public:
 	Scenemanager(void);
 	~Scenemanager(void);
 	void createScene(std::string, RendererInterface*);
+	void createSceneFromFile(std::string, RendererInterface*, Resourcemanager*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
 	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed,float argTerSide,float argTerFront,float argTerUp);

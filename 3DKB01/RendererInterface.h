@@ -41,6 +41,8 @@ public:
 	virtual void endScene(void){}
 	virtual void present(void){}
 	virtual void setFvf(std::string){}
+	void zBufferEnable(void) {}
+	void zBufferDisable(void) {}
 
 	virtual void setTexture(ResourceTexture*){}
 
