@@ -40,13 +40,14 @@ public:
 	void setStreamSource(std::string);
 	void setIndices(std::string);
 
-	void* getDevice(void);
-
+	LPDIRECT3DDEVICE9 getDevice();
+	LPDIRECT3DSWAPCHAIN9 getSwapChain(std::string);
 
 	
 private:
 	std::map<std::string, LPDIRECT3DVERTEXBUFFER9>	vertexBufferMap;
 	std::map<std::string, LPDIRECT3DINDEXBUFFER9>	indexBufferMap;
+	std::map<std::string, LPDIRECT3DSWAPCHAIN9>		swapChainMap;
 
 	LPDIRECT3D9             g_pD3D;
 	LPDIRECT3DDEVICE9       g_pd3dDevice;

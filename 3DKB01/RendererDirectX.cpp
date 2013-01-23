@@ -27,6 +27,10 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	if(0 == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
 
+	LPDIRECT3DSWAPCHAIN9 swapChain = NULL;
+	swapChainMap.insert(std::pair<std::string, LPDIRECT3DSWAPCHAIN9>("swap1", swapChain));
+	swapChainMap.insert(std::pair<std::string, LPDIRECT3DSWAPCHAIN9>("swap2", swapChain));
+
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	d3dpp.Windowed = TRUE;
@@ -44,6 +48,16 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 		return E_FAIL;
 	}
 
+	// After the device was created, this first swappchain already exists.
+	LPDIRECT3DSWAPCHAIN9 swapChain1 = getSwapChain("swap1");
+	LPDIRECT3DSWAPCHAIN9 swapChain2 = getSwapChain("swap2");
+
+	g_pd3dDevice->GetSwapChain(0, &swapChain1);
+	// Create and additional swap chain to render to another window.
+	g_pd3dDevice->CreateAdditionalSwapChain(&d3dpp, &swapChain2);
+	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	// Enable swapping between windows.
+	g_pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 	g_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
@@ -55,6 +69,10 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 
 void RendererDirectX::cleanUp(void)
 {
+	if(getSwapChain("swap1") != 0)
+		getSwapChain("swap1")->Release();
+	if(getSwapChain("swap2") != 0)
+		getSwapChain("swap2")->Release();
 	if(g_pd3dDevice != 0)
 		g_pd3dDevice->Release();
 	if(g_pD3D != 0)
@@ -250,7 +268,13 @@ void RendererDirectX::setIndices(std::string argType)
 }
 
 
-void* RendererDirectX::getDevice(void) {
+LPDIRECT3DDEVICE9 RendererDirectX::getDevice() {
 	return g_pd3dDevice;
 };
+
+LPDIRECT3DSWAPCHAIN9 RendererDirectX::getSwapChain(std::string arg)
+{
+	std::map<std::string, LPDIRECT3DSWAPCHAIN9>::iterator iter = swapChainMap.find(arg);
+	return iter->second;
+}
 

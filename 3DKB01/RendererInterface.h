@@ -29,7 +29,8 @@ public:
 	virtual void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat){}	
 	virtual void setupWorldMatrix(Vector, Vector){}
 
-	virtual void* getDevice(void) = 0;
+	virtual LPDIRECT3DDEVICE9 getDevice() = 0;
+	virtual LPDIRECT3DSWAPCHAIN9 getSwapChain(std::string) = 0;
 	
 	virtual void createVertexBuffer(int, std::string, CUSTOMVERTEX*){}
 	virtual void createIndexBuffer(int, const std::string&, short*) = 0;

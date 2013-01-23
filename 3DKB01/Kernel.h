@@ -27,6 +27,7 @@ public:
 	void initialize();
 	void programLoop();
 	void addWindowToScene();
+	void sandBoxInterface();
 	//void addRendererToScene();
 	void createSingleScene();
 	//void bindWindowScene(LotsoWindow* argWindow, Scene* argScene);

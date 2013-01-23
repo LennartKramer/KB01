@@ -12,10 +12,27 @@ Kernel::Kernel(void)
 	inputmanager = Inputmanager();
 }
 
-
 Kernel::~Kernel(void)
 {
 	// Leave this empty for now.
+}
+
+void Kernel::sandBoxInterface() {
+	/*
+	std::cout << "Welcome to the Sandbox Interface. Choose an option:" << std::endl;
+	std::cout << "Choose 1 to create a window." << std::endl;
+	std::cout << "Choose 2 to create a scene." << std::endl;
+	std::cout << "Choose 3 to choose your textures." << std::endl;
+	std::cout << "Choose 4 to choose your meshes." << std::endl;
+	std::cout << "Choose 5 to initialize." << std::endl;
+
+	int option;
+	std::cin >> option;
+	switch(option)
+	{
+		case 1: 
+	}
+	*/
 }
 
 void Kernel::initialize()
@@ -27,7 +44,9 @@ void Kernel::initialize()
 	inputmanager = Inputmanager();
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
+	windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
 	windowmanager.getWindow("window1")->show();
+	windowmanager.getWindow("window2")->show();
 	/*
 	/ LPCSTR bitmap - A long string used to open a bitmapfile.
 	/ initializeDimensions - Find the value for the offset, width
@@ -44,7 +63,18 @@ void Kernel::initialize()
 
 	directX = new RendererDirectX();
 	directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+
 	resourcemanager.setDevice(directX->getDevice());
+
+	LPDIRECT3DSURFACE9 pBackBuffer = NULL;
+	directX->getSwapChain("swap1")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
+	directX->getDevice()->SetRenderTarget(0, pBackBuffer);
+	
+	int swapping;
+	std::cin >> swapping;
+
+	directX->getSwapChain("swap2")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
+	directX->getDevice()->SetRenderTarget(0, pBackBuffer);
 
 	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
 	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
@@ -56,9 +86,9 @@ void Kernel::createSingleScene()
 	/ loadMaterials
 	/ Initialize a Material Buffer and a Texture Buffer,
 	/ used to draw to the scene.
-	*/	
-	resourcemanager.loadTexture("textures/terrain.bmp");
+	*/
 	resourcemanager.loadTexture("textures/skybox.png");
+	resourcemanager.loadTexture("textures/terrain.bmp");
 	resourcemanager.loadMesh("meshes/tiger.x");
 	scenemanager.createScene("scene1", directX);
 
@@ -111,8 +141,6 @@ void Kernel::programLoop() {
 		inputmanager.getKeyboard()->reset();
 		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
 		inputmanager.getMouse()->ReadMouse();
-
-
 
 		// Move the camera position when one of the following cases exists.
 		// Using a CASE statement.
