@@ -6,15 +6,7 @@ EntityCamera::EntityCamera()
 {
 
 	// Set attributes for the view matrix
-
- //   D3DXVECTOR3 vEyePt = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
-  //  D3DXVECTOR3 vLookatPt = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
-
-    //D3DXVECTOR3 vEyePt = D3DXVECTOR3( -1.0f, -2.0f,-5.0f );
-    //D3DXVECTOR3 vLookatPt = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
-
-
-	D3DXVECTOR3 vEyePt = D3DXVECTOR3( 0.5f, 0.5f, 0.5f );
+	D3DXVECTOR3 vEyePt = D3DXVECTOR3( 0.5f, 20.0f, 0.5f );
     D3DXVECTOR3 vLookatPt = D3DXVECTOR3(  -0.5f, 0.5f, 0.5f );
 
 	// Setup the view matrix
@@ -30,7 +22,6 @@ EntityCamera::EntityCamera()
     m_vRotVelocity = D3DXVECTOR2( 0, 0 );
     m_fRotationScaler = 0.01f;
  
-  
     m_bEnableYAxisMovement = true;
     m_bEnablePositionMovement = true;
 
@@ -38,9 +29,7 @@ EntityCamera::EntityCamera()
 	m_fFramesToSmoothMouseData = 2.0f;
     m_bClipToBoundary = false;
     m_vMinBoundary = D3DXVECTOR3( -1, -1, -1 );
-    m_vMaxBoundary = D3DXVECTOR3( 1, 1, 1 );
-
-	
+    m_vMaxBoundary = D3DXVECTOR3( 1, 1, 1 );	
 }
 
 
@@ -155,7 +144,6 @@ void EntityCamera::UpdateMouseDelta(POINT CurMousePos)
     m_vMouseDelta.y = m_vMouseDelta.y * fPercentOfOld + ptCurMouseDelta.y * fPercentOfNew;
 
     m_vRotVelocity = m_vMouseDelta * m_fRotationScaler;
-
 }
 
 
@@ -228,7 +216,6 @@ VOID EntityCamera::Move(POINT CurMousePos, bool MouseButtonPressed)
     D3DXVec3TransformCoord( &vWorldUp, &vLocalUp, &mCameraRot );
     D3DXVec3TransformCoord( &vWorldAhead, &vLocalAhead, &mCameraRot );
 
-
     if( m_bClipToBoundary )
         ConstrainToBoundary( &m_vEye );
 
@@ -237,7 +224,6 @@ VOID EntityCamera::Move(POINT CurMousePos, bool MouseButtonPressed)
 
     // Update the view matrix
     D3DXMatrixLookAtLH( &m_mView, &m_vEye, &m_vLookAt, &vWorldUp );
-
 }
 
 

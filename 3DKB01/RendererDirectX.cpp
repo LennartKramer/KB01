@@ -162,6 +162,17 @@ void RendererDirectX::setTexture(ResourceTexture* argTexture)
 
 void RendererDirectX::drawPrimitive()
 {
+	
+	D3DXMATRIXA16 matWorld;
+	D3DXMATRIXA16 matTranslation;
+	D3DXMATRIXA16 matOrientation;
+
+	D3DXMatrixRotationY(&matOrientation,0);
+	
+	D3DXMatrixTranslation(&matTranslation, 0, 0, 0);
+	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
+	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
 	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 12 );
 }
 
@@ -219,8 +230,8 @@ void RendererDirectX::drawIndexedPrimitive(float terSide, float terFront, float 
 {
 	
 	D3DXMATRIX m_Rotation;
-    D3DXMatrixRotationY(&m_Rotation, 0 );
-
+    D3DXMatrixRotationY(&m_Rotation, 0.0 );
+	//D3DXToRadian(90.0f)
 	D3DXMATRIX m_Translation;
     D3DXMatrixTranslation(&m_Translation, terSide, terFront, terUp);
 

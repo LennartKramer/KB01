@@ -11,23 +11,16 @@ class Keyboard
 {
 public:
 	Keyboard(HWND argWindow);
-	~Keyboard();
-	bool InitializeKeyboard();
-	bool GoAcquire();
-	void SaveReleaseDevice();
-	int ReadKeyboard();
-	bool IsEscapePressed();
+	~Keyboard(void);
+	bool InitializeKeyboard(void);
+	bool GoAcquire(void);
+	void SaveReleaseDevice(void);
+	int ReadKeyboard(void);
+	bool IsEscapePressed(void);
 	bool getPressedKey(int);
-	float getargTerSide();
-	float getargTerFront();
-	float getargTerUp();
-	void reset();
 
 private:
 	bool				 escapePressed;
-	float				 argTerSide;
-	float				 argTerFront;
-	float				 argTerUp;
 	HRESULT				 hr;
 	HWND				 hwnd;
 	LPDIRECTINPUT8		 p_dx_KeybObject;

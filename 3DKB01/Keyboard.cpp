@@ -2,28 +2,29 @@
 #include "Keyboard.h"
 
 
-
 Keyboard::Keyboard(HWND argWindow)
 {
 	escapePressed = false;
-	argTerSide = 0;
-	argTerFront = 0;
-	argTerUp = 0;
 	hwnd = argWindow;	
 	InitializeKeyboard();
 }
 
-bool Keyboard::InitializeKeyboard()
+
+/*
+	Used to fill the keyboard object "p_dx_KeybObject" and inputdevice "p_dx_KeybDevice".
+	@param	void
+	@return	Returns true if the keyboard device and object are succesfully created.
+*/
+bool Keyboard::InitializeKeyboard(void)
 {
-	 //creates the DirectInput Object. 
+	 //creates the DirectInput Object by giving it the object handle "&p_dx_KeybObject". 
 	hr = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&p_dx_KeybObject, NULL);
 	if FAILED( hr ) 
 	{
 		return false; 
 	}
-	//You need to pass a handle to the current application, the DirectX version, an interface ID, the pointer to the stucture we want to be initialised, and a pointer that can be used for more advanced stuff. 
 	
-	//Now your IDE has been set up to use DirectInput, let’s create the keyboard device. This must be done by the CreateDevice method of your keyboard Object:
+	//Creating the keyboard device by giving it the device handle "&p_dx_KeybDevice".
 	hr = p_dx_KeybObject->CreateDevice(GUID_SysKeyboard, &p_dx_KeybDevice, NULL);
 	if FAILED( hr ) 
 	{ 
@@ -31,6 +32,7 @@ bool Keyboard::InitializeKeyboard()
 		return false; 
 	}
 
+	//Sets the dataformat of the device to keyboard (joystick and mouse are other possibilities).
 	p_dx_KeybDevice->SetDataFormat(&c_dfDIKeyboard);
 	if FAILED( hr ) 
 	{ 
@@ -38,6 +40,8 @@ bool Keyboard::InitializeKeyboard()
 		return false; 
 	} 
 	
+	//Establishes the cooperative level for this instance of the device. 
+	//The cooperative level determines how this instance of the device interacts with other instances of the device and the rest of the system. 
 	p_dx_KeybDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
 	if FAILED( hr )
 	{ 
@@ -45,12 +49,19 @@ bool Keyboard::InitializeKeyboard()
 		return false; 
 	} 
 
+	//Acquire the device by using a custom method that tries it multiple times in case of initial failure.
 	GoAcquire();
 
 	return true;
  }
 
- bool Keyboard::GoAcquire()
+
+/*
+	Obtains access to the input device. 
+	@param	void
+	@return	Returns true if the input device was acquired
+*/
+ bool Keyboard::GoAcquire(void)
  {
 	 //try and aquire 5 times in case initial aquire fails.
 	 for(int i = 0; i < 5 ; ++i)
@@ -63,12 +74,18 @@ bool Keyboard::InitializeKeyboard()
 	 return false;
  }
 
-void Keyboard::SaveReleaseDevice()
+/*
+	Cleanup method to unacquire and release the device in a safe manner
+	@param	void
+	@return	Returns true if the input device was acquired
+*/
+void Keyboard::SaveReleaseDevice(void)
 {
 	if(p_dx_KeybObject)
 	{
 		if(p_dx_KeybDevice)
 		{
+			//Releases access to the device. 
 			p_dx_KeybDevice->Unacquire();
 			p_dx_KeybDevice->Release();
 		}
@@ -76,7 +93,13 @@ void Keyboard::SaveReleaseDevice()
 	}
 }	
 
- int Keyboard::ReadKeyboard()
+
+/*
+	Used to constantly read the keyboard.
+	@param	void
+	@return	returns a different int based on what key is pressed.
+*/
+ int Keyboard::ReadKeyboard(void)
  {
 
 	 // So first define a buffer to hold these bytes and then store the keyboard state in it:
@@ -101,92 +124,50 @@ void Keyboard::SaveReleaseDevice()
 	//When a key is pressed and the keyboard state is put into our buffer, only the first bit of the byte corresponding to that key will be turned to ‘1’, 
 	//the other 7 bits of that byte are not affected. So what we’re interested in, is only the first bit. 
 	//One way to separate this bit from the rest, is to divide the number by 128 (=2^7). So if the result of this division is 1, the key has been pressed.
-
-
-
-
 	if (chr_KeybState[DIK_ESCAPE]/128)
 	{
 		 return escapePressed =true;
 	}
-
 	
 	if (chr_KeybState[DIK_W]/128)
 	{
-		if(argTerFront < 1)
-		{
-			++argTerFront; 
-		}
-	}
-	
-	if (chr_KeybState[DIK_S]/128)
-	{
-		if(argTerFront > -1)
-		{
-			--argTerFront; 
-		}
-	}
-
-	if (chr_KeybState[DIK_D]/128)
-	{
-		if(argTerSide < 1)
-		{
-			++argTerSide; 
-		}
+		return 2;
 	}
 
 	if (chr_KeybState[DIK_A]/128)
 	{
-		if(argTerSide > -1)
-		{
-			--argTerSide; 
-		}
+		return 3;
 	}
-	
+
+	if (chr_KeybState[DIK_S]/128)
+	{
+		return 4;
+	}
+
+	if (chr_KeybState[DIK_D]/128)
+	{
+		return 5;
+	}
+
 	if (chr_KeybState[DIK_UP]/128)
 	{
-		if(argTerSide < 1)
-		{
-			++argTerUp; 
-		}
+		return 6;
 	}
 
 	if (chr_KeybState[DIK_DOWN]/128)
 	{
-		if(argTerSide > -1)
-		{
-			--argTerUp; 
-		}
-	}
-
-	
+		return 7;
+	}	
 	return 1;
  }
 
-
- bool Keyboard::IsEscapePressed()
+/*
+	
+	@param	void
+	@return	
+*/
+ bool Keyboard::IsEscapePressed(void)
  {
 	 return escapePressed;
  }
 
- float Keyboard::getargTerFront()
- {
-	 return argTerFront * 0.1;
- }
-
-  float Keyboard::getargTerSide()
- {
-	 return argTerSide * 0.1;
- }
-
-   float Keyboard::getargTerUp()
- {
-	 return argTerUp* 0.1;
- }
-
-   void Keyboard::reset()
-   {
-	argTerFront = 0;
-	argTerSide = 0;
-	argTerUp = 0;
-   }

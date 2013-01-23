@@ -97,11 +97,11 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 	return NULL;
 }
 
-void Scenemanager::drawScene(Scene *argScene, POINT mouse, bool isMouseRPressed,float argTerSide,float argTerFront,float argTerUp)
+void Scenemanager::drawScene(Scene *argScene, POINT mouse, bool isMouseRPressed, int argKeyboardInput)
 {
 	//argScene->drawEntities(argTerSide,argTerFront,argTerUp);
 	argScene->setView(mouse,isMouseRPressed); // set the view   ...(camera)
-	argScene->renderScene(argTerSide,argTerFront,argTerUp);
+	argScene->renderScene(argKeyboardInput);
 }
 
 

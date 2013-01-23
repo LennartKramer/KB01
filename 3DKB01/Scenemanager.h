@@ -20,7 +20,7 @@ public:
 	void createSceneFromFile(std::string, RendererInterface*, Resourcemanager*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
-	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed,float argTerSide,float argTerFront,float argTerUp);
+	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed, int keyboardInput);
 };
 
 #endif

@@ -27,7 +27,7 @@ public:
 	void fillVertices();
 	void fillIndices();
 
-	void render(float, float, float);
+	void render();
 
 	bool initializeDimensions(LPCSTR fileName);
 	

@@ -147,11 +147,6 @@ void Kernel::programLoop() {
 
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (msg.message != WM_QUIT) {
-		//Reading input from keyboard and mouse.
-		inputmanager.getKeyboard()->reset();
-		int keyboardinput = inputmanager.getKeyboard()->ReadKeyboard();
-		inputmanager.getMouse()->ReadMouse();
-
 		// Move the camera position when one of the following cases exists.
 		// Using a CASE statement.
 
@@ -163,10 +158,12 @@ void Kernel::programLoop() {
 		} 
 		else
 		{
+			//Reading input from keyboard and mouse.
+			int keyboardInput = inputmanager.getKeyboard()->ReadKeyboard();
+			inputmanager.getMouse()->ReadMouse();
 
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager.drawScene(focusedScene,inputmanager.getMouse()->getCoordMouse(),inputmanager.getMouse()->IsMouseRButtonDown(),
-				inputmanager.getKeyboard()->getargTerSide(),inputmanager.getKeyboard()->getargTerFront(),inputmanager.getKeyboard()->getargTerUp());
+			scenemanager.drawScene(focusedScene,inputmanager.getMouse()->getCoordMouse(),inputmanager.getMouse()->IsMouseRButtonDown(), keyboardInput);
 
 		}
 	}
