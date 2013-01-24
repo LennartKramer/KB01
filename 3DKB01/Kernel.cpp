@@ -40,9 +40,8 @@ void Kernel::initialize()
 	HRESULT result;
 	// create all managers
 	windowmanager = Windowmanager();
-	
-	scenemanager = Scenemanager();
 	resourcemanager = Resourcemanager();
+	scenemanager = Scenemanager(&resourcemanager);
 	inputmanager = Inputmanager();
 	// create and show first window
 	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
@@ -172,49 +171,7 @@ void Kernel::programLoop() {
 
 void Kernel::loadLevelFile(std::string argLevelfile)
 {
-	std::string line;
-	std::ifstream infile;
-	infile.open (argLevelfile);
-	getline(infile,line);
-	while(line != "meshes:") // skip lines until meshes is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-    getline(infile,line); // Saves the line in "line".
-	while(line != "end") // load meshes from the lines until end is found
-        {
-			resourcemanager.loadMesh(line);
-			getline(infile,line); // Saves the line in "line".
-        }
-	while(line != "textures:") // skip lines until textures is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-	getline(infile,line); // Saves the line in "line".
-	while(line != "end") // load textures from the lines until end is found
-        {
-			resourcemanager.loadTexture(line);
-			getline(infile,line); // Saves the line in "line".
-        }
-	while(line != "heightmap:") // skip lines until heightmap is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-	    getline(infile,line); // Saves the line in "line".
-		getline(infile,line); // Saves the line in "line".
-		resourcemanager.loadTexture(line); 
-	while(line != "skybox:") // skip lines until skybox is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-		getline(infile,line); // Saves the line in "line".
-	while(line != "end") // load skybox from the lines until end is found
-        {
-			resourcemanager.loadTexture(line);
-			getline(infile,line); // Saves the line in "line".
-        }
-	Resourcemanager* resources = &resourcemanager;
-	scenemanager.createSceneFromFile(argLevelfile, directX, resources);
+	scenemanager.createSceneFromFile(argLevelfile, directX);
 }
 
 //-----------------------------------------------------------------------------

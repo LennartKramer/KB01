@@ -3,8 +3,13 @@
 #include <iostream>
 #include <fstream>
 
-Scenemanager::Scenemanager(void)
+Scenemanager::Scenemanager()
 {
+}
+
+Scenemanager::Scenemanager(Resourcemanager* argResourcemanager)
+{
+	resourcemanager = argResourcemanager;
 }
 Scenemanager::~Scenemanager(void)
 {
@@ -17,14 +22,34 @@ void Scenemanager::createScene(std::string argName, RendererInterface* argDirect
 	addScene(scene);
 }
 
-void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterface* argDirectX, Resourcemanager* resources)
+void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterface* argRenderer)
 {
-	createScene(argLevelfile, argDirectX);
+	createScene(argLevelfile, argRenderer);
 	Scene* scene = getScene(argLevelfile);		
 	std::string line;
 	std::ifstream infile;
 	infile.open (argLevelfile);
 	getline(infile,line);
+	while(line != "meshes:") // skip lines until meshes is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+    getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load meshes from the lines until end is found
+        {
+			resourcemanager->loadMesh(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	while(line != "textures:") // skip lines until textures is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+	getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load textures from the lines until end is found
+        {
+			resourcemanager->loadTexture(line);
+			getline(infile,line); // Saves the line in "line".
+        }
 	while(line != "heightmap:") // skip lines until heightmap is found.
         {
 	        getline(infile,line); // Saves the line in "line".
@@ -33,7 +58,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 			std::string heightmap = line;
 			getline(infile,line); // Saves the line in "line".
 			std::string terrain = line;
-			scene->addTerrain(heightmap, resources->getResourceTexture(terrain));
+			scene->addTerrain(heightmap, resourcemanager->getResourceTexture(terrain));
 
 	while(line != "skybox:") // skip lines until skybox is found.
         {
@@ -42,7 +67,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 		getline(infile,line); // Saves the line in "line".
 	while(line != "end") // load skybox from the lines until end is found
         {
-			scene->addSkybox(resources->getResourceTexture(line));
+			scene->addSkybox(resourcemanager->getResourceTexture(line));
 			getline(infile,line); // Saves the line in "line".
         }
 	while(line != "entities:") // skip lines until entities is found.
@@ -70,7 +95,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 			Vector position = Vector(positionX, positionY, positionZ);
 			Vector orientation = Vector(orientationX, orientationY, orientationZ);
 
-			scene->addEntityModel(position, orientation, resources->getResourceModel(words.at(1)), resources->getResourceTexture(words.at(2)));
+			scene->addEntityModel(position, orientation, resourcemanager->getResourceModel(words.at(1)), resourcemanager->getResourceTexture(words.at(2)));
 
 			 getline(infile,line); // Saves the line in "line".
         }

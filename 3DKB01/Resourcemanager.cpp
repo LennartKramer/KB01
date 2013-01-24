@@ -103,13 +103,3 @@ ResourceTexture*	Resourcemanager::getResourceTexture(std::string argString)
 		}
 	}
 }
-
-std::map<std::string, ResourceModel*> Resourcemanager::getResourceModels()
-{
-	return resourceModels;
-}
-
-std::map<std::string, ResourceTexture*> Resourcemanager::getResourceTextures()
-{
-	return resourceTextures;
-}

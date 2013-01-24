@@ -32,10 +32,6 @@ public:
 
 	ResourceModel*		getResourceModel(std::string);
 	ResourceTexture*	getResourceTexture(std::string);
-	std::map<std::string, ResourceModel*> getResourceModels();
-	std::map<std::string, ResourceTexture*> getResourceTextures();
-
-//	HRESULT loadMaterials(LPDIRECT3DDEVICE9);
 };
 
 #endif __RESOURCEMANAGER_H__

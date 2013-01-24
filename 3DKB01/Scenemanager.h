@@ -13,11 +13,13 @@ class Scenemanager
 {
 private:
 	std::list<Scene*> scenes;
+	Resourcemanager* resourcemanager;
 public:
 	Scenemanager(void);
+	Scenemanager(Resourcemanager*);
 	~Scenemanager(void);
 	void createScene(std::string, RendererInterface*);
-	void createSceneFromFile(std::string, RendererInterface*, Resourcemanager*);
+	void createSceneFromFile(std::string, RendererInterface*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
 	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed, int keyboardInput);
