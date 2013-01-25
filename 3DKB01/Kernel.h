@@ -7,10 +7,11 @@
 #include "Resourcemanager.h"
 #include "Inputmanager.h"
 #include "SceneHeightmap.h"
-#include "Logger.h"
+//#include "Logger.h"
 #include <map>
 #include <iostream>
 #include <Windows.h>
+#include "Logger.h"
 
 
 class Kernel
@@ -18,15 +19,21 @@ class Kernel
 private:
 	std::map<LotsoWindow*, Scene*> windowSceneBind;
 	RendererInterface* directX;
-	Windowmanager windowmanager;
-	Scenemanager scenemanager;
-	Resourcemanager resourcemanager;
-	Inputmanager inputmanager;
+	Windowmanager* windowmanager;
+	Scenemanager* scenemanager;
+	Resourcemanager* resourcemanager;
+	Inputmanager* inputmanager;
 	//LRESULT CALLBACK messageHandler(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
 public:
 	Kernel(void);
+	Kernel(bool);
 	~Kernel(void);
 	void initialize();
+	Windowmanager* getWindowmanager();
+	RendererInterface* getRenderer();
+	Resourcemanager* getResourcemanager();
+	Inputmanager* getInputmanager();
+	void noobinterface();
 	void programLoop();
 	void addWindowToScene();
 	void sandBoxInterface();

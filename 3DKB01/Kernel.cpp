@@ -5,16 +5,70 @@ LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 Kernel::Kernel(void)
 {
-	directX = new RendererDirectX();
-	windowmanager = Windowmanager();
-	scenemanager = Scenemanager();
-	resourcemanager = Resourcemanager();
-	inputmanager = Inputmanager();
 }
+
+Kernel::Kernel(bool sandboxinterface)
+{
+	if(!sandboxinterface)
+	{
+		Logger::clearLog();
+		Logger::message("----program started----");
+	}
+	// create all managers
+	windowmanager = new Windowmanager();
+	resourcemanager = new Resourcemanager();
+	scenemanager = new Scenemanager(resourcemanager);
+	inputmanager = new Inputmanager();
+	directX = new RendererDirectX();
+	
+	//windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
+	//windowmanager.getWindow("window1")->show();
+
+	
+	//result = directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+	//Logger::message(result, "initialize direct3d...");
+
+	//resourcemanager.setDevice(directX->getDevice());
+
+
+	//inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
+	//inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
+
+	//Logger::message("----start creating scene----");
+	//loadLevelFile("level1.llf");
+
+	//Logger::message("----start the programLoop----");
+	//programLoop();
+
+	//Logger::message("----start cleaning up----");
+	//cleanup();
+}
+
+
 
 Kernel::~Kernel(void)
 {
 	// Leave this empty for now.
+}
+
+Windowmanager* Kernel::getWindowmanager()
+{
+	return windowmanager;
+}
+
+RendererInterface* Kernel::getRenderer()
+{
+	return directX;
+}
+
+Resourcemanager* Kernel::getResourcemanager()
+{
+	return resourcemanager;
+}
+
+Inputmanager* Kernel::getInputmanager()
+{
+	return inputmanager;
 }
 
 void Kernel::sandBoxInterface() {
@@ -35,18 +89,27 @@ void Kernel::sandBoxInterface() {
 	*/
 }
 
+void Kernel::noobinterface()
+{
+	initialize();
+}
+
 void Kernel::initialize()
 {
+	Logger::message("----start initializing----");
 	HRESULT result;
 	// create all managers
-	windowmanager = Windowmanager();
-	resourcemanager = Resourcemanager();
-	scenemanager = Scenemanager(&resourcemanager);
-	inputmanager = Inputmanager();
+
+	//windowmanager = Windowmanager();
+	//
+	//scenemanager = Scenemanager();
+	//resourcemanager = Resourcemanager();
+	//inputmanager = Inputmanager();
+
 	// create and show first window
-	windowmanager.createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
+	windowmanager->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	//windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
-	windowmanager.getWindow("window1")->show();
+	windowmanager->getWindow("window1")->show();
 	//windowmanager.getWindow("window2")->show();
 	/*
 	/ LPCSTR bitmap - A long string used to open a bitmapfile.
@@ -63,10 +126,10 @@ void Kernel::initialize()
 	*/
 
 	directX = new RendererDirectX();
-	result = directX->initD3D(windowmanager.getWindow("window1")->getHandle());
+	result = directX->initD3D(windowmanager->getWindow("window1")->getHandle());
 	Logger::message(result, "initialize direct3d...");
 
-	resourcemanager.setDevice(directX->getDevice());
+	resourcemanager->setDevice(directX->getDevice());
 
 	//LPDIRECT3DSURFACE9 pBackBuffer = NULL;
 	//directX->getSwapChain("swap1")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
@@ -78,8 +141,17 @@ void Kernel::initialize()
 	//directX->getSwapChain("swap2")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
 	//directX->getDevice()->SetRenderTarget(0, pBackBuffer);
 
-	inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
-	inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
+	inputmanager->CreateKeyboard(windowmanager->getWindow("window1")->getHandle());
+	inputmanager->CreateMouse(windowmanager->getWindow("window1")->getHandle());
+
+	Logger::message("----start creating scene----");
+	loadLevelFile("level1.llf");
+
+	Logger::message("----start the programLoop----");
+	programLoop();
+
+	Logger::message("----start cleaning up----");
+	cleanup();
 }
 
 void Kernel::createSingleScene()
@@ -89,41 +161,41 @@ void Kernel::createSingleScene()
 	/ Initialize a Material Buffer and a Texture Buffer,
 	/ used to draw to the scene.
 	*/
-	resourcemanager.loadTexture("textures/skybox.png");
-	resourcemanager.loadTexture("textures/terrain.bmp");
-	resourcemanager.loadMesh("meshes/tiger.x");
+	resourcemanager->loadTexture("textures/skybox.png");
+	resourcemanager->loadTexture("textures/terrain.bmp");
+	resourcemanager->loadMesh("meshes/tiger.x");
 
 
-	scenemanager.createScene("scene1", directX);
+	scenemanager->createScene("scene1", directX);
 
 
 	Vector modelPosition = Vector(0.0, 0.0, 1.0);
 
 	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
 
-	ResourceModel* resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
-	ResourceTexture* resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+	ResourceModel* resourcemodel = resourcemanager->getResourceModel("meshes/tiger.x");
+	ResourceTexture* resourcetexture  = resourcemanager->getResourceTexture("tiger.bmp");
 
-	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
+	scenemanager->getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
 
 	modelPosition = Vector(0.0, 0.0, 0.0);
 
 	modelOrientation = Vector(0.0, D3DX_PI/2, 0.0);
 
-	resourcemodel = resourcemanager.getResourceModel("meshes/tiger.x");
-	resourcetexture  = resourcemanager.getResourceTexture("tiger.bmp");
+	resourcemodel = resourcemanager->getResourceModel("meshes/tiger.x");
+	resourcetexture  = resourcemanager->getResourceTexture("tiger.bmp");
 
-	scenemanager.getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
+	scenemanager->getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
 
 
-	resourcetexture  = resourcemanager.getResourceTexture("textures/skybox.png");
-	scenemanager.getScene("scene1")->addSkybox(resourcetexture);
+	resourcetexture  = resourcemanager->getResourceTexture("textures/skybox.png");
+	scenemanager->getScene("scene1")->addSkybox(resourcetexture);
 	
-	resourcetexture  = resourcemanager.getResourceTexture("textures/terrain.bmp");
+	resourcetexture  = resourcemanager->getResourceTexture("textures/terrain.bmp");
 	//scenemanager.getScene("scene1")->addTerrain(resourcetexture);
 
-	scenemanager.getScene("scene1")->addEntityCamera();
+	scenemanager->getScene("scene1")->addEntityCamera();
 }
 
 
@@ -138,7 +210,7 @@ void Kernel::createSingleScene()
 // This is what the program will do in idle time.
 // -------------------------------------------------
 void Kernel::programLoop() {
-	Scene* focusedScene = scenemanager.getScene("level1.llf");
+	Scene* focusedScene = scenemanager->getScene("level1.llf");
 
 	// So, let's process those messages.
 	MSG msg;
@@ -158,11 +230,11 @@ void Kernel::programLoop() {
 		else
 		{
 			//Reading input from keyboard and mouse.
-			int keyboardInput = inputmanager.getKeyboard()->ReadKeyboard();
-			inputmanager.getMouse()->ReadMouse();
+			int keyboardInput = inputmanager->getKeyboard()->ReadKeyboard();
+			inputmanager->getMouse()->ReadMouse();
 
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager.drawScene(focusedScene,inputmanager.getMouse()->getCoordMouse(),inputmanager.getMouse()->IsMouseRButtonDown(), keyboardInput);
+			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), keyboardInput);
 
 		}
 	}
@@ -171,7 +243,52 @@ void Kernel::programLoop() {
 
 void Kernel::loadLevelFile(std::string argLevelfile)
 {
-	scenemanager.createSceneFromFile(argLevelfile, directX);
+
+	std::string line;
+	std::ifstream infile;
+	infile.open (argLevelfile);
+	getline(infile,line);
+	while(line != "meshes:") // skip lines until meshes is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+    getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load meshes from the lines until end is found
+        {
+			resourcemanager->loadMesh(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	while(line != "textures:") // skip lines until textures is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+	getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load textures from the lines until end is found
+        {
+			resourcemanager->loadTexture(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	while(line != "heightmap:") // skip lines until heightmap is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+	    getline(infile,line); // Saves the line in "line".
+		getline(infile,line); // Saves the line in "line".
+		resourcemanager->loadTexture(line); 
+	while(line != "skybox:") // skip lines until skybox is found.
+        {
+	        getline(infile,line); // Saves the line in "line".
+        }
+		getline(infile,line); // Saves the line in "line".
+	while(line != "end") // load skybox from the lines until end is found
+        {
+			resourcemanager->loadTexture(line);
+			getline(infile,line); // Saves the line in "line".
+        }
+	Resourcemanager* resources = resourcemanager;
+
+	scenemanager->createSceneFromFile(argLevelfile, directX);
+
 }
 
 //-----------------------------------------------------------------------------
@@ -191,7 +308,7 @@ return DefWindowProc(hwnd, msg, wParam, lParam);
 
 void Kernel::cleanup() 
 {
-	windowmanager.cleanup();
+	windowmanager->cleanup();
 }
 
 RendererInterface* Kernel::getDirectX(void)

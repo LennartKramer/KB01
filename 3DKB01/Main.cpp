@@ -1,3 +1,4 @@
+/*
 #include "Windowmanager.h"
 #include "RendererDirectX.h"
 #include "LotsoWindow.h"
@@ -23,6 +24,7 @@ int main() {
 	Kernel kernel;
 	Logger::message("----start initializing----");
 	kernel.initialize();
+	kernel.noobinterface();
 	Logger::message("----start creating scene----");
 	//kernel.createSingleScene();
 	kernel.loadLevelFile("level1.llf");
@@ -32,3 +34,4 @@ int main() {
 	kernel.cleanup();
 	return 0;
 }
+*/

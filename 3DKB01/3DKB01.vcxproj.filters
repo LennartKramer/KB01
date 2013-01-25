@@ -120,6 +120,12 @@
     <ClCompile Include="SceneSkybox.cpp">
       <Filter>Source Files\Scene\Subclasses</Filter>
     </ClCompile>
+    <ClCompile Include="noobinterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sandboxinterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windowmanager.h">
