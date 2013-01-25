@@ -16,6 +16,7 @@ private:
 	int bmpHeight;
 
 	Vector position;
+	Vector orientation;
 
 	RendererInterface* renderer;
 	ResourceTexture* texture;
@@ -41,6 +42,11 @@ public:
 
 	void setPosition(Vector argPosition){position = argPosition;}
 	Vector getPosition(){return position;}
+
+	void setOrientation(Vector argOrientation){orientation = argOrientation;}
+	Vector getOrientation(){return orientation;}
+
+
 };
 
 #endif

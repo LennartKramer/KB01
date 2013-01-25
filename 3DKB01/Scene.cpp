@@ -56,10 +56,9 @@ void Scene::renderScene(int argKeyboardInput)
 	
 	moveScene(argKeyboardInput);
 
-	skybox->Render();
+	skybox->render();
 	terrain->render();
 	drawEntities();
-	
 
 	renderer->endScene();
 	renderer->present();
@@ -67,7 +66,6 @@ void Scene::renderScene(int argKeyboardInput)
 
 
 // Draws all entities on the screen.
-
 void Scene::drawEntities()
 {
 	Vector oldPosition;
@@ -76,14 +74,13 @@ void Scene::drawEntities()
 		for(Iterator = entityModelList.begin(); Iterator != entityModelList.end(); ++Iterator)
 		{		
 			// get the model and the texture from the entity (the iterator)
-			renderer->setupWorldMatrix((*Iterator)->getPosition(), (*Iterator)->getOrientation());
+			renderer->moveMatrix((*Iterator)->getOrientation(), (*Iterator)->getPosition());
 
 			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ;
 			
 			renderer->setTexture((*Iterator)->getTexture());
 			mesh->DrawSubset(0);
 		}
-
 }
 
 EntityCamera* Scene::getEntityCamera()

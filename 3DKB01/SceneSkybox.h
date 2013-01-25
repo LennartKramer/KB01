@@ -19,7 +19,7 @@ public:
 	void initialize();
 	HRESULT initVB();
 	ResourceTexture* getTexture() { return texture; }
-	void Render();
+	void render();
 private:
 	RendererInterface*		renderer;	
 	ResourceTexture*		texture;

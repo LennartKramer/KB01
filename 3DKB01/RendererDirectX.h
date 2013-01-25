@@ -21,8 +21,7 @@ public:
 
 	void cleanUp(void);
 	void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat);
-	void setupWorldMatrix(Vector, Vector);
-
+	
 	void createVertexBuffer(int, std::string, CUSTOMVERTEX*);
 	void createIndexBuffer(int, const std::string&, short*);
 
@@ -30,14 +29,20 @@ public:
 	void endScene(void);
 	void clear(void);
 	void present(void);
-	void setFvf(std::string);
+	void setFvf();
 	void zBufferEnable() { g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); }
 	void zBufferDisable() { g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, FALSE );g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); }
 
 	void setTexture(ResourceTexture*);
+	void moveMatrix(Vector argOrientation, Vector argPosition);
+	void setupWorldMatrix();
+//	void rotateMatrix(Vector argOrientation);
+//	void translateMatrix(Vector argPosition);
+//	void multiplyMatrix();
+//	void setTransform();
 
 	void drawPrimitive();
-	void drawIndexedPrimitive(float, float, float, int, int);
+	void drawIndexedPrimitive(int, int);
 
 	void setStreamSource(std::string);
 	void setIndices(std::string);
@@ -53,7 +58,6 @@ private:
 
 	LPDIRECT3D9             g_pD3D;
 	LPDIRECT3DDEVICE9       g_pd3dDevice;
-
 //	LPDIRECT3DTEXTURE9		g_pTexture;
 //	Vertex_TD*				vertex_Vertices;
 };

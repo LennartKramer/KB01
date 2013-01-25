@@ -8,7 +8,9 @@ SceneHeightmap::SceneHeightmap(void)
 
 SceneHeightmap::SceneHeightmap(RendererInterface* argRenderer, std::string argHeightmap, ResourceTexture* argTexture)
 {
-	position = Vector(0.0, 0.0, 0.0);
+	position = Vector(	50.0f, -50.0f, -50.0f);
+	orientation = Vector(0.0f, 0.0f, 0.0f);
+
 	texture = argTexture;
 	renderer = argRenderer;
 
@@ -26,12 +28,18 @@ SceneHeightmap::~SceneHeightmap(void)
 
 void SceneHeightmap::render()
 {
+
 	renderer->setTexture(texture);
 	renderer->setStreamSource("Terrain");
-	renderer->setFvf("Terrain");
+	renderer->setFvf();
 	renderer->setIndices("Terrain");
 
-	renderer->drawIndexedPrimitive(position.getX(), position.getY(), position.getZ(), bmpWidth, bmpHeight);	
+	renderer->moveMatrix(orientation, position);
+//	renderer->translateMatrix(position);
+//	renderer->multiplyMatrix();
+//	renderer->setTransform();
+
+	renderer->drawIndexedPrimitive(bmpWidth, bmpHeight);	
 }
 
 void SceneHeightmap::fillIndices()

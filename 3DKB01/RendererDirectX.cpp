@@ -102,24 +102,44 @@ void RendererDirectX::setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3* L
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 0.1f, 1000.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
 }
 
-void RendererDirectX::setupWorldMatrix(Vector position, Vector orientation)
-{
-	
-	D3DXMATRIXA16 matWorld;
-	D3DXMATRIXA16 matTranslation;
-	D3DXMATRIXA16 matOrientation;
 
-	D3DXMatrixRotationY(&matOrientation, orientation.getY());
+void RendererDirectX::setupWorldMatrix()
+{
+	D3DXMATRIXA16	matOrientation;
+	D3DXMATRIXA16	matTranslation;
+	D3DXMATRIXA16	matWorld;
+	D3DXMatrixRotationX(&matOrientation, 0.0f);
+	D3DXMatrixRotationY(&matOrientation, 0.0f);
+	D3DXMatrixRotationZ(&matOrientation, 0.0f);
+
 	
-	D3DXMatrixTranslation(&matTranslation, position.getX(), position.getY(), position.getZ());
+	D3DXMatrixTranslation(&matTranslation,  0.0f,  0.0f, 0.0f);
+	
 	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
+
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
 }
 
+void RendererDirectX::moveMatrix(Vector argOrientation, Vector argPosition)
+{
+	D3DXMATRIXA16	matOrientation;
+	D3DXMATRIXA16	matTranslation;
+	D3DXMATRIXA16	matWorld;
+
+	D3DXMatrixRotationX(&matOrientation, argOrientation.getX());
+	D3DXMatrixRotationY(&matOrientation, argOrientation.getY());
+	D3DXMatrixRotationZ(&matOrientation, argOrientation.getZ());
+	
+	D3DXMatrixTranslation(&matTranslation, argPosition.getX(), argPosition.getY(), argPosition.getZ());
+	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
+
+	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+}
 
 void RendererDirectX::beginScene()
 {
@@ -141,17 +161,9 @@ void RendererDirectX::present()
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void RendererDirectX::setFvf(std::string argType)
+void RendererDirectX::setFvf()
 {
-	
-//	if(argType.compare("Skybox") == 0)
-//	{
-		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
-//	}
-//	else if (argType.compare("Terrain") == 0)
-//	{
-//		g_pd3dDevice->SetFVF(D3DFVF_XYZ|D3DFVF_DIFFUSE);
-//	}
+	g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
 }
 
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
@@ -162,17 +174,6 @@ void RendererDirectX::setTexture(ResourceTexture* argTexture)
 
 void RendererDirectX::drawPrimitive()
 {
-	
-	D3DXMATRIXA16 matWorld;
-	D3DXMATRIXA16 matTranslation;
-	D3DXMATRIXA16 matOrientation;
-
-	D3DXMatrixRotationY(&matOrientation,0);
-	
-	D3DXMatrixTranslation(&matTranslation, 0, 0, 0);
-	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
-	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
 	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 12 );
 }
 
@@ -183,17 +184,8 @@ void RendererDirectX::createVertexBuffer(int argSize, std::string argType, CUSTO
 {
 	LPDIRECT3DVERTEXBUFFER9 vertexbuffer = NULL;
 
-//	if (argType.compare("Skybox") == 0)
-//	{
-//		//skybox
-		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &vertexbuffer, NULL );
-//	}
-//	else if(argType.compare("Terrain") == 0)
-//	{
-//		//terrain
-//		g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_XYZ|D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vertexbuffer, NULL);
-//	}
-//
+	g_pd3dDevice->CreateVertexBuffer( argSize * sizeof(CUSTOMVERTEX), 0, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &vertexbuffer, NULL );
+
 	// Fill the vertex buffer.
 	// To do this, we need to Lock() the VB to
     // gain access to the vertices. 
@@ -226,19 +218,8 @@ void RendererDirectX::createIndexBuffer(int argSize, const std::string& argType,
 }
 
 
-void RendererDirectX::drawIndexedPrimitive(float terSide, float terFront, float terUp, int argWidth, int argHeight)
+void RendererDirectX::drawIndexedPrimitive(int argWidth, int argHeight)
 {
-	
-	D3DXMATRIX m_Rotation;
-    D3DXMatrixRotationY(&m_Rotation, 0.0 );
-	//D3DXToRadian(90.0f)
-	D3DXMATRIX m_Translation;
-    D3DXMatrixTranslation(&m_Translation, terSide, terFront, terUp);
-
-    D3DXMATRIX m_World;
-    D3DXMatrixMultiply(&m_World, &m_Translation, &m_Rotation);
-    g_pd3dDevice->SetTransform(D3DTS_WORLD, &m_World);
-	
 	g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,0,0,argWidth*argHeight,0,(argWidth-1)*(argHeight-1)*2);
 }
 
@@ -273,9 +254,10 @@ void RendererDirectX::setIndices(std::string argType)
 }
 
 
-LPDIRECT3DDEVICE9 RendererDirectX::getDevice() {
+LPDIRECT3DDEVICE9 RendererDirectX::getDevice() 
+{
 	return g_pd3dDevice;
-};
+}
 
 LPDIRECT3DSWAPCHAIN9 RendererDirectX::getSwapChain(std::string arg)
 {
