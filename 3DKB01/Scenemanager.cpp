@@ -99,7 +99,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 
 			 getline(infile,line); // Saves the line in "line".
         }
-	scene->addEntityCamera();
+	scene->addEntityCamera(argDirectX);
 }
 
 // Adds scene to list
@@ -122,11 +122,10 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 	return NULL;
 }
 
-void Scenemanager::drawScene(Scene *argScene, POINT mouse, bool isMouseRPressed, int argKeyboardInput)
+void Scenemanager::drawScene(Scene *argScene, POINT mouse, bool isMouseRPressed, Vector changedPosition)
 {
-	//argScene->drawEntities(argTerSide,argTerFront,argTerUp);
 	argScene->setView(mouse,isMouseRPressed); // set the view   ...(camera)
-	argScene->renderScene(argKeyboardInput);
+	argScene->renderScene(changedPosition);
 }
 
 

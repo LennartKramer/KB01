@@ -20,8 +20,12 @@ public:
 	HRESULT initD3D(HWND hWndw);
 
 	void cleanUp(void);
-	void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat);
-	
+
+	void setupWorldMatrix(Vector, Vector);
+	void setupViewMatrix(Vector pvEyePt, Vector pvLookatPt); 
+	void setupProjectionMatrix(FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane, FLOAT fFarPlane);
+	void updateCamera(Vector* pvEyePt, Vector* pvLookatPt,float cameraYaw, float cameraPitch);
+
 	void createVertexBuffer(int, std::string, CUSTOMVERTEX*);
 	void createIndexBuffer(int, const std::string&, short*);
 
@@ -58,6 +62,9 @@ private:
 
 	LPDIRECT3D9             g_pD3D;
 	LPDIRECT3DDEVICE9       g_pd3dDevice;
+	D3DXMATRIX				m_mView;
+	D3DXMATRIX				m_mProj;
+
 //	LPDIRECT3DTEXTURE9		g_pTexture;
 //	Vertex_TD*				vertex_Vertices;
 };

@@ -18,6 +18,7 @@ public:
 	void addWindow(LotsoWindow* window);
 	LotsoWindow* getWindow(std::string argWindowName);
 	void cleanup();
+	bool update();
 	};
 
 #endif

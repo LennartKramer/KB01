@@ -126,11 +126,16 @@ int Mouse::ReadMouse()
 	}
  }
 
-void Mouse::setCoordMouse(POINT coord)
+void Mouse::setCoordMouse()
 {
-	mousestate.lX = coord.x;
-	mousestate.lY = coord.y;
+	if(mousestate.rgbButtons[1] & 0x80)
+	{
+		absoluteMouse.x = mousestate.lX;
+		absoluteMouse.y = mousestate.lY;
+	}
+
 }
+
 
 POINT Mouse::getCoordMouse()
 {
@@ -138,8 +143,12 @@ POINT Mouse::getCoordMouse()
 	coordMouse.x = mousestate.lX;
 	coordMouse.y = mousestate.lY;
 
+	mousestate.lX = absoluteMouse.x;
+	mousestate.lY = absoluteMouse.y;
+
 	return coordMouse;
 }
+
 
 
 bool Mouse::IsMouseLButtonDown()

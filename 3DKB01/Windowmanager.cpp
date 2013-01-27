@@ -44,3 +44,29 @@ void Windowmanager::cleanup()
 			windows.remove((*Iterator));
 		}
 }
+
+bool Windowmanager::update()
+{
+	// So, let's process those messages.
+	MSG msg;
+	ZeroMemory(&msg, sizeof(msg)); // Just incase there's something there.
+
+	// Basically, we loop as long as we don't get the QUIT message.
+	while (msg.message != WM_QUIT) {
+		// Move the camera position when one of the following cases exists.
+		// Using a CASE statement.
+
+		// Are there any messages waiting to be processed?
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			// Translate it and send it off for processing.
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		} 
+		else
+		{
+			return true;
+		}
+
+	}
+
+}

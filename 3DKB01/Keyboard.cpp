@@ -7,6 +7,9 @@ Keyboard::Keyboard(HWND argWindow)
 	escapePressed = false;
 	hwnd = argWindow;	
 	InitializeKeyboard();
+	changeX = 0;
+	changeY = 0;
+	changeZ = 0;
 }
 
 
@@ -131,32 +134,50 @@ void Keyboard::SaveReleaseDevice(void)
 	
 	if (chr_KeybState[DIK_W]/128)
 	{
-		return 2;
+		if(changeZ < 1)
+		{
+			changeZ++;
+		}
 	}
 
 	if (chr_KeybState[DIK_A]/128)
 	{
-		return 3;
+		if(changeX > -1)
+		{
+			changeX--;
+		}
 	}
 
 	if (chr_KeybState[DIK_S]/128)
 	{
-		return 4;
+		if(changeZ > -1)
+		{
+			changeZ--;
+		}
 	}
 
 	if (chr_KeybState[DIK_D]/128)
 	{
-		return 5;
+		if(changeX < 1)
+		{
+			changeX++;
+		}
 	}
 
 	if (chr_KeybState[DIK_UP]/128)
 	{
-		return 6;
+		if(changeY < 1)
+		{
+			changeY++;
+		}
 	}
 
 	if (chr_KeybState[DIK_DOWN]/128)
 	{
-		return 7;
+		if(changeY > -1)
+		{
+		changeY--;
+		}
 	}	
 	return 1;
  }
@@ -170,4 +191,15 @@ void Keyboard::SaveReleaseDevice(void)
  {
 	 return escapePressed;
  }
+ 
+
+ Vector Keyboard::getKey()
+ {
+	 Vector changedPosition = Vector(changeX, changeY, changeZ);
+	 changeX = 0;
+	 changeY = 0;
+	 changeZ = 0;
+	 return changedPosition;
+ }
+
 

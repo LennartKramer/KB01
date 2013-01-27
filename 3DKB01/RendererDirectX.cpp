@@ -82,25 +82,36 @@ void RendererDirectX::cleanUp(void)
 / After the view matrix is set up and defined by giving it and eye point,
 / from where it is being looked at. At last a perspective transform is set up.
 */
-void RendererDirectX::setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3* Lookat)
+
+
+void RendererDirectX::updateCamera(Vector* eyePt, Vector* lookatPt, float cameraYawAngle, float cameraPitchAngle)
 {
-	//D3DXMATRIXA16 matWorld;
 
-	//UINT iTime = timeGetTime() / 5;
-	//FLOAT fAngle = iTime * (1.0f * D3DX_PI) / 4000.0f;
-	//D3DXMatrixTranslation(&matWorld, 0.0f , 0.0f , 0.0f);
-	//D3DXMatrixRotationY(&matWorld, fAngle);
-	//g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	 // Make a rotation matrix based on the camera's yaw & pitch
+	D3DXMATRIX cameraRot;
+    D3DXMatrixRotationYawPitchRoll( &cameraRot, cameraYawAngle, cameraPitchAngle, 0 );
+
+	// Transform vectors based on camera's rotation matrix
+    D3DXVECTOR3 vWorldUp, vWorldAhead;
+    D3DXVECTOR3 vLocalUp = D3DXVECTOR3( 0, 1, 0 );
+    D3DXVECTOR3 vLocalAhead = D3DXVECTOR3( 0, 0, 1 );
+    D3DXVec3TransformCoord( &vWorldUp, &vLocalUp, &cameraRot );
+    D3DXVec3TransformCoord( &vWorldAhead, &vLocalAhead, &cameraRot );
+
+
+	// Update the lookAt position based on the eye position 
+	lookatPt->x = eyePt->x + vWorldAhead.x;
+	lookatPt->y= eyePt->y + vWorldAhead.y;
+	lookatPt->z = eyePt->z + vWorldAhead.z;
 	
-	D3DXVECTOR3 vUp( 0,1,0 );
 
-	//D3DXVECTOR3 vEyePt(0.0f, 8.0f, 12.0f);
-	//D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-	//D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-	D3DXMATRIXA16 matView;
-	D3DXMatrixLookAtLH(&matView, eyePT, Lookat, &vUp);
-	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
+	//set Matrix for Eye and Lookat
+	D3DXVECTOR3 mEye(eyePt->x,eyePt->y,eyePt->z);
+	D3DXVECTOR3 mLookAt(lookatPt->x,lookatPt->y,lookatPt->z);
 
+	// Update the view matrix
+    D3DXMatrixLookAtLH( &m_mView, &mEye, &mLookAt, &vWorldUp );
+	g_pd3dDevice->SetTransform(D3DTS_VIEW, &m_mView);
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 0.1f, 1000.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
@@ -109,6 +120,7 @@ void RendererDirectX::setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3* L
 
 void RendererDirectX::setupWorldMatrix()
 {
+
 	D3DXMATRIXA16	matOrientation;
 	D3DXMATRIXA16	matTranslation;
 	D3DXMATRIXA16	matWorld;
@@ -116,7 +128,6 @@ void RendererDirectX::setupWorldMatrix()
 	D3DXMatrixRotationY(&matOrientation, 0.0f);
 	D3DXMatrixRotationZ(&matOrientation, 0.0f);
 
-	
 	D3DXMatrixTranslation(&matTranslation,  0.0f,  0.0f, 0.0f);
 	
 	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
@@ -140,6 +151,27 @@ void RendererDirectX::moveMatrix(Vector argOrientation, Vector argPosition)
 
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 }
+
+void RendererDirectX::setupViewMatrix(Vector eyePt, Vector lookatPt)
+{
+	//set Matrix for Eye and Lookat
+	D3DXVECTOR3 Eye(eyePt.x,eyePt.y,eyePt.z);
+	D3DXVECTOR3 LookAt(lookatPt.x,lookatPt.y,lookatPt.z);
+
+    // Calc the view matrix
+    D3DXVECTOR3 vUp( 0,1,0 );
+    D3DXMatrixLookAtLH( &m_mView, &Eye, &LookAt, &vUp );
+	g_pd3dDevice->SetTransform(D3DTS_VIEW, &m_mView);
+}
+
+
+void RendererDirectX::setupProjectionMatrix( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
+                                 FLOAT fFarPlane)
+{
+    D3DXMatrixPerspectiveFovLH( &m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
+	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &m_mProj);
+}
+
 
 void RendererDirectX::beginScene()
 {

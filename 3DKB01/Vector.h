@@ -9,9 +9,11 @@ public:
 	float getX(){return x;}
 	float getY(){return y;}
 	float getZ(){return z;}
-
-private:
+	void  setX(float argX){x = argX;}
+	void  setY(float argY){y = argY;}
+	void  setZ(float argZ){z = argZ;} 
 	float x,y,z;
+
 };
 
 #endif

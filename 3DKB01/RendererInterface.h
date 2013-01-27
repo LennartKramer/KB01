@@ -22,9 +22,13 @@ public:
 
 	virtual HRESULT initD3D(HWND hWnd) = 0;
 	virtual void cleanUp(void)=0;
-	
-	virtual void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat)=0;	
 
+	virtual void setupWorldMatrix(Vector position, Vector orientation){}
+	virtual void setupViewMatrix(Vector pvEyePt, Vector pvLookatPt){}
+	virtual void setupProjectionMatrix(FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane, FLOAT fFarPlane){}
+	virtual void updateCamera(Vector* pvEyePt, Vector* pvLookatPt,float cameraJaw, float cameraPitch){}
+
+	virtual void setupCamera(const D3DXVECTOR3* eyePT, const D3DXVECTOR3*Lookat)
 	virtual LPDIRECT3DDEVICE9 getDevice() = 0;
 	virtual LPDIRECT3DSWAPCHAIN9 getSwapChain(std::string) = 0;
 	

@@ -30,11 +30,11 @@ public:
 	void addTerrain(std::string, ResourceTexture*);
 	void addSkybox(ResourceTexture*);
 	void addEntityModel(Vector, Vector, ResourceModel*, ResourceTexture*); 
-	void addEntityCamera();
+	void addEntityCamera(RendererInterface*);
 	EntityCamera* getCamera() { return entityCamera; } // inlined
 
-	void moveScene(int argKeyboardInput);
-	void renderScene(int argKeyboardInput);
+	void moveScene(Vector changedPosition);
+	void renderScene(Vector changedPosition);
 	void drawEntities(); // draw all the entities in the scene
 	void setView(POINT mouse, bool isMouseRPressed); // set the view matrices, depends on the position and orientation of the camera
 	EntityCamera* getEntityCamera();

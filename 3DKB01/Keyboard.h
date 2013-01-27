@@ -4,6 +4,8 @@
 #include <d3d9.h>
 #include <dinput.h> 
 #include <Windows.h>
+#include "VECTOR.h"
+
 
 
 
@@ -17,14 +19,17 @@ public:
 	void SaveReleaseDevice(void);
 	int ReadKeyboard(void);
 	bool IsEscapePressed(void);
-	bool getPressedKey(int);
-
+	Vector getKey();
 private:
+	float				 changeX;
+	float				 changeY;
+	float				 changeZ;
 	bool				 escapePressed;
 	HRESULT				 hr;
 	HWND				 hwnd;
 	LPDIRECTINPUT8		 p_dx_KeybObject;
 	LPDIRECTINPUTDEVICE8 p_dx_KeybDevice;
+
 
 };
 

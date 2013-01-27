@@ -23,16 +23,15 @@ void Scene::addEntityModel(Vector argPosition , Vector argOrientation, ResourceM
 	entityModelList.push_back(entityModel);
 }
 // Adds a camera to the scene.
-void Scene::addEntityCamera()
+void Scene::addEntityCamera(RendererInterface* argRenderer)
 {
-	entityCamera = new EntityCamera();
+	entityCamera = new EntityCamera(argRenderer);
 }
 
 // Sets the view orientation of the camera.
 void Scene::setView(POINT mouse, bool isMouseRPressed)
 {
-	entityCamera->Move(mouse,isMouseRPressed);
-	renderer->setupCamera(entityCamera->GetEyePt(), entityCamera->GetLookAtPt());
+	entityCamera->moveCamera(mouse,isMouseRPressed);
 }
 
 
@@ -48,13 +47,13 @@ void Scene::addTerrain(std::string argHeightmap, ResourceTexture* argTexture)
 
 // Renders a scene.
 // Draws it on the screen
-void Scene::renderScene(int argKeyboardInput)
+void Scene::renderScene(Vector changedPosition)
 {
 	// Clear the backbuffer to a purple color
 	renderer->clear();
 	renderer->beginScene();
 	
-	moveScene(argKeyboardInput);
+	moveScene(changedPosition);
 
 	skybox->render();
 	terrain->render();
@@ -88,7 +87,7 @@ EntityCamera* Scene::getEntityCamera()
 	return entityCamera;
 }
 
-void Scene::moveScene(int argKeyboardInput)
+void Scene::moveScene(Vector changedPosition)
 {
 //	if (chr_KeybState[DIK_W]/128) 2;
 //	if (chr_KeybState[DIK_A]/128) 3;
@@ -97,41 +96,7 @@ void Scene::moveScene(int argKeyboardInput)
 //	if (chr_KeybState[DIK_UP]/128) 6;
 //	if (chr_KeybState[DIK_DOWN]/128) 7;
 	Vector oldPosition;
-	float changeX = 0;
-	float changeY = 0;
-	float changeZ = 0;
-
-	if(argKeyboardInput == 3)
-	{
-		changeX--;
-	}
-
-	if(argKeyboardInput == 5)
-	{
-		changeX++;
-	}
-
-	if(argKeyboardInput == 7)
-	{
-		changeY--;
-	}
-
-	if(argKeyboardInput == 6)
-	{
-		changeY++;
-	}
-
-	if(argKeyboardInput == 4)
-	{
-		changeZ--;
-	}
-
-	if(argKeyboardInput == 2)
-	{
-		changeZ++;
-	}
-
-	Vector changedPosition = Vector(changeX, changeY, changeZ);
+	
 
 	//Move Entities
 	std::list<EntityModel*>::iterator Iterator;

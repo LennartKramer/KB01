@@ -20,7 +20,7 @@ public:
 	int getXcoord();
 	int getYcoord();
 	POINT getCoordMouse();
-	void setCoordMouse(POINT Coord);
+	void setCoordMouse();
 
 	bool IsMouseLButtonDown();
 	bool IsMouseRButtonDown();
