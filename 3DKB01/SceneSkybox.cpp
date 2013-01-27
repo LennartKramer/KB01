@@ -4,7 +4,7 @@
 
 SceneSkybox::SceneSkybox()
 {
-	initialize();
+	initVB();
 }
 
 
@@ -12,17 +12,12 @@ SceneSkybox::SceneSkybox(RendererInterface* argRendererDirectX, ResourceTexture*
 {
 	renderer = argRendererDirectX;
 	texture = argTexture;
-	initialize();
+	initVB();
 }
 
 
 SceneSkybox::~SceneSkybox(void)
 {
-}
-
-void SceneSkybox::initialize()
-{
-	initVB();
 }
 
 HRESULT SceneSkybox::initVB()
@@ -104,8 +99,9 @@ HRESULT SceneSkybox::initVB()
 		cv_Vertices[i].fV = vertices[i].fV;
 	}
 
-	std::string		id		= "Skybox";
-	int				amount	= 36;
+
+	std::string id = "Skybox";
+	int amount = 36;
 
 	renderer->createVertexBuffer(amount, id, cv_Vertices);
 

@@ -16,7 +16,6 @@ public:
 	SceneSkybox();
 	SceneSkybox(RendererInterface*, ResourceTexture*);
 	~SceneSkybox(void);
-	void initialize();
 	HRESULT initVB();
 	ResourceTexture* getTexture() { return texture; }
 	void render();

@@ -18,7 +18,7 @@ class Kernel
 {
 private:
 	std::map<LotsoWindow*, Scene*> windowSceneBind;
-	RendererInterface* directX;
+	RendererInterface* renderer;
 	Windowmanager* windowmanager;
 	Scenemanager* scenemanager;
 	Resourcemanager* resourcemanager;
@@ -29,6 +29,8 @@ public:
 	Kernel(bool);
 	~Kernel(void);
 	void initialize();
+	void Kernel::createManagers(Windowmanager*, Resourcemanager*, Scenemanager*, Inputmanager*, RendererInterface*);
+	Scenemanager* getScenemanager();
 	Windowmanager* getWindowmanager();
 	RendererInterface* getRenderer();
 	Resourcemanager* getResourcemanager();

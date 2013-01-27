@@ -1,3 +1,4 @@
+/*
 #include "Kernel.h"
 
 
@@ -13,3 +14,4 @@ int main() {
 	kernel.initialize();
 	return 0;
 }
+*/

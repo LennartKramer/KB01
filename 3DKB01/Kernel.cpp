@@ -13,35 +13,14 @@ Kernel::Kernel(bool sandboxinterface)
 	{
 		Logger::clearLog();
 		Logger::message("----program started----");
+
+		// create all managers
+		windowmanager = new Windowmanager();
+		resourcemanager = new Resourcemanager();
+		scenemanager = new Scenemanager(resourcemanager);
+		inputmanager = new Inputmanager();
+		RendererInterface* directX = new RendererDirectX();	
 	}
-	// create all managers
-	windowmanager = new Windowmanager();
-	resourcemanager = new Resourcemanager();
-	scenemanager = new Scenemanager(resourcemanager);
-	inputmanager = new Inputmanager();
-	directX = new RendererDirectX();
-	
-	//windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
-	//windowmanager.getWindow("window1")->show();
-
-	
-	//result = directX->initD3D(windowmanager.getWindow("window1")->getHandle());
-	//Logger::message(result, "initialize direct3d...");
-
-	//resourcemanager.setDevice(directX->getDevice());
-
-
-	//inputmanager.CreateKeyboard(windowmanager.getWindow("window1")->getHandle());
-	//inputmanager.CreateMouse(windowmanager.getWindow("window1")->getHandle());
-
-	//Logger::message("----start creating scene----");
-	//loadLevelFile("level1.llf");
-
-	//Logger::message("----start the programLoop----");
-	//programLoop();
-
-	//Logger::message("----start cleaning up----");
-	//cleanup();
 }
 
 
@@ -51,6 +30,20 @@ Kernel::~Kernel(void)
 	// Leave this empty for now.
 }
 
+void Kernel::createManagers(Windowmanager* argWindowmanager, Resourcemanager* argResourcemanager, Scenemanager* argScenemanager, Inputmanager* argInputmanager, RendererInterface* argRendererInterface)
+{
+	windowmanager = argWindowmanager;
+	resourcemanager = argResourcemanager;
+	scenemanager = argScenemanager;
+	inputmanager = argInputmanager;
+	renderer = argRendererInterface;
+}
+
+Scenemanager* Kernel::getScenemanager()
+{
+	return scenemanager;
+}
+
 Windowmanager* Kernel::getWindowmanager()
 {
 	return windowmanager;
@@ -58,7 +51,7 @@ Windowmanager* Kernel::getWindowmanager()
 
 RendererInterface* Kernel::getRenderer()
 {
-	return directX;
+	return renderer;
 }
 
 Resourcemanager* Kernel::getResourcemanager()
@@ -125,11 +118,11 @@ void Kernel::initialize()
 	/ matrices and geometry used to draw to a scene.
 	*/
 
-	directX = new RendererDirectX();
-	result = directX->initD3D(windowmanager->getWindow("window1")->getHandle());
+	renderer = new RendererDirectX();
+	result = renderer->initD3D(windowmanager->getWindow("window1")->getHandle());
 	Logger::message(result, "initialize direct3d...");
 
-	resourcemanager->setDevice(directX->getDevice());
+	resourcemanager->setDevice(renderer->getDevice());
 
 	//LPDIRECT3DSURFACE9 pBackBuffer = NULL;
 	//directX->getSwapChain("swap1")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
@@ -166,7 +159,7 @@ void Kernel::createSingleScene()
 	resourcemanager->loadMesh("meshes/tiger.x");
 
 
-	scenemanager->createScene("scene1", directX);
+	scenemanager->createScene("scene1", renderer);
 
 
 	Vector modelPosition = Vector(0.0, 0.0, 1.0);
@@ -287,7 +280,7 @@ void Kernel::loadLevelFile(std::string argLevelfile)
         }
 	Resourcemanager* resources = resourcemanager;
 
-	scenemanager->createSceneFromFile(argLevelfile, directX);
+	scenemanager->createSceneFromFile(argLevelfile, renderer);
 
 }
 
@@ -313,5 +306,5 @@ void Kernel::cleanup()
 
 RendererInterface* Kernel::getDirectX(void)
 {
-	return directX;
+	return renderer;
 };
