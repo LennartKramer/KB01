@@ -27,7 +27,7 @@ public:
 	Kernel(void);
 	Kernel(bool);
 	~Kernel(void);
-	void initialize();
+	void initialize(std::string);
 	void Kernel::createManagers(Windowmanager*, Resourcemanager*, Scenemanager*, Inputmanager*, RendererInterface*);
 	Scenemanager* getScenemanager();
 	Windowmanager* getWindowmanager();
@@ -35,7 +35,7 @@ public:
 	Resourcemanager* getResourcemanager();
 	Inputmanager* getInputmanager();
 	void noobinterface();
-	void programLoop();
+	void programLoop(std::string);
 	void addWindowToScene();
 	void sandBoxInterface();
 	//void addRendererToScene();

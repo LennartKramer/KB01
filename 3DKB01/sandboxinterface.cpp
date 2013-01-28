@@ -1,3 +1,4 @@
+
 #include "Windowmanager.h"
 #include "RendererDirectX.h"
 #include "LotsoWindow.h"
@@ -50,9 +51,19 @@ int main() {
 	Logger::message("----start creating scene----");
 	scenemanager->createSceneFromFile("level1.llf", renderer);
 
+	//Load resources
+	Vector modelPosition = Vector(0.0, 0.0, 1.0);
+	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
+
+	ResourceModel* resourcemodel = kernel.getResourcemanager()->getResourceModel("meshes/tiger.x");
+	ResourceTexture* resourcetexture  = kernel.getResourcemanager()->getResourceTexture("tiger.bmp");
+
+	//Add entity to to scene
+	kernel.getScenemanager()->getScene("level1.llf")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
+
 	//Run the programLoop
 	Logger::message("----start the programLoop----");
-	kernel.programLoop();
+	kernel.programLoop("level1.llf");
 
 	//Removes all windows
 	Logger::message("----start cleaning up----");

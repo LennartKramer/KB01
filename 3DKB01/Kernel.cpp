@@ -64,30 +64,7 @@ Inputmanager* Kernel::getInputmanager()
 	return inputmanager;
 }
 
-void Kernel::sandBoxInterface() {
-	/*
-	std::cout << "Welcome to the Sandbox Interface. Choose an option:" << std::endl;
-	std::cout << "Choose 1 to create a window." << std::endl;
-	std::cout << "Choose 2 to create a scene." << std::endl;
-	std::cout << "Choose 3 to choose your textures." << std::endl;
-	std::cout << "Choose 4 to choose your meshes." << std::endl;
-	std::cout << "Choose 5 to initialize." << std::endl;
-
-	int option;
-	std::cin >> option;
-	switch(option)
-	{
-		case 1: 
-	}
-	*/
-}
-
-void Kernel::noobinterface()
-{
-	initialize();
-}
-
-void Kernel::initialize()
+void Kernel::initialize(std::string argsceneName)
 {
 	Logger::message("----start initializing----");
 	HRESULT result;
@@ -141,7 +118,7 @@ void Kernel::initialize()
 	scenemanager->createSceneFromFile("level1.llf", renderer);
 
 	Logger::message("----start the programLoop----");
-	programLoop();
+	programLoop(argsceneName);
 
 	Logger::message("----start cleaning up----");
 	cleanup();
@@ -157,7 +134,7 @@ void Kernel::initialize()
 /* programLoop */
 // This is what the program will do in idle time.
 // -------------------------------------------------
-void Kernel::programLoop() 
+void Kernel::programLoop(std::string argsceneName) 
 {
 	Scene* focusedScene = scenemanager->getScene("level1.llf");
 
