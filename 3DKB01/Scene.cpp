@@ -47,7 +47,7 @@ void Scene::addTerrain(std::string argHeightmap, ResourceTexture* argTexture)
 
 // Renders a scene.
 // Draws it on the screen
-void Scene::renderScene(Vector changedPosition)
+void Scene::renderScene(Vector changedPosition, HWND hWnd)
 {
 	renderer->clear(); // clear the backbuffer
 	renderer->beginScene(); // must be called before rendering
@@ -62,7 +62,7 @@ void Scene::renderScene(Vector changedPosition)
 	drawEntities();
 
 	renderer->endScene(); // must be called after rendering
-	renderer->present(); // present the scene to the screen
+	renderer->present(hWnd); // present the scene to the screen
 }
 
 

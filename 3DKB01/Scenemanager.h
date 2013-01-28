@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include "Resourcemanager.h"
+#include "LotsoWindow.h"
 
 class Scenemanager
 {
@@ -22,7 +23,7 @@ public:
 	void createSceneFromFile(std::string, RendererInterface*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
-	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed, Vector changedPosition);
+	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed, Vector changedPosition, HWND hWnd);
 };
 
 #endif

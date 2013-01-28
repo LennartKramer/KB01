@@ -36,7 +36,7 @@ public:
 	virtual void clear(void)=0;
 	virtual void beginScene(void)=0;
 	virtual void endScene(void)=0;
-	virtual void present(void)=0;
+	virtual void present(HWND hWnd)=0;
 	virtual void setFvf(void)=0;
 	virtual void zBufferEnable(void)=0;
 	virtual void zBufferDisable(void)=0;

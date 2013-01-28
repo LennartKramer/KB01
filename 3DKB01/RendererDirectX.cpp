@@ -188,9 +188,9 @@ void RendererDirectX::clear()
 }
 
 //Presents the contents of the next buffer in the sequence of back buffers owned by the device.
-void RendererDirectX::present()
+void RendererDirectX::present(HWND hWnd)
 {
-	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+	g_pd3dDevice->Present(NULL, NULL, hWnd, NULL);
 }
 
 //Sets the current vertex stream declaration.

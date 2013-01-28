@@ -101,9 +101,9 @@ void Kernel::initialize()
 
 	// create and show first window
 	windowmanager->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
-	//windowmanager.createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
+	windowmanager->createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
 	windowmanager->getWindow("window1")->show();
-	//windowmanager.getWindow("window2")->show();
+	windowmanager->getWindow("window2")->show();
 	/*
 	/ LPCSTR bitmap - A long string used to open a bitmapfile.
 	/ initializeDimensions - Find the value for the offset, width
@@ -183,8 +183,8 @@ void Kernel::programLoop()
 			inputmanager->getMouse()->ReadMouse();
 
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey());
-
+			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window1")->getHandle());
+			//scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window2")->getHandle());
 		}
 	}
 

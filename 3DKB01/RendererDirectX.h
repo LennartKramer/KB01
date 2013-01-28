@@ -32,7 +32,7 @@ public:
 	void beginScene(void);
 	void endScene(void);
 	void clear(void);
-	void present(void);
+	void present(HWND hWnd);
 	void setFvf(void);
 	void zBufferEnable(void);
 	void zBufferDisable(void);
