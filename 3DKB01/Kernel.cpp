@@ -138,7 +138,7 @@ void Kernel::initialize()
 	inputmanager->CreateMouse(windowmanager->getWindow("window1")->getHandle());
 
 	Logger::message("----start creating scene----");
-	loadLevelFile("level1.llf");
+	scenemanager->createSceneFromFile("level1.llf", renderer);
 
 	Logger::message("----start the programLoop----");
 	programLoop();
@@ -146,7 +146,6 @@ void Kernel::initialize()
 	Logger::message("----start cleaning up----");
 	cleanup();
 }
-
 
 //void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
 //{
@@ -191,55 +190,6 @@ void Kernel::programLoop()
 
 }
 
-void Kernel::loadLevelFile(std::string argLevelfile)
-{
-
-	std::string line;
-	std::ifstream infile;
-	infile.open (argLevelfile);
-	getline(infile,line);
-	while(line != "meshes:") // skip lines until meshes is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-    getline(infile,line); // Saves the line in "line".
-	while(line != "end") // load meshes from the lines until end is found
-        {
-			resourcemanager->loadMesh(line);
-			getline(infile,line); // Saves the line in "line".
-        }
-	while(line != "textures:") // skip lines until textures is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-	getline(infile,line); // Saves the line in "line".
-	while(line != "end") // load textures from the lines until end is found
-        {
-			resourcemanager->loadTexture(line);
-			getline(infile,line); // Saves the line in "line".
-        }
-	while(line != "heightmap:") // skip lines until heightmap is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-	    getline(infile,line); // Saves the line in "line".
-		getline(infile,line); // Saves the line in "line".
-		resourcemanager->loadTexture(line); 
-	while(line != "skybox:") // skip lines until skybox is found.
-        {
-	        getline(infile,line); // Saves the line in "line".
-        }
-		getline(infile,line); // Saves the line in "line".
-	while(line != "end") // load skybox from the lines until end is found
-        {
-			resourcemanager->loadTexture(line);
-			getline(infile,line); // Saves the line in "line".
-        }
-	Resourcemanager* resources = resourcemanager;
-
-	scenemanager->createSceneFromFile(argLevelfile, renderer);
-
-}
 
 //-----------------------------------------------------------------------------
 /* messageHandler */

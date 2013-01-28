@@ -26,7 +26,7 @@ void Logger::message(HRESULT result, const std::string text)
 	else error = TEXT("Unknown Error: %X"); //+result
 
 	std::ofstream logfile("logfile.txt", std::ios_base::app | std::ios::out);
-    logfile << currenttime() << text << " error: " << error << std::endl;
+    logfile << currenttime() << text << " result: " << error << std::endl;
 }
 
 void Logger::message(const std::string text)

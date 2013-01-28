@@ -25,8 +25,7 @@ public:
 
 	void setDevice(void*);
 	
-	void loadTexture(std::string);
-	HRESULT loadAllMeshes();
+	HRESULT loadTexture(std::string);
 	HRESULT loadMesh(std::string);
 
 

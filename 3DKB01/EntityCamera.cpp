@@ -8,6 +8,7 @@ EntityCamera::EntityCamera(RendererInterface* argRenderer)
 	renderer = argRenderer;
 
 	// Set attributes for the view matrix
+
 	eyePt = Vector( 5.0f, 5.0f, 5.0f );
     lookatPt = Vector(0.0f, 0.0f, 0.0f );
 

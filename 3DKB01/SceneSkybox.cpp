@@ -36,7 +36,6 @@ HRESULT SceneSkybox::initVB()
 		{ size, 0.0f, 0.0f, 0.0f, 0.0f },
 
 
-
 		//back
 		{ 0.0f, 0.0f, size, 0.2f, 1.0f },
 		{ 0.0f, size, size, 0.2f, 0.0f },
@@ -45,8 +44,6 @@ HRESULT SceneSkybox::initVB()
 		{ 0.0f, 0.0f, size, 0.2f, 1.0f },
 		{ size, 0.0f, size, 0.4f, 1.0f },
 		{ size, size, size, 0.4f, 0.0f },
-
-
 
 		//right
 		{ size, 0.0f, 0.0f, 0.6f, 1.0f },
@@ -66,7 +63,6 @@ HRESULT SceneSkybox::initVB()
 		{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f },
 		{ 0.0f, size, 0.0f, 0.0f, 0.0f },
 		{ 0.0f, size, size, 0.2f, 0.0f },
-
 
 		//up
 		{ 0.0f, size, 0.0f, 1.0f, 1.0f },

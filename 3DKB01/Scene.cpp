@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "EntityModel.h"
 
 Scene::Scene(std::string argName, RendererInterface* argRenderer)
 {
@@ -34,12 +33,13 @@ void Scene::setView(POINT mouse, bool isMouseRPressed)
 	entityCamera->moveCamera(mouse,isMouseRPressed);
 }
 
-
+// Adds a skybox to the scene
 void Scene::addSkybox(ResourceTexture* argTexture)
 {
 	skybox = new SceneSkybox(renderer, argTexture);
 }
 
+// Adds a terrain to the scene. Heightmap contains the data for the height. The texture will be drawn on the heightmap.
 void Scene::addTerrain(std::string argHeightmap, ResourceTexture* argTexture)
 {
 	terrain = new SceneHeightmap(renderer, argHeightmap, argTexture);
@@ -49,18 +49,20 @@ void Scene::addTerrain(std::string argHeightmap, ResourceTexture* argTexture)
 // Draws it on the screen
 void Scene::renderScene(Vector changedPosition)
 {
-	// Clear the backbuffer to a purple color
-	renderer->clear();
-	renderer->beginScene();
+	renderer->clear(); // clear the backbuffer
+	renderer->beginScene(); // must be called before rendering
 	
+
 	moveScene(changedPosition);
+
+
 
 	skybox->render();
 	terrain->render();
 	drawEntities();
 
-	renderer->endScene();
-	renderer->present();
+	renderer->endScene(); // must be called after rendering
+	renderer->present(); // present the scene to the screen
 }
 
 
@@ -70,12 +72,14 @@ void Scene::drawEntities()
 	Vector oldPosition;
 
 	std::list<EntityModel*>::iterator Iterator;
-		for(Iterator = entityModelList.begin(); Iterator != entityModelList.end(); ++Iterator)
+		for(Iterator = entityModelList.begin(); Iterator != entityModelList.end(); ++Iterator) // iterate trough all entities
 		{		
+
 			// get the model and the texture from the entity (the iterator)
 			renderer->moveMatrix((*Iterator)->getOrientation(), (*Iterator)->getPosition());
 
-			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ;
+
+			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ; 
 			
 			renderer->setTexture((*Iterator)->getTexture());
 			mesh->DrawSubset(0);

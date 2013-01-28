@@ -3,7 +3,6 @@
 
 SceneHeightmap::SceneHeightmap(void)
 {
-
 };
 
 

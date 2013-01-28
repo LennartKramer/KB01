@@ -48,23 +48,7 @@ int main() {
 
 	//create scene and load resources through levelFile
 	Logger::message("----start creating scene----");
-	kernel.loadLevelFile("level1.llf");
-
-	//Load resources
-	kernel.getResourcemanager()->loadTexture("textures/skybox.png");
-	kernel.getResourcemanager()->loadMesh("meshes/tiger.x");
-
-	Vector modelPosition = Vector(0.0, 0.0, 1.0);
-	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
-
-	ResourceModel* resourcemodel = kernel.getResourcemanager()->getResourceModel("meshes/tiger.x");
-	ResourceTexture* resourcetexture  = kernel.getResourcemanager()->getResourceTexture("tiger.bmp");
-
-	//Add entity to to scene
-	kernel.getScenemanager()->getScene("level1.llf")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
-
-	resourcetexture  = resourcemanager->getResourceTexture("textures/skybox.png");
-	scenemanager->getScene("level1.llf")->addSkybox(resourcetexture);
+	scenemanager->createSceneFromFile("level1.llf", renderer);
 
 	//Run the programLoop
 	Logger::message("----start the programLoop----");
