@@ -38,9 +38,9 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 	Logger::message("loading meshes...");
 	while(line != "end") // load meshes from the lines until end is found
         {
-			result = resourcemanager->loadMesh(line);
+			result = resourcemanager->loadMesh("meshes/" + line);
 			Logger::message(result, "	loading " + line);
-			getline(infile,line); // Saves the line in "line".
+			getline(infile, line); // Saves the line in "line".
         }
 	Logger::message("...Done");
 	while(line != "textures:") // skip lines until textures is found.
@@ -51,7 +51,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 	Logger::message("loading meshes...");
 	while(line != "end") // load textures from the lines until end is found
         {
-			result = resourcemanager->loadTexture(line);
+			result = resourcemanager->loadTexture("textures/" + line);
 			Logger::message(result, "	loading " + line);
 			getline(infile,line); // Saves the next line in "line".
         }
@@ -65,7 +65,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 			std::string heightmap = line;
 			getline(infile,line); // Saves the next line in "line".
 			std::string terrain = line;
-			scene->addTerrain(heightmap, resourcemanager->getResourceTexture(terrain));
+			scene->addTerrain(heightmap, resourcemanager->getResourceTexture("textures/" + terrain));
 			Logger::message("...Done");
 	while(line != "skybox:") // skip lines until skybox is found.
         {
@@ -75,7 +75,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 		Logger::message("loading skybox...");
 	while(line != "end") // load skybox from the lines until end is found
         {
-			scene->addSkybox(resourcemanager->getResourceTexture(line));
+			scene->addSkybox(resourcemanager->getResourceTexture("textures/" + line));
 			getline(infile,line); // Saves the next line in "line".
         }
 	Logger::message("...Done");
@@ -105,7 +105,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 			Vector position = Vector(positionX, positionY, positionZ);
 			Vector orientation = Vector(orientationX, orientationY, orientationZ);
 
-			scene->addEntityModel(position, orientation, resourcemanager->getResourceModel(words.at(1)), resourcemanager->getResourceTexture(words.at(2)));
+			scene->addEntityModel(position, orientation, resourcemanager->getResourceModel("meshes/" + words.at(1)), resourcemanager->getResourceTexture("textures/" + words.at(2)));
 
 			 getline(infile,line); // Saves the line in "line".
         }
