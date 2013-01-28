@@ -119,8 +119,8 @@ void Kernel::initialize()
 	*/
 
 	renderer = new RendererDirectX();
-	result = renderer->initD3D(windowmanager->getWindow("window1")->getHandle());
-	Logger::message(result, "initialize direct3d...");
+	renderer->initD3D(windowmanager->getWindow("window1")->getHandle());
+	//Logger::message(result, "initialize direct3d...");
 
 	resourcemanager->setDevice(renderer->getDevice());
 
@@ -147,50 +147,6 @@ void Kernel::initialize()
 	cleanup();
 }
 
-void Kernel::createSingleScene()
-{
-	/*
-	/ loadMaterials
-	/ Initialize a Material Buffer and a Texture Buffer,
-	/ used to draw to the scene.
-	*/
-	resourcemanager->loadTexture("textures/skybox.png");
-	resourcemanager->loadTexture("textures/terrain.bmp");
-	resourcemanager->loadMesh("meshes/tiger.x");
-
-
-	scenemanager->createScene("scene1", renderer);
-
-
-	Vector modelPosition = Vector(0.0, 0.0, 1.0);
-
-	Vector modelOrientation = Vector(0.0, 0.0, 0.0);
-
-	ResourceModel* resourcemodel = resourcemanager->getResourceModel("meshes/tiger.x");
-	ResourceTexture* resourcetexture  = resourcemanager->getResourceTexture("tiger.bmp");
-
-	scenemanager->getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
-
-
-	modelPosition = Vector(0.0, 0.0, 0.0);
-
-	modelOrientation = Vector(0.0, D3DX_PI/2, 0.0);
-
-	resourcemodel = resourcemanager->getResourceModel("meshes/tiger.x");
-	resourcetexture  = resourcemanager->getResourceTexture("tiger.bmp");
-
-	scenemanager->getScene("scene1")->addEntityModel(modelPosition , modelOrientation, resourcemodel, resourcetexture);
-
-
-	resourcetexture  = resourcemanager->getResourceTexture("textures/skybox.png");
-	scenemanager->getScene("scene1")->addSkybox(resourcetexture);
-	
-	resourcetexture  = resourcemanager->getResourceTexture("textures/terrain.bmp");
-	//scenemanager.getScene("scene1")->addTerrain(resourcetexture);
-
-	scenemanager->getScene("scene1")->addEntityCamera();
-}
-
 
 //void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
 //{
@@ -202,7 +158,8 @@ void Kernel::createSingleScene()
 /* programLoop */
 // This is what the program will do in idle time.
 // -------------------------------------------------
-void Kernel::programLoop() {
+void Kernel::programLoop() 
+{
 	Scene* focusedScene = scenemanager->getScene("level1.llf");
 
 	// So, let's process those messages.
@@ -227,7 +184,7 @@ void Kernel::programLoop() {
 			inputmanager->getMouse()->ReadMouse();
 
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), keyboardInput);
+			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey());
 
 		}
 	}

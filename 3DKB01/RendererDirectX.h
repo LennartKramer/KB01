@@ -17,11 +17,11 @@ public:
 	RendererDirectX(void);
 	~RendererDirectX(void);
 
-	HRESULT initD3D(HWND hWndw);
+	void initD3D(HWND hWndw);
 
 	void cleanUp(void);
 
-	void setupWorldMatrix(Vector, Vector);
+	void setupWorldMatrix();
 	void setupViewMatrix(Vector pvEyePt, Vector pvLookatPt); 
 	void setupProjectionMatrix(FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane, FLOAT fFarPlane);
 	void updateCamera(Vector* pvEyePt, Vector* pvLookatPt,float cameraYaw, float cameraPitch);
@@ -33,28 +33,20 @@ public:
 	void endScene(void);
 	void clear(void);
 	void present(void);
-	void setFvf();
-	void zBufferEnable() { g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); }
-	void zBufferDisable() { g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, FALSE );g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); }
+	void setFvf(void);
+	void zBufferEnable(void);
+	void zBufferDisable(void);
 
 	void setTexture(ResourceTexture*);
 	void moveMatrix(Vector argOrientation, Vector argPosition);
-	void setupWorldMatrix();
-//	void rotateMatrix(Vector argOrientation);
-//	void translateMatrix(Vector argPosition);
-//	void multiplyMatrix();
-//	void setTransform();
 
-	void drawPrimitive();
+	void drawPrimitive(void);
 	void drawIndexedPrimitive(int, int);
 
 	void setStreamSource(std::string);
 	void setIndices(std::string);
 
-	LPDIRECT3DDEVICE9 getDevice();
-	LPDIRECT3DSWAPCHAIN9 getSwapChain(std::string);
-
-	
+	void* getDevice();
 private:
 	std::map<std::string, LPDIRECT3DVERTEXBUFFER9>	vertexBufferMap;
 	std::map<std::string, LPDIRECT3DINDEXBUFFER9>	indexBufferMap;
@@ -64,9 +56,6 @@ private:
 	LPDIRECT3DDEVICE9       g_pd3dDevice;
 	D3DXMATRIX				m_mView;
 	D3DXMATRIX				m_mProj;
-
-//	LPDIRECT3DTEXTURE9		g_pTexture;
-//	Vertex_TD*				vertex_Vertices;
 };
 
 #endif

@@ -23,3 +23,23 @@ void EntityModel::drawEntityModel()
 {
 	
 }
+
+ResourceModel* EntityModel::getModel() 
+{ 
+	return model; 
+}
+
+ResourceTexture* EntityModel::getTexture() 
+{ 
+	return texture; 
+}
+
+Vector EntityModel::getOrientation() 
+{ 
+	return orientation; 
+}
+
+Vector EntityModel::getPosition() 
+{ 
+	return position; 
+}

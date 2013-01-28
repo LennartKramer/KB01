@@ -2,10 +2,6 @@
 #define __SCENEHEIGHTMAP_H__
 
 #include <fstream>
-#include <iostream>
-#include <d3d9.h>
-#include <d3dx9math.h>
-
 #include "RendererInterface.h"
 
 class SceneHeightmap
@@ -25,28 +21,26 @@ public:
 	SceneHeightmap(RendererInterface*, std::string, ResourceTexture*);
 	~SceneHeightmap(void);
 
-	void fillVertices();
+	void fillVertices(LPCSTR);
 	void fillIndices();
 
 	void render();
 
-	bool initializeDimensions(LPCSTR fileName);
+	void initializeDimensions(LPCSTR);
 	
 	int getBitmapOffset(void);
 	int getBitmapHeight(void);
 	int getBitmapWidth(void);
 
-	int set_offset (void);
-	long set_height (void);
-	long set_width (void);
+	int set_offset (LPCSTR);
+	long set_height (LPCSTR);
+	long set_width (LPCSTR);
 
-	void setPosition(Vector argPosition){position = argPosition;}
-	Vector getPosition(){return position;}
+	void setPosition(Vector);
+	Vector getPosition();
 
-	void setOrientation(Vector argOrientation){orientation = argOrientation;}
-	Vector getOrientation(){return orientation;}
-
-
+	void setOrientation(Vector);
+	Vector getOrientation();
 };
 
 #endif

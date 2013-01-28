@@ -130,3 +130,8 @@ void Scene::moveScene(Vector changedPosition)
 	terrain->setPosition(newPosition);
 
 }
+
+EntityCamera* Scene::getCamera() 
+{ 
+	return entityCamera; 
+} 

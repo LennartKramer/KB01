@@ -17,7 +17,7 @@ public:
 	void static message(const std::string text);
 	void static warning(const std::string &text);
 	void static critical(const std::string &text);
-	void static clearLog() { std::ofstream logfile("logfile.txt", std::ios::out); }
+	void static clearLog(void);
 	std::string static currenttime();
 };
 

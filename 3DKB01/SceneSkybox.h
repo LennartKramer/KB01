@@ -2,7 +2,6 @@
 #define __SCENESKYBOX_H__
 
 #include "RendererInterface.h"
-#include <d3d9.h>
 #include <strsafe.h>
 #include <string>
 
@@ -13,12 +12,13 @@ class SceneSkybox
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
 
 public:
-	SceneSkybox();
+	SceneSkybox(void);
 	SceneSkybox(RendererInterface*, ResourceTexture*);
 	~SceneSkybox(void);
-	HRESULT initVB();
-	ResourceTexture* getTexture() { return texture; }
-	void render();
+	void initialize(void);
+	HRESULT initVB(void);
+	ResourceTexture* getTexture(void);
+	void render(void);
 private:
 	RendererInterface*		renderer;	
 	ResourceTexture*		texture;

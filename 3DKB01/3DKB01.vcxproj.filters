@@ -58,7 +58,7 @@
     <Filter Include="Source Files\Scene\Subclasses">
       <UniqueIdentifier>{2fd6500b-6da2-4cfa-a34b-48335d5b97f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Renderer\Logger">
+    <Filter Include="Logger">
       <UniqueIdentifier>{a8519b35-c4f9-4e79-9ecd-913400865f96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -144,7 +144,7 @@
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
-      <Filter>Header Files\Renderer\Logger</Filter>
+      <Filter>Logger</Filter>
     </ClInclude>
     <ClInclude Include="Resourcemanager.h">
       <Filter>Header Files\ResourceM</Filter>

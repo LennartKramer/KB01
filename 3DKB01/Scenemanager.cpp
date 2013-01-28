@@ -99,7 +99,7 @@ void Scenemanager::createSceneFromFile(std::string argLevelfile, RendererInterfa
 
 			 getline(infile,line); // Saves the line in "line".
         }
-	scene->addEntityCamera(argDirectX);
+	scene->addEntityCamera(argRenderer);
 }
 
 // Adds scene to list

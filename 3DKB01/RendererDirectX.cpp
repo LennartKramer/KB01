@@ -17,11 +17,10 @@ RendererDirectX::~RendererDirectX(void)
 / both sides of the triangle(s) and to use our own vertex
 / colors. Turn on the zbuffer for the more complex geometry.
 */
-HRESULT RendererDirectX::initD3D(HWND hWnd)
+void RendererDirectX::initD3D(HWND hWnd)
 {
 	HRESULT result;
-	if(0 == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
-		return E_FAIL;
+	g_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
 	LPDIRECT3DSWAPCHAIN9 swapChain = NULL;
 	swapChainMap.insert(std::pair<std::string, LPDIRECT3DSWAPCHAIN9>("swap1", swapChain));
@@ -38,15 +37,13 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	
 
-	if(FAILED(result = g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &g_pd3dDevice)))
-	{
-		return result;
-	}
+	g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, 
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &g_pd3dDevice);
+
 
 	// After the device was created, this first swappchain already exists.
-	LPDIRECT3DSWAPCHAIN9 swapChain1 = getSwapChain("swap1");
-	LPDIRECT3DSWAPCHAIN9 swapChain2 = getSwapChain("swap2");
+//	LPDIRECT3DSWAPCHAIN9 swapChain1 = getSwapChain("swap1");
+//	LPDIRECT3DSWAPCHAIN9 swapChain2 = getSwapChain("swap2");
 
 	//g_pd3dDevice->GetSwapChain(0, &swapChain1);
 	// Create and additional swap chain to render to another window.
@@ -60,15 +57,14 @@ HRESULT RendererDirectX::initD3D(HWND hWnd)
 	
 //	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
 
-	return D3D_OK;
 };
 
 void RendererDirectX::cleanUp(void)
 {
-	if(getSwapChain("swap1") != 0)
-		getSwapChain("swap1")->Release();
-	if(getSwapChain("swap2") != 0)
-		getSwapChain("swap2")->Release();
+//	if(getSwapChain("swap1") != 0)
+//		getSwapChain("swap1")->Release();
+//	if(getSwapChain("swap2") != 0)
+//		getSwapChain("swap2")->Release();
 	if(g_pd3dDevice != 0)
 		g_pd3dDevice->Release();
 	if(g_pD3D != 0)
@@ -117,7 +113,7 @@ void RendererDirectX::updateCamera(Vector* eyePt, Vector* lookatPt, float camera
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj); // probably needs to be outside the programloop.
 }
 
-
+// Create an empty deafault world matrix with no orientation or translation.
 void RendererDirectX::setupWorldMatrix()
 {
 
@@ -133,9 +129,9 @@ void RendererDirectX::setupWorldMatrix()
 	D3DXMatrixMultiply(&matWorld, &matOrientation, &matTranslation);
 
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
 }
 
+// Move the matrix to a certain Orientation and position
 void RendererDirectX::moveMatrix(Vector argOrientation, Vector argPosition)
 {
 	D3DXMATRIXA16	matOrientation;
@@ -152,6 +148,8 @@ void RendererDirectX::moveMatrix(Vector argOrientation, Vector argPosition)
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 }
 
+
+//Applications must call IDirect3DDevice9::BeginScene before performing any rendering 
 void RendererDirectX::setupViewMatrix(Vector eyePt, Vector lookatPt)
 {
 	//set Matrix for Eye and Lookat
@@ -172,38 +170,43 @@ void RendererDirectX::setupProjectionMatrix( FLOAT fFOV, FLOAT fAspect, FLOAT fN
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &m_mProj);
 }
 
-
 void RendererDirectX::beginScene()
 {
 	g_pd3dDevice->BeginScene();
 }
 
+//and must call IDirect3DDevice9::EndScene when rendering is complete and before calling IDirect3DDevice9::BeginScene again.
 void RendererDirectX::endScene()
 {
 	g_pd3dDevice->EndScene();
 }
 
+//Clears one or more surfaces such as a render target, multiple render targets, a stencil buffer, and a depth buffer.
 void RendererDirectX::clear()
 {
 	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER , D3DCOLOR_XRGB( 122, 50, 202 ), 1.0f, 0 );
 }
 
+//Presents the contents of the next buffer in the sequence of back buffers owned by the device.
 void RendererDirectX::present()
 {
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
+//Sets the current vertex stream declaration.
 void RendererDirectX::setFvf()
 {
 	g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
 }
 
+//Assigns a texture to a stage for a device.
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
 {
 	LPDIRECT3DTEXTURE9 texture = argTexture->getMeshTextures();
 	g_pd3dDevice->SetTexture(0, texture);
 }
 
+//Renders a sequence of nonindexed, geometric primitives of the specified type from the current set of data input streams.
 void RendererDirectX::drawPrimitive()
 {
 	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 12 );
@@ -249,12 +252,13 @@ void RendererDirectX::createIndexBuffer(int argSize, const std::string& argType,
 	indexBufferMap.insert(std::pair<std::string, LPDIRECT3DINDEXBUFFER9>(argType, indexbuffer));
 }
 
-
+// This method draws indexed primitives from the current set of data input streams. 
 void RendererDirectX::drawIndexedPrimitive(int argWidth, int argHeight)
 {
 	g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,0,0,argWidth*argHeight,0,(argWidth-1)*(argHeight-1)*2);
 }
 
+// Binds a vertex buffer to a device data stream.
 void RendererDirectX::setStreamSource(std::string argType)
 {
 	LPDIRECT3DVERTEXBUFFER9 vertexbuffer = NULL;
@@ -270,6 +274,7 @@ void RendererDirectX::setStreamSource(std::string argType)
 	g_pd3dDevice->SetStreamSource( 0, vertexbuffer, 0, sizeof(CUSTOMVERTEX) );
 }
 
+// The SetIndices method sets the current index array to an index buffer. The single set of indices is used to index all streams. 
 void RendererDirectX::setIndices(std::string argType)
 {
 	LPDIRECT3DINDEXBUFFER9 indexbuffer = NULL;
@@ -285,15 +290,26 @@ void RendererDirectX::setIndices(std::string argType)
 	g_pd3dDevice->SetIndices(indexbuffer);
 }
 
-
-LPDIRECT3DDEVICE9 RendererDirectX::getDevice() 
-{
-	return g_pd3dDevice;
-}
-
+/*
 LPDIRECT3DSWAPCHAIN9 RendererDirectX::getSwapChain(std::string arg)
 {
 	std::map<std::string, LPDIRECT3DSWAPCHAIN9>::iterator iter = swapChainMap.find(arg);
 	return iter->second;
 }
+*/
+void RendererDirectX::zBufferEnable(void) 
+{ 
+	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
+	g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); 
+}
 
+void RendererDirectX::zBufferDisable(void) 
+{ 
+	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE );
+	g_pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); 
+}
+
+void* RendererDirectX::getDevice()
+{
+	return g_pd3dDevice;
+}

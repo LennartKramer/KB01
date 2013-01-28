@@ -6,7 +6,6 @@
 // -------------------------------------------------
 LotsoWindow::LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, LPTSTR argName) 
 {
-
 	// UINT style - The style of the window.
 	windowClass.style = NULL;
 
@@ -45,10 +44,32 @@ LotsoWindow::LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, in
 // -------------------------------------------------
 /* Destructor */
 // -------------------------------------------------
-LotsoWindow::~LotsoWindow() { 
-// We'll unregister the window now, using the parameters saved in windowClass.
-UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
+LotsoWindow::~LotsoWindow(void) 
+{ 
+	// We'll unregister the window now, using the parameters saved in windowClass.
+	UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
 
-// And we'll destroy the window too, just to be safe.
-if (lotsoWindow != NULL) { DestroyWindow(lotsoWindow); lotsoWindow = NULL; }
+	// And we'll destroy the window too, just to be safe.
+	if (lotsoWindow != NULL) { DestroyWindow(lotsoWindow); lotsoWindow = NULL; }
+}
+
+
+HWND LotsoWindow::getHandle(void) 
+{ 
+	return lotsoWindow; 
+}
+
+LPTSTR LotsoWindow::getName(void) 
+{ 
+	return name; 
+}
+
+void LotsoWindow::show(void) 
+{ 
+	ShowWindow(lotsoWindow, SW_SHOWDEFAULT); 
+}
+
+void LotsoWindow::setSize(int width, int height) 
+{
+	SetWindowPos(lotsoWindow, HWND_NOTOPMOST, NULL, NULL, width, height, SWP_NOACTIVATE | SWP_NOMOVE);
 }

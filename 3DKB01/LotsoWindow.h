@@ -7,17 +7,15 @@ class LotsoWindow
 	public:
 	//*** Constructor/Destructor ***
 	LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, LPTSTR name);
-	~LotsoWindow();
+	~LotsoWindow(void);
 
 	//*** Accessors/Modifiers ***
-	HWND getHandle() { return lotsoWindow; }
-	LPTSTR getName() { return name; }
+	HWND getHandle(void);
+	LPTSTR getName(void);
 
 	//*** Methods ***
-	void show() { ShowWindow(lotsoWindow, SW_SHOWDEFAULT); }
-	void setSize(int width, int height) {
-		SetWindowPos(lotsoWindow, HWND_NOTOPMOST, NULL, NULL, width, height, SWP_NOACTIVATE | SWP_NOMOVE);
-	}
+	void show(void);
+	void setSize(int width, int height);
 
 	private:
 	//*** Fields ***

@@ -58,3 +58,8 @@ std::string Logger::currenttime()
   strftime (buffer,80,"%X --  ",timeinfo);
 return buffer;
 } 
+
+void Logger::clearLog() 
+{ 
+	std::ofstream logfile("logfile.txt", std::ios::out); 
+}

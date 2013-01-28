@@ -7,12 +7,12 @@ class EntityModel : Entity
 {
 public:
 	EntityModel(Vector, Vector, ResourceModel*, ResourceTexture*);
-	~EntityModel();
-	void drawEntityModel(); // draw itself using d3d
-	ResourceModel* getModel() { return model; }
-	ResourceTexture* getTexture() { return texture; }
-	Vector getOrientation() { return orientation; }
-	Vector getPosition() { return position; }
+	~EntityModel(void);
+	void drawEntityModel(void); // draw itself using d3d
+	ResourceModel* getModel(void);
+	ResourceTexture* getTexture(void);
+	Vector getOrientation(void);
+	Vector getPosition(void);
 	void setPosition(Vector argPosition);
 private:
 	Vector orientation; 	// the orientation of the entity

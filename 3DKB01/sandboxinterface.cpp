@@ -32,14 +32,13 @@ int main() {
 	kernel.createManagers(windowmanager, resourcemanager, scenemanager, inputmanager, renderer);
 
 	Logger::message("----start initializing----");
-	HRESULT result;
 
 	//create and show window
 	kernel.getWindowmanager()->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	kernel.getWindowmanager()->getWindow("window1")->show();
 
-	result = kernel.getRenderer()->initD3D(kernel.getWindowmanager()->getWindow("window1")->getHandle());
-	Logger::message(result, "initialize direct3d...");
+	kernel.getRenderer()->initD3D(kernel.getWindowmanager()->getWindow("window1")->getHandle());
+	Logger::message("initialize direct3d...");
 
 	kernel.getResourcemanager()->setDevice(kernel.getRenderer()->getDevice());
 
