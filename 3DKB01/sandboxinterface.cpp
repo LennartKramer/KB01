@@ -11,12 +11,11 @@
 #include <vector>
 
 //*** Fields ***
-
-
 void cleanup();
 void quitWithError(LPCTSTR error);
 
 LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 
 int main() {
 	
@@ -30,15 +29,20 @@ int main() {
 	Scenemanager* scenemanager = new Scenemanager(resourcemanager);
 	Inputmanager* inputmanager = new Inputmanager();
 	RendererInterface* renderer = new RendererDirectX();
+
 	kernel.createManagers(windowmanager, resourcemanager, scenemanager, inputmanager, renderer);
 
 	Logger::message("----start initializing----");
 
 	//create and show window
 	kernel.getWindowmanager()->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
+	kernel.getWindowmanager()->createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
+
 	kernel.getWindowmanager()->getWindow("window1")->show();
+	kernel.getWindowmanager()->getWindow("window2")->show();
 
 	kernel.getRenderer()->initD3D(kernel.getWindowmanager()->getWindow("window1")->getHandle());
+	
 	Logger::message("initialize direct3d...");
 
 	kernel.getResourcemanager()->setDevice(kernel.getRenderer()->getDevice());

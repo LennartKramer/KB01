@@ -28,9 +28,9 @@ void Scene::addEntityCamera(RendererInterface* argRenderer)
 }
 
 // Sets the view orientation of the camera.
-void Scene::setView(POINT mouse, bool isMouseRPressed)
+void Scene::setView(float argMouseX, float argMouseY, bool isMouseRPressed)
 {
-	entityCamera->moveCamera(mouse,isMouseRPressed);
+	entityCamera->moveCamera(argMouseX, argMouseY,isMouseRPressed);
 }
 
 // Adds a skybox to the scene

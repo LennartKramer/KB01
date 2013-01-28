@@ -18,11 +18,11 @@ class Kernel
 private:
 	std::map<LotsoWindow*, Scene*> windowSceneBind;
 	RendererInterface* renderer;
+	RendererInterface* renderer2;
 	Windowmanager* windowmanager;
 	Scenemanager* scenemanager;
 	Resourcemanager* resourcemanager;
 	Inputmanager* inputmanager;
-	//LRESULT CALLBACK messageHandler(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
 public:
 	Kernel(void);
 	Kernel(bool);
@@ -32,14 +32,13 @@ public:
 	Scenemanager* getScenemanager();
 	Windowmanager* getWindowmanager();
 	RendererInterface* getRenderer();
+	RendererInterface* getRenderer2();
 	Resourcemanager* getResourcemanager();
 	Inputmanager* getInputmanager();
-	void noobinterface();
+
 	void programLoop(std::string);
 	void addWindowToScene();
-	void sandBoxInterface();
-	//void addRendererToScene();
-	//void bindWindowScene(LotsoWindow* argWindow, Scene* argScene);
+
 	void cleanup();
 	RendererInterface* getDirectX(void);
 	void loadLevelFile(std::string);

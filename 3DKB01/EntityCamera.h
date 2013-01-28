@@ -9,18 +9,19 @@ class EntityCamera : Entity
 public:
 	EntityCamera(RendererInterface*);  //constructor
 	~EntityCamera(void); //destructor
-	void moveCamera(POINT CurMousePos,bool MouseButtonPressed);  // Fucntion to move Camera
+	void moveCamera(float, float,bool MouseButtonPressed);  // Fucntion to move Camera
 
 
 private:
 	RendererInterface*			renderer;
    
-	void                        updateMouseDelta(POINT CurMousePos); // Function to updateMouseposition.
+	void                        updateMouseDelta(float, float); // Function to updateMouseposition.
    
     Vector eyePt;                 // Camera eye position
     Vector lookatPt;              // LookAt position
     
-	POINT mouseDelta;          // Mouse relative delta smoothed over a few frames
+	float mouseDeltaX;          // Mouse relative delta smoothed over a few frames
+	float mouseDeltaY;
 	float framesToSmoothMouseData; // Number of frames to smooth mouse data over
 
     float cameraYawAngle;      // Yaw angle of camera

@@ -182,11 +182,6 @@ void Keyboard::SaveReleaseDevice(void)
 	return 1;
  }
 
-/*
-	
-	@param	void
-	@return	
-*/
  bool Keyboard::IsEscapePressed(void)
  {
 	 return escapePressed;

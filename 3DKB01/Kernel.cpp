@@ -54,6 +54,11 @@ RendererInterface* Kernel::getRenderer()
 	return renderer;
 }
 
+RendererInterface* Kernel::getRenderer2()
+{
+	return renderer2;
+}
+
 Resourcemanager* Kernel::getResourcemanager()
 {
 	return resourcemanager;
@@ -68,19 +73,11 @@ void Kernel::initialize(std::string argsceneName)
 {
 	Logger::message("----start initializing----");
 	HRESULT result;
-	// create all managers
-
-	//windowmanager = Windowmanager();
-	//
-	//scenemanager = Scenemanager();
-	//resourcemanager = Resourcemanager();
-	//inputmanager = Inputmanager();
 
 	// create and show first window
 	windowmanager->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
-	windowmanager->createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
 	windowmanager->getWindow("window1")->show();
-	windowmanager->getWindow("window2")->show();
+
 	/*
 	/ LPCSTR bitmap - A long string used to open a bitmapfile.
 	/ initializeDimensions - Find the value for the offset, width
@@ -94,22 +91,10 @@ void Kernel::initialize(std::string argsceneName)
 	/ objects to. Then initialize the vertices, vertexes, indexes,
 	/ matrices and geometry used to draw to a scene.
 	*/
-
 	renderer = new RendererDirectX();
 	renderer->initD3D(windowmanager->getWindow("window1")->getHandle());
-	//Logger::message(result, "initialize direct3d...");
 
 	resourcemanager->setDevice(renderer->getDevice());
-
-	//LPDIRECT3DSURFACE9 pBackBuffer = NULL;
-	//directX->getSwapChain("swap1")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
-	//directX->getDevice()->SetRenderTarget(0, pBackBuffer);
-	
-	//int swapping;
-	//std::cin >> swapping;
-
-	//directX->getSwapChain("swap2")->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
-	//directX->getDevice()->SetRenderTarget(0, pBackBuffer);
 
 	inputmanager->CreateKeyboard(windowmanager->getWindow("window1")->getHandle());
 	inputmanager->CreateMouse(windowmanager->getWindow("window1")->getHandle());
@@ -124,19 +109,13 @@ void Kernel::initialize(std::string argsceneName)
 	cleanup();
 }
 
-//void Kernel::bindWindowScene(LotsoWindow* argWindow, Scene* argScene)
-//{
-	//windowSceneBind[argWindow] = argScene;
-	//windowSceneBind.insert(std::pair<eWindow*, Scene*>(argWindow, argScene));
-//}
-
 // -------------------------------------------------
 /* programLoop */
 // This is what the program will do in idle time.
 // -------------------------------------------------
 void Kernel::programLoop(std::string argsceneName) 
 {
-	Scene* focusedScene = scenemanager->getScene("level1.llf");
+	Scene* focusedScene = scenemanager->getScene(argsceneName);
 
 	// So, let's process those messages.
 	MSG msg;
@@ -160,8 +139,12 @@ void Kernel::programLoop(std::string argsceneName)
 			inputmanager->getMouse()->ReadMouse();
 
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window1")->getHandle());
-			//scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getCoordMouse(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window2")->getHandle());
+			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord() ,inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window1")->getHandle());
+			
+			if (getWindowmanager()->getWindow("window2")->getHandle() != NULL)
+			{
+				scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window2")->getHandle());
+			}
 		}
 	}
 

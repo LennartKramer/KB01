@@ -135,9 +135,9 @@ Scene* Scenemanager::getScene(std::string argSceneName)
 }
 
 
-void Scenemanager::drawScene(Scene *argScene, POINT mouse, bool isMouseRPressed, Vector changedPosition, HWND hWnd)
+void Scenemanager::drawScene(Scene *argScene, float argMouseX, float argMouseY, bool isMouseRPressed, Vector changedPosition, HWND hWnd)
 {
-	argScene->setView(mouse,isMouseRPressed); // set the view   ...(camera)
+	argScene->setView(argMouseX, argMouseY,isMouseRPressed); // set the view   ...(camera)
 	argScene->renderScene(changedPosition, hWnd);
 }
 

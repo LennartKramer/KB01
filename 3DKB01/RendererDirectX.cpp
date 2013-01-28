@@ -40,31 +40,13 @@ void RendererDirectX::initD3D(HWND hWnd)
 	g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, 
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &g_pd3dDevice);
 
-
-	// After the device was created, this first swappchain already exists.
-//	LPDIRECT3DSWAPCHAIN9 swapChain1 = getSwapChain("swap1");
-//	LPDIRECT3DSWAPCHAIN9 swapChain2 = getSwapChain("swap2");
-
-	//g_pd3dDevice->GetSwapChain(0, &swapChain1);
-	// Create and additional swap chain to render to another window.
-	//g_pd3dDevice->CreateAdditionalSwapChain(&d3dpp, &swapChain2);
-	//g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-	// Enable swapping between windows.
-	//g_pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 	g_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );
-	
-//	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-
 };
 
 void RendererDirectX::cleanUp(void)
 {
-//	if(getSwapChain("swap1") != 0)
-//		getSwapChain("swap1")->Release();
-//	if(getSwapChain("swap2") != 0)
-//		getSwapChain("swap2")->Release();
 	if(g_pd3dDevice != 0)
 		g_pd3dDevice->Release();
 	if(g_pD3D != 0)
@@ -89,15 +71,15 @@ void RendererDirectX::updateCamera(Vector* eyePt, Vector* lookatPt, float camera
 
 	// Transform vectors based on camera's rotation matrix
     D3DXVECTOR3 vWorldUp, vWorldAhead;
-    D3DXVECTOR3 vLocalUp = D3DXVECTOR3( 0, 1, 0 );
-    D3DXVECTOR3 vLocalAhead = D3DXVECTOR3( 0, 0, 1 );
+    D3DXVECTOR3 vLocalUp = D3DXVECTOR3( 0, 1.0f, 0 );
+    D3DXVECTOR3 vLocalAhead = D3DXVECTOR3( 0, 0, 1.0f );
     D3DXVec3TransformCoord( &vWorldUp, &vLocalUp, &cameraRot );
     D3DXVec3TransformCoord( &vWorldAhead, &vLocalAhead, &cameraRot );
 
 
 	// Update the lookAt position based on the eye position 
 	lookatPt->x = eyePt->x + vWorldAhead.x;
-	lookatPt->y= eyePt->y + vWorldAhead.y;
+	lookatPt->y	= eyePt->y + vWorldAhead.y;
 	lookatPt->z = eyePt->z + vWorldAhead.z;
 	
 
@@ -201,7 +183,7 @@ void RendererDirectX::setFvf()
 
 //Assigns a texture to a stage for a device.
 void RendererDirectX::setTexture(ResourceTexture* argTexture)
-{
+{	
 	LPDIRECT3DTEXTURE9 texture = argTexture->getMeshTextures();
 	g_pd3dDevice->SetTexture(0, texture);
 }
@@ -290,13 +272,6 @@ void RendererDirectX::setIndices(std::string argType)
 	g_pd3dDevice->SetIndices(indexbuffer);
 }
 
-/*
-LPDIRECT3DSWAPCHAIN9 RendererDirectX::getSwapChain(std::string arg)
-{
-	std::map<std::string, LPDIRECT3DSWAPCHAIN9>::iterator iter = swapChainMap.find(arg);
-	return iter->second;
-}
-*/
 void RendererDirectX::zBufferEnable(void) 
 { 
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE );

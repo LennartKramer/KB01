@@ -24,12 +24,12 @@ bool Mouse::IsUp(int button)
 	return((mousestate.rgbButtons[button] & 0x80)!=0?false:true);
 }
 
-int Mouse::getXcoord()
+float Mouse::getXcoord()
 {
 	return mousestate.lX;
 }
 
-int Mouse::getYcoord()
+float Mouse::getYcoord()
 {
 	return mousestate.lY;
 }
@@ -165,9 +165,9 @@ return false;
 bool Mouse::IsMouseRButtonDown()
 {
 	if(mousestate.rgbButtons[1] & 0x80)
- {
- return true;
- }
+	{
+		return true;
+	}
 
 return false;
 

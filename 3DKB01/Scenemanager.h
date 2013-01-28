@@ -23,7 +23,7 @@ public:
 	void createSceneFromFile(std::string, RendererInterface*);
 	void addScene(Scene* argScene);
 	Scene* getScene(std::string argSceneName);
-	void drawScene(Scene *argScene,POINT mouse, bool isMouseRPressed, Vector changedPosition, HWND hWnd);
+	void drawScene(Scene *argScene,float, float, bool isMouseRPressed, Vector changedPosition, HWND hWnd);
 };
 
 #endif

@@ -37,7 +37,7 @@ public:
 	void moveScene(Vector changedPosition);
 	void renderScene(Vector changedPosition, HWND hWnd);
 	void drawEntities(); // draw all the entities in the scene
-	void setView(POINT mouse, bool isMouseRPressed); // set the view matrices, depends on the position and orientation of the camera
+	void setView(float,float , bool isMouseRPressed); // set the view matrices, depends on the position and orientation of the camera
 	EntityCamera* getEntityCamera();
 };
 

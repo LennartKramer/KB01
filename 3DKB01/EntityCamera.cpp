@@ -26,8 +26,8 @@ EntityCamera::EntityCamera(RendererInterface* argRenderer)
 	rotVelocityX = 0;
 	rotVelocityY = 0;
     rotationScaler = 0.01f;
-	mouseDelta.x = 0;
-	mouseDelta.y = 0;
+	mouseDeltaX = 0.0f;
+	mouseDeltaY = 0.0f;
 	framesToSmoothMouseData = 2.0f;
 }
 
@@ -43,18 +43,18 @@ EntityCamera::~EntityCamera(void)
 // Figure out the mouse delta based on mouse movement
 //--------------------------------------------------------------------------------------
 
-void EntityCamera::updateMouseDelta(POINT mousePos)
+void EntityCamera::updateMouseDelta( float argMouseX, float argMouseY)
 {	
   
     // Smooth the relative mouse data over a few frames so it isn't 
     // jerky when moving slowly at low frame rates.
     float fPercentOfNew = 1.0f / framesToSmoothMouseData;
     float fPercentOfOld = 1.0f - fPercentOfNew;
-    mouseDelta.x = mouseDelta.x * fPercentOfOld + mousePos.x * fPercentOfNew;
-    mouseDelta.y = mouseDelta.y * fPercentOfOld + mousePos.y * fPercentOfNew;
+    mouseDeltaX = mouseDeltaX * fPercentOfOld + argMouseX * fPercentOfNew;
+    mouseDeltaY = mouseDeltaY * fPercentOfOld + argMouseY * fPercentOfNew;
 
-	rotVelocityX = mouseDelta.x * rotationScaler;
-	rotVelocityY = mouseDelta.y * rotationScaler;
+	rotVelocityX = mouseDeltaX * rotationScaler;
+	rotVelocityY = mouseDeltaY * rotationScaler;
 }
 
 
@@ -63,15 +63,15 @@ void EntityCamera::updateMouseDelta(POINT mousePos)
 //--------------------------------------------------------------------------------------
 // Update the view matrix based on user input & elapsed time
 //--------------------------------------------------------------------------------------
-VOID EntityCamera::moveCamera(POINT curMousePos, bool mouseButtonPressed)
+VOID EntityCamera::moveCamera(float argMouseX,  float argMouseY, bool mouseButtonPressed)
 {
 
-	updateMouseDelta(curMousePos);
-
     // If mouse button is pressed rotating the camera 
-    if(mouseButtonPressed)
+    if(mouseButtonPressed == 0)
     {
-        // Update the pitch & yaw angle based on mouse movement
+        updateMouseDelta(argMouseX, argMouseY);
+		
+		// Update the pitch & yaw angle based on mouse movement
         float yawDelta = rotVelocityX;
         float pitchDelta = rotVelocityY;
 	
@@ -79,10 +79,11 @@ VOID EntityCamera::moveCamera(POINT curMousePos, bool mouseButtonPressed)
         cameraYawAngle += yawDelta;
 	
         // Limit pitch to straight up or straight down
-       // cameraPitchAngle = __max( -D3DX_PI / 2.0f, m_fCameraPitchAngle );
-       // cameraPitchAngle = __min( +D3DX_PI / 2.0f, m_fCameraPitchAngle );
+        //cameraPitchAngle = __max( -D3DX_PI / 2.0f, cameraPitchAngle );
+        //cameraPitchAngle = __min( +D3DX_PI / 2.0f, cameraPitchAngle );
+		renderer->updateCamera(&eyePt,&lookatPt,cameraYawAngle,cameraPitchAngle);
     } 
-	renderer->updateCamera(&eyePt,&lookatPt,cameraYawAngle,cameraPitchAngle);
+	//renderer->updateCamera(&eyePt,&lookatPt,cameraYawAngle,cameraPitchAngle);
    
 }
 

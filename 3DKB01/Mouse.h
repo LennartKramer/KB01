@@ -17,8 +17,8 @@ public:
 	bool IsUp(int button);
 	int GetWheel();
 	int ReadMouse();
-	int getXcoord();
-	int getYcoord();
+	float getXcoord();
+	float getYcoord();
 	POINT getCoordMouse();
 	void setCoordMouse();
 
