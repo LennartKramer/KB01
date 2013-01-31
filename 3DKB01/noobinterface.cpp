@@ -1,4 +1,4 @@
-/*
+
 #include "Kernel.h"
 
 
@@ -13,4 +13,3 @@ int main() {
 	kernel.initialize("level1.llf");
 	return 0;
 }
-*/

@@ -18,7 +18,6 @@
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="noobinterface.cpp" />
     <ClCompile Include="RendererDirectX.cpp" />
@@ -109,6 +108,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(DXSDK_DIR)\Lib\x86\d2d1.lib;$(DXSDK_DIR)\Lib\x86\d3d9.lib;$(DXSDK_DIR)\Lib\x86\d3d10.lib;$(DXSDK_DIR)\Lib\x86\d3d10_1.lib;$(DXSDK_DIR)\Lib\x86\d3d11.lib;$(DXSDK_DIR)\Lib\x86\d3dcompiler.lib;$(DXSDK_DIR)\Lib\x86\D3DCSX.lib;$(DXSDK_DIR)\Lib\x86\D3DCSXd.lib;$(DXSDK_DIR)\Lib\x86\d3dx9.lib;$(DXSDK_DIR)\Lib\x86\d3dx9d.lib;$(DXSDK_DIR)\Lib\x86\d3dx10.lib;$(DXSDK_DIR)\Lib\x86\d3dx10d.lib;$(DXSDK_DIR)\Lib\x86\d3dx11.lib;$(DXSDK_DIR)\Lib\x86\d3dx11d.lib;$(DXSDK_DIR)\Lib\x86\d3dxof.lib;$(DXSDK_DIR)\Lib\x86\dinput8.lib;$(DXSDK_DIR)\Lib\x86\dsetup.lib;$(DXSDK_DIR)\Lib\x86\dsound.lib;$(DXSDK_DIR)\Lib\x86\dwrite.lib;$(DXSDK_DIR)\Lib\x86\DxErr.lib;$(DXSDK_DIR)\Lib\x86\dxgi.lib;$(DXSDK_DIR)\Lib\x86\dxguid.lib;$(DXSDK_DIR)\Lib\x86\X3DAudio.lib;$(DXSDK_DIR)\Lib\x86\xapobase.lib;$(DXSDK_DIR)\Lib\x86\xapobased.lib;$(DXSDK_DIR)\Lib\x86\XAPOFX.lib;$(DXSDK_DIR)\Lib\x86\XInput.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

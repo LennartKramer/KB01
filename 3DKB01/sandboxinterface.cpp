@@ -16,7 +16,7 @@ void quitWithError(LPCTSTR error);
 
 LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
+/*
 int main() {
 	
 	Logger::clearLog();
@@ -78,6 +78,6 @@ int main() {
 }
 
 
-
+*/
 
 

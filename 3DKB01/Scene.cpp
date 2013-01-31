@@ -93,12 +93,6 @@ EntityCamera* Scene::getEntityCamera()
 
 void Scene::moveScene(Vector changedPosition)
 {
-//	if (chr_KeybState[DIK_W]/128) 2;
-//	if (chr_KeybState[DIK_A]/128) 3;
-//	if (chr_KeybState[DIK_S]/128) 4;
-//	if (chr_KeybState[DIK_D]/128) 5;
-//	if (chr_KeybState[DIK_UP]/128) 6;
-//	if (chr_KeybState[DIK_DOWN]/128) 7;
 	Vector oldPosition;
 	
 

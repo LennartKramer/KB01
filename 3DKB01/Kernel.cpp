@@ -77,13 +77,9 @@ void Kernel::initialize(std::string argsceneName)
 	// create and show first window
 	windowmanager->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
 	windowmanager->getWindow("window1")->show();
-
-	/*
-	/ LPCSTR bitmap - A long string used to open a bitmapfile.
-	/ initializeDimensions - Find the value for the offset, width
-	/ height of the bitmap file and store them into the SceneHeightmap
-	/ class.
-	*/
+	
+	windowmanager->createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
+	windowmanager->getWindow("window2")->show();
 
 	/*
 	/ Create a Renderer from DirectX
@@ -117,35 +113,19 @@ void Kernel::programLoop(std::string argsceneName)
 {
 	Scene* focusedScene = scenemanager->getScene(argsceneName);
 
-	// So, let's process those messages.
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg)); // Just incase there's something there.
-
 	// Basically, we loop as long as we don't get the QUIT message.
-	while (msg.message != WM_QUIT) {
-		// Move the camera position when one of the following cases exists.
-		// Using a CASE statement.
+	while (windowmanager->update()) 
+	{
 
-		// Are there any messages waiting to be processed?
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-			// Translate it and send it off for processing.
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		} 
-		else
-		{
 			//Reading input from keyboard and mouse.
 			int keyboardInput = inputmanager->getKeyboard()->ReadKeyboard();
 			inputmanager->getMouse()->ReadMouse();
 
 			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
 			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord() ,inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window1")->getHandle());
-			
-			if (getWindowmanager()->getWindow("window2")->getHandle() != NULL)
-			{
-				scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window2")->getHandle());
-			}
-		}
+			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window2")->getHandle());
+
+		
 	}
 
 }
