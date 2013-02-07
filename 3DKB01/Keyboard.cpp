@@ -129,7 +129,7 @@ void Keyboard::SaveReleaseDevice(void)
 	//One way to separate this bit from the rest, is to divide the number by 128 (=2^7). So if the result of this division is 1, the key has been pressed.
 	if (chr_KeybState[DIK_ESCAPE]/128)
 	{
-		 return escapePressed =true;
+		 escapePressed =true;
 	}
 	
 	if (chr_KeybState[DIK_W]/128)

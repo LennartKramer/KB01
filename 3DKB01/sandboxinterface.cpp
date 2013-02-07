@@ -16,7 +16,7 @@ void quitWithError(LPCTSTR error);
 
 LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-/*
+
 int main() {
 	
 	Logger::clearLog();
@@ -34,12 +34,19 @@ int main() {
 
 	Logger::message("----start initializing----");
 
-	//create and show window
-	kernel.getWindowmanager()->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
-	kernel.getWindowmanager()->createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
+	int windowAmount = 10; // The amount of windows you want to make.
+	std::stringstream ss;
+	// For the amount, create windows and add them to a list.
+	for(int i = 1; i <= windowAmount; i++)
+	{
+		ss << i;
+		std::string currentWindow = "window"+ ss.str();
+		windowmanager->createWindow(messageHandler, currentWindow.c_str(), (0 + (i*10)), (0 + (i*10)), 600, 600, currentWindow);
+		ss.str("");
+	}
 
-	kernel.getWindowmanager()->getWindow("window1")->show();
-	kernel.getWindowmanager()->getWindow("window2")->show();
+	kernel.getWindowmanager()->showWindows();
+	
 
 	kernel.getRenderer()->initD3D(kernel.getWindowmanager()->getWindow("window1")->getHandle());
 	
@@ -78,6 +85,6 @@ int main() {
 }
 
 
-*/
+
 
 

@@ -78,7 +78,6 @@ void Scene::drawEntities()
 			// get the model and the texture from the entity (the iterator)
 			renderer->moveMatrix((*Iterator)->getOrientation(), (*Iterator)->getPosition());
 
-
 			LPD3DXMESH mesh = (*Iterator)->getModel()->getMesh() ; 
 			
 			renderer->setTexture((*Iterator)->getTexture());

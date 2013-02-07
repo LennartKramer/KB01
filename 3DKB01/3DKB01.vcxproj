@@ -91,10 +91,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\Peter-Pim\Documents\Opleiding Informatica\Informatica Cursus 2012 en 2013\Blok 6 %283D - Engine%29\Project\Repo\trunk\3DKB01\resource;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(DXSDK_DIR)\Lib\x86\d2d1.lib;$(DXSDK_DIR)\Lib\x86\d3d9.lib;$(DXSDK_DIR)\Lib\x86\d3d10.lib;$(DXSDK_DIR)\Lib\x86\d3d10_1.lib;$(DXSDK_DIR)\Lib\x86\d3d11.lib;$(DXSDK_DIR)\Lib\x86\d3dcompiler.lib;$(DXSDK_DIR)\Lib\x86\D3DCSX.lib;$(DXSDK_DIR)\Lib\x86\D3DCSXd.lib;$(DXSDK_DIR)\Lib\x86\d3dx9.lib;$(DXSDK_DIR)\Lib\x86\d3dx9d.lib;$(DXSDK_DIR)\Lib\x86\d3dx10.lib;$(DXSDK_DIR)\Lib\x86\d3dx10d.lib;$(DXSDK_DIR)\Lib\x86\d3dx11.lib;$(DXSDK_DIR)\Lib\x86\d3dx11d.lib;$(DXSDK_DIR)\Lib\x86\d3dxof.lib;$(DXSDK_DIR)\Lib\x86\dinput8.lib;$(DXSDK_DIR)\Lib\x86\dsetup.lib;$(DXSDK_DIR)\Lib\x86\dsound.lib;$(DXSDK_DIR)\Lib\x86\dwrite.lib;$(DXSDK_DIR)\Lib\x86\DxErr.lib;$(DXSDK_DIR)\Lib\x86\dxgi.lib;$(DXSDK_DIR)\Lib\x86\dxguid.lib;$(DXSDK_DIR)\Lib\x86\X3DAudio.lib;$(DXSDK_DIR)\Lib\x86\xapobase.lib;$(DXSDK_DIR)\Lib\x86\xapobased.lib;$(DXSDK_DIR)\Lib\x86\XAPOFX.lib;$(DXSDK_DIR)\Lib\x86\XInput.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Peter-Pim\Documents\Opleiding Informatica\Informatica Cursus 2012 en 2013\Blok 6 %283D - Engine%29\Project\Repo\trunk\3DKB01\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

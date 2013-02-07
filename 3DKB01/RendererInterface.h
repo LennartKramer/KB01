@@ -17,9 +17,6 @@ struct CUSTOMVERTEX
 interface RendererInterface
 {
 public:
-	RendererInterface(void){}
-	~RendererInterface(void){}
-
 	virtual void initD3D(HWND hWnd) = 0;
 	virtual void cleanUp(void)=0;
 

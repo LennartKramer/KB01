@@ -10,7 +10,7 @@ Windowmanager::~Windowmanager()
 }
 
 // Creates a window object
-void Windowmanager::createWindow(WNDPROC argMessageHandler, LPCTSTR argTitle, int argX, int argY, int argWidth, int argHeight, LPTSTR argName)
+void Windowmanager::createWindow(WNDPROC argMessageHandler, LPCTSTR argTitle, int argX, int argY, int argWidth, int argHeight, std::string argName)
 {
 	LotsoWindow* window = new LotsoWindow(argMessageHandler, argTitle, argX, argY, argWidth, argHeight, argName);
 	addWindow(window);
@@ -43,6 +43,20 @@ void Windowmanager::cleanup()
 			(*Iterator)->~LotsoWindow();
 			windows.remove((*Iterator));
 		}
+}
+
+void Windowmanager::showWindows()
+{
+		std::list<LotsoWindow*>::iterator Iterator;
+		for(Iterator = windows.begin(); Iterator != windows.end(); ++Iterator)
+		{
+			(*Iterator)->show();
+		}
+}
+
+int Windowmanager::getWindowAmount()
+{
+	return windows.size();
 }
 
 bool Windowmanager::update()

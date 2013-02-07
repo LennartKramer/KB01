@@ -74,12 +74,11 @@ void Kernel::initialize(std::string argsceneName)
 	Logger::message("----start initializing----");
 	HRESULT result;
 
-	// create and show first window
-	windowmanager->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
-	windowmanager->getWindow("window1")->show();
-	
-	windowmanager->createWindow(messageHandler, TEXT("window2"), 100, 100, 600, 600, TEXT("window2"));
-	windowmanager->getWindow("window2")->show();
+
+		windowmanager->createWindow(messageHandler, TEXT("window1"), 100, 100, 600, 600, TEXT("window1"));
+
+	//Show all the windows, available in the list.
+	windowmanager->showWindows();
 
 	/*
 	/ Create a Renderer from DirectX
@@ -112,22 +111,21 @@ void Kernel::initialize(std::string argsceneName)
 void Kernel::programLoop(std::string argsceneName) 
 {
 	Scene* focusedScene = scenemanager->getScene(argsceneName);
-
 	// Basically, we loop as long as we don't get the QUIT message.
 	while (windowmanager->update()) 
 	{
-
 			//Reading input from keyboard and mouse.
 			int keyboardInput = inputmanager->getKeyboard()->ReadKeyboard();
 			inputmanager->getMouse()->ReadMouse();
-
-			//std::cout <<"   SKey is " << inputmanager.getKeyboard()->iskeySPressed() ;
-			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord() ,inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window1")->getHandle());
-			scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord(),inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow("window2")->getHandle());
-
-		
+			std::stringstream ss;
+			for(int i = 1; i <= windowmanager->getWindowAmount(); i++)
+			{
+				ss << i;
+				std::string currentWindow = "window" + ss.str();
+				scenemanager->drawScene(focusedScene,inputmanager->getMouse()->getXcoord(),inputmanager->getMouse()->getYcoord() ,inputmanager->getMouse()->IsMouseRButtonDown(), inputmanager->getKeyboard()->getKey(), getWindowmanager()->getWindow(currentWindow)->getHandle());
+				ss.str("");
+			}
 	}
-
 }
 
 

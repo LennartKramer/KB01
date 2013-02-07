@@ -4,7 +4,7 @@
 // -------------------------------------------------
 /* Constructor */
 // -------------------------------------------------
-LotsoWindow::LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, LPTSTR argName) 
+LotsoWindow::LotsoWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, std::string argName) 
 {
 	// UINT style - The style of the window.
 	windowClass.style = NULL;
@@ -59,7 +59,7 @@ HWND LotsoWindow::getHandle(void)
 	return lotsoWindow; 
 }
 
-LPTSTR LotsoWindow::getName(void) 
+std::string LotsoWindow::getName(void) 
 { 
 	return name; 
 }

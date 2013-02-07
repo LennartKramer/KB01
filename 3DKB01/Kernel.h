@@ -11,6 +11,7 @@
 #include <iostream>
 #include <Windows.h>
 #include "Logger.h"
+#include <sstream>
 
 
 class Kernel

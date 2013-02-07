@@ -14,10 +14,12 @@ private:
 public:
 	Windowmanager(void);
 	~Windowmanager(void);
-	void createWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, LPTSTR name);
+	void createWindow(WNDPROC messageHandler, LPCTSTR title, int x, int y, int width, int height, std::string name);
 	void addWindow(LotsoWindow* window);
 	LotsoWindow* getWindow(std::string argWindowName);
 	void cleanup();
+	void showWindows();
+	int getWindowAmount();
 	bool update();
 	};
 

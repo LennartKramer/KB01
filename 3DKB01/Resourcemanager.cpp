@@ -18,6 +18,7 @@ void Resourcemanager::setDevice(void* argDevice)
 {
 	device = (LPDIRECT3DDEVICE9)argDevice;
 }
+
 HRESULT Resourcemanager::loadTexture(std::string argName)
 {
 	LPCSTR argName_LPCSTR = argName.c_str();
